@@ -17,7 +17,7 @@ public class UserDAOJdbc implements UserDAO {
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "select * from user";
+        String sql = "SELECT * FROM \"user\"";
         try (Connection connection = databaseConnection.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql);) {
