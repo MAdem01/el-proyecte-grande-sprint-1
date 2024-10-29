@@ -1,9 +1,11 @@
 package com.codecool.codekickfc.dao.users;
 
+import com.codecool.codekickfc.controller.users.NewUserDTO;
 import com.codecool.codekickfc.dao.DatabaseConnection;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,5 +53,39 @@ public class UserDAOJdbc implements UserDAO {
             throw new RuntimeException(e);
         }
         return users;
+    }
+
+    @Override
+    public User createUser(NewUserDTO newUser) {
+        String sql = "INSERT INTO \"user\"(username, first_name," +
+                "last_name, user_password, user_email) VALUES (?,?,?,?,?)";
+        try (Connection connection = databaseConnection.getConnection();) {
+            PreparedStatement statement = connection.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, newUser.username());
+            statement.setString(2, newUser.firstName());
+            statement.setString(3, newUser.lastName());
+            statement.setString(4, newUser.password());
+            statement.setString(5, newUser.email());
+
+            statement.executeUpdate();
+            try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    return new User(
+                            resultSet.getInt(1),
+                            newUser.username(),
+                            newUser.firstName(),
+                            newUser.lastName(),
+                            newUser.password(),
+                            newUser.email(),
+                            null
+                    );
+                } else {
+                    throw new SQLException();
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
