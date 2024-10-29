@@ -1,16 +1,30 @@
+@font-face {
+    font-family: 'Fort Quinsy';
+    src: url('../../assets/fonts/FORTQUINSY.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .navbar-left, .navbar-right{
     display: flex;
 }
+
 
 .navbar{
     display: flex;
     justify-content: space-between;
 }
 
+
 a{
     font-family: "GT Walsheim", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     color: black;
     text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover{
+    color: rgb(209, 0 ,42);
 }
 
 .navbar-center{
@@ -19,11 +33,18 @@ a{
     font-size: 30px;
 }
 
+.homeButton{
+    padding-right: 2rem ;
+    padding-left: 2rem ;
+}
+
 .website-name{
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 900;
+    font-size: 3rem;
+    font-family: "Fort Quinsy", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .navbar-left-links, .navbar-right-links{
@@ -57,6 +78,11 @@ a{
 
 .register-button{
     background-color: rgb(209, 0 ,42);
+    color: white;
+}
+
+.register-button:hover{
+    background-color: rgba(33, 47, 171, 0.918);
     color: white;
 }
 
