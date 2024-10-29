@@ -1,9 +1,7 @@
 package com.codecool.codekickfc.controller.users;
 
 import com.codecool.codekickfc.service.users.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +22,10 @@ public class UserController {
     @GetMapping
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @PostMapping
+    public int createUser(@RequestBody NewUserDTO newUser) {
+        return userService.createUser(newUser);
     }
 }
