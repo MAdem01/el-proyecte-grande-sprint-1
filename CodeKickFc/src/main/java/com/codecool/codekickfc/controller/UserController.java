@@ -16,6 +16,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Extracts available information from all existing users in the database.
+     *
+     * @return list of transformed user object that includes user's name, username and email.
+     */
     @GetMapping
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();

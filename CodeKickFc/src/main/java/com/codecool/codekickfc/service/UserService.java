@@ -16,6 +16,13 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
+    /**
+     * Establish a connection between controller and the repository layer. First returns all information
+     * from users through the database and then it filters the unnecessary details by converting the
+     * objects into DTO-s.
+     *
+     * @return a list of user data transfer object that includes user's full name, username and email.
+     */
     public List<UserDTO> getAllUsers() {
         List<User> users = userDAO.getAllUsers();
         List<UserDTO> userDTOs = new ArrayList<>();

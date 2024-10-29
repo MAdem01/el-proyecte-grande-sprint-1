@@ -14,6 +14,20 @@ public class UserDAOJdbc implements UserDAO {
         this.databaseConnection = databaseConnection;
     }
 
+
+    /**
+     * This method returns all existing users from the database.
+     * <br></br>
+     * <b>Detailed explanation:</b>
+     * <br></br>
+     * It provides an SQL query, then establish the connection with the database and execute
+     * the query. Next, it creates User objects from the results and add them to an ArrayList while
+     * the ResultSet has
+     * next row.
+     *
+     * @return A list of User object
+     * @throws RuntimeException In case connection fails
+     */
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
