@@ -18,6 +18,6 @@ public class UserController {
 
     @GetMapping
     public List<UserDTO> getAllUsers() {
-
+        return userService.getAllUsers();
     }
 }
