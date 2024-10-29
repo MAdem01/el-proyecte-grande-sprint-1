@@ -1,4 +1,4 @@
-package com.codecool.codekickfc.dao;
+package com.codecool.codekickfc.dao.users;
 
 import java.sql.Array;
 
