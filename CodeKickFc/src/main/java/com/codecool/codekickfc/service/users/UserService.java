@@ -19,7 +19,7 @@ public class UserService {
 
     /**
      * Establish a connection between controller and the repository layer. First returns all information
-     * from users through the database and then it filters the unnecessary details by converting the
+     * from users through the database, and then it filters the unnecessary details by converting the
      * objects into DTO-s.
      *
      * @return a list of user data transfer object that includes user's full name, username and email.
@@ -37,6 +37,15 @@ public class UserService {
         return userDTOs;
     }
 
+
+    /**
+     * Establish a connection between controller and the repository layer. First returns all information
+     * from the created user through the database, and then it filters the unnecessary details by
+     * extracting the ID as a response.
+     *
+     * @param newUserDTO The request body based on the client inputs
+     * @return ID of the created User model
+     */
     public int createUser(NewUserDTO newUserDTO) {
         User createdUser = userDAO.createUser(newUserDTO);
         return createdUser.id();

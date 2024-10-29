@@ -24,6 +24,13 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    /**
+     * Create a new user from the provided information and saves into the database through the
+     * service and repository layers.
+     *
+     * @param newUser The request body based on the client inputs
+     * @return ID of the newly created user
+     */
     @PostMapping
     public int createUser(@RequestBody NewUserDTO newUser) {
         return userService.createUser(newUser);

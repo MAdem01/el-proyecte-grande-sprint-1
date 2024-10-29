@@ -23,7 +23,7 @@ public class UserDAOJdbc implements UserDAO {
      * <br></br>
      * <b>Detailed explanation:</b>
      * <br></br>
-     * It provides an SQL query, then establish the connection with the database and execute
+     * It provides a SELECT SQL query, then establish the connection with the database and execute
      * the query. Next, it creates User objects from the results and add them to an ArrayList while
      * the ResultSet has
      * next row.
@@ -46,7 +46,7 @@ public class UserDAOJdbc implements UserDAO {
                 String email = resultSet.getString("user_email");
                 String password = resultSet.getString("user_password");
                 Array matchId = resultSet.getArray("match_id");
-                User user = new User(id, username, firstName, lastName, email, password, matchId);
+                User user = new User(id, username, firstName, lastName, password, email, matchId);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -55,6 +55,20 @@ public class UserDAOJdbc implements UserDAO {
         return users;
     }
 
+
+    /**
+     * This method creates a new User and save it to the database.
+     * <br></br>
+     * <b>Detailed explanation:</b>
+     * <br></br>
+     * It provides an INSERT SQL query, then establish the connection with the database,
+     * generates an ID, sets the SQL parameters and execute it. Next, it creates a User object
+     * from the generated ID and the provided newUser data.
+     *
+     * @param newUser Request body coming from the client.
+     * @return Newly created User object.
+     * @throws RuntimeException In case connection fails or duplication detected
+     */
     @Override
     public User createUser(NewUserDTO newUser) {
         String sql = "INSERT INTO \"user\"(username, first_name," +
