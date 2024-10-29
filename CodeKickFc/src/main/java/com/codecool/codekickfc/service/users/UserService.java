@@ -1,8 +1,8 @@
-package com.codecool.codekickfc.service;
+package com.codecool.codekickfc.service.users;
 
-import com.codecool.codekickfc.controller.UserDTO;
-import com.codecool.codekickfc.dao.User;
-import com.codecool.codekickfc.dao.UserDAO;
+import com.codecool.codekickfc.controller.users.UserDTO;
+import com.codecool.codekickfc.dao.users.User;
+import com.codecool.codekickfc.dao.users.UserDAO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

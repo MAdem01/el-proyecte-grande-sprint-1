@@ -1,5 +1,6 @@
-package com.codecool.codekickfc.dao;
+package com.codecool.codekickfc.dao.users;
 
+import com.codecool.codekickfc.dao.DatabaseConnection;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;

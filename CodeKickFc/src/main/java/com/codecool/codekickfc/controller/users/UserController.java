@@ -1,6 +1,6 @@
-package com.codecool.codekickfc.controller;
+package com.codecool.codekickfc.controller.users;
 
-import com.codecool.codekickfc.service.UserService;
+import com.codecool.codekickfc.service.users.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
