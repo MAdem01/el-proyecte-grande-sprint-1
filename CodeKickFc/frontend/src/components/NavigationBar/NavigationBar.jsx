@@ -1,4 +1,7 @@
 import './NavigationBar.css'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faFutbol} from '@fortawesome/free-solid-svg-icons';
+
 
 export default function NavigationBar() {
     return (
@@ -6,10 +9,10 @@ export default function NavigationBar() {
             <div className="navbar-left">
                 <ul className="navbar-left-links">
                     <li>
-                        <a href="/" className="logo"></a>
+                        <FontAwesomeIcon className="logo" icon={faFutbol} />
                     </li>
                     <li>
-                        <a href="/">Home</a>
+                        <a className="homeButton" href="/">Home</a>
                     </li>
                     <li>
                         <a href="/football-games">Play Football</a>
