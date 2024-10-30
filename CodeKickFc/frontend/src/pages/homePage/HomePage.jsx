@@ -26,6 +26,31 @@ export default function HomePage() {
         setIsBugButtonClick(!isBugButtonClick);
     }
 
+    async function handleBugSubmit(e){
+        e.preventDefault()
+        try {
+            const response = await fetch('/api/email/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    subject: bugEmailSubject,
+                    description: bugEmailDescription,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            setBugEmailSubject('');
+            setBugEmailDescription('');
+        } catch (error) {
+            console.error('Error sending email:', error);
+        }
+    }
+
     return (
         <section className="homePageSection">
             <div className="homeContainer">
@@ -48,7 +73,7 @@ export default function HomePage() {
                 </form>
             </div>
                 {isBugButtonClick ?
-                    <form className="bugForm">
+                    <form onSubmit={handleBugSubmit} className="bugForm">
                         <input value={bugEmailSubject} onChange={e => setBugEmailSubject(e.target.value)} className="bugSubjectInputField" placeholder="Enter Subject"/>
                         <input value={bugEmailDescription} onChange={e => setBugEmailDescription(e.target.value)} className="bugDescriptionInputField" placeholder="Enter Description"/>
                         <button className="bugFormButton" type="submit">Submit</button>
