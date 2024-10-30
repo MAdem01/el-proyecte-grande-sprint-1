@@ -1,6 +1,6 @@
-package com.codecool.codekickfc.controller.dto;
+package com.codecool.codekickfc.controller.dto.pitches;
 
-import com.codecool.codekickfc.dao.model.FootballPitch;
+import com.codecool.codekickfc.dao.model.pitches.FootballPitch;
 
 public record FootballPitchDTO(int Id, String name, int maxPlayers, double price, int postCode, String city, String street, int street_number) {
 

@@ -1,13 +1,12 @@
 package com.codecool.codekickfc.dao.users;
 
-import com.codecool.codekickfc.controller.users.NewUserDTO;
+import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
 import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
-import com.codecool.codekickfc.controller.users.UpdateUserDTO;
-import com.codecool.codekickfc.controller.users.UserDTO;
+import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
+import com.codecool.codekickfc.dao.model.users.User;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +142,34 @@ public class UserDAOJdbc implements UserDAO {
                     updateUserDetails.password(),
                     updateUserDetails.email()
             );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * This method deletes an existing User from the database.
+     * <br></br>
+     * <b>Detailed explanation:</b>
+     * <br></br>
+     * It provides a DELETE SQL query, then establish the connection with the database,
+     * sets the SQL parameter and execute it.
+     *
+     * @param userId ID of the user client wants to delete.
+     * @return int ID of the deleted user.
+     * @throws RuntimeException In case connection fails or ID was not found.
+     */
+    @Override
+    public int deleteUser(int userId) {
+        String sql = "DELETE FROM \"user\" WHERE user_id = ?";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            preparedStatement.setInt(1, userId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("No user found");
+            }
+            return userId;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

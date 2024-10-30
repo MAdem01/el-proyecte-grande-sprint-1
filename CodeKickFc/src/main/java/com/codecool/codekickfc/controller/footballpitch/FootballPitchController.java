@@ -1,10 +1,10 @@
 package com.codecool.codekickfc.controller.footballpitch;
 
-import com.codecool.codekickfc.controller.dto.FootballPitchDTO;
-import com.codecool.codekickfc.controller.dto.FootballPitchIdDTO;
-import com.codecool.codekickfc.controller.dto.NewFootballPitchDTO;
+import com.codecool.codekickfc.controller.dto.pitches.FootballPitchDTO;
 import com.codecool.codekickfc.controller.dto.pitches.FootballPitchDeleteDTO;
-import com.codecool.codekickfc.service.FootballPitchService;
+import com.codecool.codekickfc.controller.dto.pitches.FootballPitchIdDTO;
+import com.codecool.codekickfc.controller.dto.pitches.NewFootballPitchDTO;
+import com.codecool.codekickfc.service.pitches.FootballPitchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,5 +1,8 @@
 package com.codecool.codekickfc.controller.users;
 
+import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
+import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
+import com.codecool.codekickfc.controller.dto.users.UserDTO;
 import com.codecool.codekickfc.service.users.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,15 +40,27 @@ public class UserController {
     }
 
     /**
-     * Update an existing user from the provided information and saves the changes in the
+     * Update an existing user based on the provided information and saves the changes in the
      * database through the service and repository layers.
      *
      * @param updateUserDetails The request body based on the client inputs.
      * @param userId            ID of the user client wants to update.
-     * @return ID of the updated user
+     * @return ID of the updated user.
      */
     @PatchMapping("/{userId}")
     public int updateUser(@PathVariable int userId, @RequestBody UpdateUserDTO updateUserDetails) {
         return userService.updateUser(updateUserDetails, userId);
+    }
+
+    /**
+     * Delete an existing user based on the provided ID and saves the changes in the
+     * database through the service and repository layers.
+     *
+     * @param userId ID of the user client wants to delete.
+     * @return ID of the deleted user
+     */
+    @DeleteMapping("/{userId}")
+    public int deleteUser(@PathVariable int userId) {
+        return userService.deleteUser(userId);
     }
 }
