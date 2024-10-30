@@ -1,6 +1,7 @@
 package com.codecool.codekickfc.dao.users;
 
 import com.codecool.codekickfc.controller.users.NewUserDTO;
+import com.codecool.codekickfc.controller.users.UserDTO;
 import com.codecool.codekickfc.dao.DatabaseConnection;
 import org.springframework.stereotype.Repository;
 
@@ -101,5 +102,10 @@ public class UserDAOJdbc implements UserDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public User updateUser(UserDTO userDTO) {
+        return null;
     }
 }
