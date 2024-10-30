@@ -1,6 +1,8 @@
 package com.codecool.codekickfc.service;
 
 import com.codecool.codekickfc.controller.dto.FootballPitchDTO;
+import com.codecool.codekickfc.controller.dto.FootballPitchIdDTO;
+import com.codecool.codekickfc.controller.dto.NewFootballPitchDTO;
 import com.codecool.codekickfc.dao.footballpitch.FootballPitchDAO;
 import com.codecool.codekickfc.dao.model.FootballPitch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +31,10 @@ public class FootballPitchService {
      * for the controller layer.
      */
     public List<FootballPitchDTO> getAllFootballPitches() {
-        List<FootballPitch> footballPitches = footballPitchDAO.getAllFootballPitch();
-        List<FootballPitchDTO> footballPitchDTOs = new ArrayList<>();
+        return null;
+    }
 
-        for (FootballPitch pitch : footballPitches) {
-            footballPitchDTOs.add(FootballPitchDTO.fromFootballPitch(pitch));
-        }
-        return footballPitchDTOs;
+    public FootballPitchIdDTO addNewFootballPitch(NewFootballPitchDTO footballPitchDTO) {
+        return new FootballPitchIdDTO(footballPitchDAO.postNewFootballPitch(footballPitchDTO));
     }
 }

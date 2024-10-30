@@ -2,7 +2,7 @@ package com.codecool.codekickfc.controller.dto;
 
 import com.codecool.codekickfc.dao.model.FootballPitch;
 
-public record FootballPitchDTO(int Id, String name, int maxPlayers, double price, String address) {
+public record FootballPitchDTO(int Id, String name, int maxPlayers, double price, int postCode, String city, String street, int street_number) {
 
     public static FootballPitchDTO fromFootballPitch(FootballPitch footballPitch) {
         return new FootballPitchDTO(
@@ -10,6 +10,9 @@ public record FootballPitchDTO(int Id, String name, int maxPlayers, double price
                 footballPitch.name(),
                 footballPitch.maxPlayers(),
                 footballPitch.price(),
-                footballPitch.address());
+                footballPitch.postCode(),
+                footballPitch.city(),
+                footballPitch.street(),
+                footballPitch.street_number());
     }
 }

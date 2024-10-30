@@ -1,9 +1,13 @@
 package com.codecool.codekickfc.controller.footballpitch;
 
 import com.codecool.codekickfc.controller.dto.FootballPitchDTO;
+import com.codecool.codekickfc.controller.dto.FootballPitchIdDTO;
+import com.codecool.codekickfc.controller.dto.NewFootballPitchDTO;
 import com.codecool.codekickfc.service.FootballPitchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -29,5 +33,10 @@ public class FootballPitchController {
     @GetMapping("/api/fields")
     public List<FootballPitchDTO> getFootballPitches() {
         return footballPitchService.getAllFootballPitches();
+    }
+
+    @PostMapping("/api/fields")
+    public FootballPitchIdDTO postFootballPitch(@RequestBody NewFootballPitchDTO footballPitchDTO) {
+        return footballPitchService.addNewFootballPitch(footballPitchDTO);
     }
 }
