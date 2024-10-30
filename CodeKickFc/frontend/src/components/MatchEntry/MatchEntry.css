@@ -1,0 +1,52 @@
+.matchEntryBox{
+    position: relative;
+    justify-content: space-evenly;
+    width: 100%;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.matchDate{
+    position: absolute;
+    left: 1.5rem
+}
+
+.matchLocation{
+    position: absolute;
+    left: 18rem;
+}
+
+.matchPrice{
+    position: absolute;
+    right: 18rem;
+    font-size: 1rem;
+}
+
+.matchPlayerCountBox{
+    display: flex;
+    position: relative;
+    background-color: rgb(91, 192, 222);
+    border-color: rgb(91, 192, 222);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    height: 1.2rem;
+    width: 3.5rem;
+    left: 91%;
+    top: 0.9rem
+}
+
+.currentPlayerCount{
+    position: absolute;
+    right: 65%;
+    top: -1rem;
+    font-size: 1rem;
+
+}
+
+.maxPlayerCount{
+    position: absolute;
+    right: 15%;
+    top: -1rem;
+    font-size: 1rem;
+
+}
