@@ -1,5 +1,6 @@
 package com.codecool.codekickfc.dao.matches;
 
+import com.codecool.codekickfc.controller.dto.matches.NewMatchDTO;
 import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
 import com.codecool.codekickfc.dao.model.matches.Match;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
@@ -77,5 +78,9 @@ public class MatchJdbc implements MatchDAO{
         } catch (SQLException e) {
             throw new DatabaseAccessException("Encountered error inserting data into the database.", e);
         }
+    }
+
+    public int postMatch(NewMatchDTO matchDTO) {
+        return 0;
     }
 }

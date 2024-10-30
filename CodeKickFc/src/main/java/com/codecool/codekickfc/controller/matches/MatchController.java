@@ -1,10 +1,10 @@
 package com.codecool.codekickfc.controller.matches;
 
 import com.codecool.codekickfc.controller.dto.matches.MatchDTO;
+import com.codecool.codekickfc.controller.dto.matches.MatchIdDTO;
+import com.codecool.codekickfc.controller.dto.matches.NewMatchDTO;
 import com.codecool.codekickfc.service.matches.MatchService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +25,10 @@ public class MatchController {
     @GetMapping("/api/matches/{matchId}")
     public MatchDTO getMatchById(@PathVariable int matchId) {
         return matchService.getMatchById(matchId);
+    }
+
+    @PostMapping("/api/matches")
+    public MatchIdDTO postMatch(@RequestBody NewMatchDTO matchDTO) {
+        return matchService.postMatch(matchDTO);
     }
 }

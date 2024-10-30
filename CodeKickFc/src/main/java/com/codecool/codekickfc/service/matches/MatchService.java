@@ -1,6 +1,8 @@
 package com.codecool.codekickfc.service.matches;
 
 import com.codecool.codekickfc.controller.dto.matches.MatchDTO;
+import com.codecool.codekickfc.controller.dto.matches.MatchIdDTO;
+import com.codecool.codekickfc.controller.dto.matches.NewMatchDTO;
 import com.codecool.codekickfc.dao.matches.MatchDAO;
 import com.codecool.codekickfc.dao.model.matches.Match;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +33,9 @@ public class MatchService {
 
     public MatchDTO getMatchById(int matchId) {
         return MatchDTO.fromMatch(matchDAO.getMatchById(matchId));
+    }
+
+    public MatchIdDTO postMatch(NewMatchDTO matchDTO) {
+        return MatchIdDTO(matchDAO.postMatch(matchDTO));
     }
 }
