@@ -1,15 +1,13 @@
 package com.codecool.codekickfc.dao.footballpitch;
 
+import com.codecool.codekickfc.controller.dto.NewFootballPitchDTO;
 import com.codecool.codekickfc.dao.model.FootballPitch;
 import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,17 +45,49 @@ public class FootballPitchJdbc implements FootballPitchDAO {
                 String fieldName = resultSet.getString("field_name");
                 double price = resultSet.getDouble("rental_price");
                 int maxPlayers = resultSet.getInt("max_players");
+                int postCode = resultSet.getInt("field_postcode");
+                String city = resultSet.getString("field_city");
+                String street = resultSet.getString("field_street");
+                int streetNumber = resultSet.getInt("field_street_number");
 
-                String address = resultSet.getString("field_postcode") + ";" +
-                        resultSet.getString("field_city") + ";" +
-                        resultSet.getString("field_street") + ";" +
-                        resultSet.getString("field_street_number");
-                footballPitchList.add(new FootballPitch(id, fieldName, maxPlayers, price, address));
+                footballPitchList.add(new FootballPitch(id, fieldName, maxPlayers, price, postCode, city, street, streetNumber));
             }
 
         } catch (SQLException e) {
             throw new DatabaseAccessException("Encountered error fetching data from the database.", e);
         }
         return footballPitchList;
+    };
+
+    @Override
+    public long postNewFootballPitch(NewFootballPitchDTO footballPitchDTO) {
+        String sql = "INSERT INTO football_field (" +
+                "field_name," +
+                "rental_price," +
+                "max_players," +
+                "field_postcode," +
+                "field_city, field_street," +
+                "field_street_number)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING field_id";
+
+        try (Connection conn = databaseConnection.getConnection();
+              PreparedStatement statement = conn.prepareStatement(sql)
+        ){
+            statement.setString(1, footballPitchDTO.name());
+            statement.setDouble(2, footballPitchDTO.price());
+            statement.setInt(3, footballPitchDTO.maxPlayers());
+            statement.setInt(4, footballPitchDTO.postCode());
+            statement.setString(5, footballPitchDTO.city());
+            statement.setString(6, footballPitchDTO.street());
+            statement.setInt(7, footballPitchDTO.street_number());
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("field_id");
+            }
+            return 0;
+        } catch (SQLException e) {
+            throw new DatabaseAccessException("Encountered error inserting data into the database.", e);
+        }
     };
 }
