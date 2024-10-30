@@ -1,7 +1,7 @@
 package com.codecool.codekickfc.controller.dto.users;
 
-import java.sql.Array;
+import java.util.List;
 
 public record UserDTO(int userId, String username, String firstName,
-                      String lastName, String email, Array matchIds) {
+                      String lastName, String email, List<Short> matchIds) {
 }

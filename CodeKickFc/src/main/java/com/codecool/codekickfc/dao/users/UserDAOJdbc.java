@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -46,7 +47,12 @@ public class UserDAOJdbc implements UserDAO {
                 String lastName = resultSet.getString("last_name");
                 String email = resultSet.getString("user_email");
                 String password = resultSet.getString("user_password");
-                Array matchIds = resultSet.getArray("match_id");
+                List<Short> matchIds = new ArrayList<>();
+                Array matchIdsResult = resultSet.getArray("match_id");
+                if (matchIdsResult != null) {
+                    Short[] matchIdsArray = (Short[]) matchIdsResult.getArray();
+                    matchIds = Arrays.asList(matchIdsArray);
+                }
                 User user = new User
                         (id, username, firstName, lastName, password, email, matchIds);
                 users.add(user);
@@ -206,7 +212,12 @@ public class UserDAOJdbc implements UserDAO {
                     String lastName = resultSet.getString("last_name");
                     String email = resultSet.getString("user_email");
                     String password = resultSet.getString("user_password");
-                    Array matchIds = resultSet.getArray("match_id");
+                    List<Short> matchIds = new ArrayList<>();
+                    Array matchIdsResult = resultSet.getArray("match_id");
+                    if (matchIdsResult != null) {
+                        Short[] matchIdsArray = (Short[]) matchIdsResult.getArray();
+                        matchIds = Arrays.asList(matchIdsArray);
+                    }
                     return new User(
                             id,
                             username,
@@ -238,11 +249,11 @@ public class UserDAOJdbc implements UserDAO {
      * execute the update. Next, it creates a {@link UserMatch} object
      * from the result if user or match exists.
      *
-     * @param userId ID of the user to whom the client wants to assign a match.
+     * @param userId  ID of the user to whom the client wants to assign a match.
      * @param matchId ID of the match the client wants to sign up for.
      * @return {@link UserMatch} Includes signed up userId and matchId.
      * @throws RuntimeException In case connection fails or user or match not found in
-     * database.
+     *                          database.
      */
     @Override
     public UserMatch addUserToMatch(int userId, int matchId) {
