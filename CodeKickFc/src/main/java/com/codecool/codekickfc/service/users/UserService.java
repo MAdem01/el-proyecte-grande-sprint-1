@@ -1,6 +1,7 @@
 package com.codecool.codekickfc.service.users;
 
 import com.codecool.codekickfc.controller.users.NewUserDTO;
+import com.codecool.codekickfc.controller.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.users.UserDTO;
 import com.codecool.codekickfc.dao.users.User;
 import com.codecool.codekickfc.dao.users.UserDAO;
@@ -49,5 +50,10 @@ public class UserService {
     public int createUser(NewUserDTO newUserDTO) {
         User createdUser = userDAO.createUser(newUserDTO);
         return createdUser.id();
+    }
+
+    public int updateUser(UpdateUserDTO updateUserDetails, int id) {
+        User updatedUser = userDAO.updateUser(updateUserDetails, id);
+        return updatedUser.id();
     }
 }

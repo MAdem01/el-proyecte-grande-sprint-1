@@ -1,6 +1,7 @@
 package com.codecool.codekickfc.dao.users;
 
 import com.codecool.codekickfc.controller.users.NewUserDTO;
+import com.codecool.codekickfc.controller.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.users.UserDTO;
 import com.codecool.codekickfc.dao.DatabaseConnection;
 import org.springframework.stereotype.Repository;
@@ -105,7 +106,33 @@ public class UserDAOJdbc implements UserDAO {
     }
 
     @Override
-    public User updateUser(UserDTO userDTO) {
-        return null;
+    public User updateUser(UpdateUserDTO updateUserDetails, int userId) {
+        String sql = "UPDATE \"user\" SET " +
+                "username = ?, first_name = ?, last_name = ?, user_email = ?, user_password = ?" +
+                " WHERE user_id = ?";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            preparedStatement.setString(1, updateUserDetails.username());
+            preparedStatement.setString(2, updateUserDetails.firstName());
+            preparedStatement.setString(3, updateUserDetails.lastName());
+            preparedStatement.setString(4, updateUserDetails.email());
+            preparedStatement.setString(5, updateUserDetails.password());
+            preparedStatement.setInt(6, userId);
+
+            int rowsChanged = preparedStatement.executeUpdate();
+            if (rowsChanged == 0) {
+                throw new SQLException();
+            }
+            return new User(
+                    userId,
+                    updateUserDetails.username(),
+                    updateUserDetails.firstName(),
+                    updateUserDetails.lastName(),
+                    updateUserDetails.password(),
+                    updateUserDetails.email(),
+                    null);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
