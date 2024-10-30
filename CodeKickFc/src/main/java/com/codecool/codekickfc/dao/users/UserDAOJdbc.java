@@ -1,7 +1,7 @@
 package com.codecool.codekickfc.dao.users;
 
 import com.codecool.codekickfc.controller.users.NewUserDTO;
-import com.codecool.codekickfc.dao.DatabaseConnection;
+import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
