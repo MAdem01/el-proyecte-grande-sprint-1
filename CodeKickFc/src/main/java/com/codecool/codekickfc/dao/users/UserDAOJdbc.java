@@ -153,7 +153,10 @@ public class UserDAOJdbc implements UserDAO {
         try (Connection connection = databaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setInt(1, userId);
-            preparedStatement.executeUpdate();
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("No user found");
+            }
             return userId;
         } catch (SQLException e) {
             throw new RuntimeException(e);
