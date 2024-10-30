@@ -18,6 +18,14 @@ public class FootballPitchController {
         this.footballPitchService = footballPitchService;
     }
 
+    /**
+     * Handles HTTP GET requests to retrieve all football pitch data.
+     * This method calls the service layer to obtain a list of {@link FootballPitchDTO} objects,
+     * which represent the available football pitches.
+     *
+     * @return a list of {@link FootballPitchDTO} records containing details of all football pitches.
+     *         Returns an empty list if no pitches are found.
+     */
     @GetMapping("/api/fields")
     public List<FootballPitchDTO> getFootballPitches() {
         return footballPitchService.getAllFootballPitches();

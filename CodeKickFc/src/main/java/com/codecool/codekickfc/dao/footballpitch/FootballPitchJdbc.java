@@ -23,6 +23,15 @@ public class FootballPitchJdbc implements FootballPitchDAO {
         this.databaseConnection = databaseConnection;
     }
 
+    /**
+     * Retrieves all football pitch entries from the database and converts each entry into a {@link FootballPitch} record.
+     * This method queries the {@code football_field} table and constructs a list of {@link FootballPitch} objects
+     * for the service layer to handle.
+     *
+     * @return a list of {@link FootballPitch} records, each representing an entry from the {@code football_field} table.
+     *
+     * @throws DatabaseAccessException if an error occurs while accessing the database, preventing data retrieval.
+     */
     @Override
     public List<FootballPitch> getAllFootballPitch() {
         List<FootballPitch> footballPitchList = new ArrayList<>();

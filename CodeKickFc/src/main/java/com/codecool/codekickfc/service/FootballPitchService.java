@@ -19,6 +19,15 @@ public class FootballPitchService {
         this.footballPitchDAO = footballPitchDAO;
     }
 
+    /**
+     * Retrieves all football pitch entries from the repository layer, converts each entry to a {@link FootballPitchDTO},
+     * and provides the resulting list to the controller layer. This method serves as an intermediary between the controller
+     * and repository layers, facilitating the transformation of {@link FootballPitch} entities into a simplified
+     * {@link FootballPitchDTO} format for use in the controller.
+     *
+     * @return a list of {@link FootballPitchDTO} records, each representing a football pitch entry with simplified data
+     * for the controller layer.
+     */
     public List<FootballPitchDTO> getAllFootballPitches() {
         List<FootballPitch> footballPitches = footballPitchDAO.getAllFootballPitch();
         List<FootballPitchDTO> footballPitchDTOs = new ArrayList<>();
@@ -28,6 +37,4 @@ public class FootballPitchService {
         }
         return footballPitchDTOs;
     }
-
-
 }
