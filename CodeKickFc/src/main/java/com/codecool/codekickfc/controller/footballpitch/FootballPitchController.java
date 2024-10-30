@@ -20,10 +20,6 @@ public class FootballPitchController {
 
     @GetMapping("/api/fields")
     public List<FootballPitchDTO> getFootballPitches() {
-
-
-
-
-        return null;
+        return footballPitchService.getAllFootballPitches();
     }
 }
