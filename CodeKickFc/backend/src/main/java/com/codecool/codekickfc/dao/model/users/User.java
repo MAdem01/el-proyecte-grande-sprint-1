@@ -1,6 +1,8 @@
 package com.codecool.codekickfc.dao.model.users;
 
 import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     private final int id;
@@ -9,10 +11,10 @@ public class User {
     private String lastName;
     private String password;
     private String email;
-    private final Array matchIds;
+    private final List<Short> matchIds;
 
     public User(int id, String username, String firstName,
-                String lastName, String password, String email, Array matchIds) {
+                String lastName, String password, String email, List<Short> matchIds) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
@@ -29,7 +31,7 @@ public class User {
         this.lastName = lastName;
         this.password = password;
         this.email = email;
-        this.matchIds = null;
+        this.matchIds = new ArrayList<>();
     }
 
     public int id() {
@@ -52,7 +54,7 @@ public class User {
         return email;
     }
 
-    public Array matchIds() {
+    public List<Short> matchIds() {
         return matchIds;
     }
 }

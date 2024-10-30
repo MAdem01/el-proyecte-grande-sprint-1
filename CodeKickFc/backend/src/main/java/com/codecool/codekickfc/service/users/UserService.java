@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -33,22 +34,16 @@ public class UserService {
      */
     public List<UserDTO> getAllUsers() {
         List<User> users = userDAO.getAllUsers();
-        List<UserDTO> userDTOs = new ArrayList<>();
 
-        for (User user : users) {
-            UserDTO userDTO =
-                    new UserDTO(
-                            user.id(),
-                            user.username(),
-                            user.firstName(),
-                            user.lastName(),
-                            user.email(),
-                            user.matchIds()
-                    );
-            userDTOs.add(userDTO);
-        }
-
-        return userDTOs;
+        return users.stream().
+                map(user -> new UserDTO(
+                        user.id(),
+                        user.username(),
+                        user.firstName(),
+                        user.lastName(),
+                        user.email(),
+                        user.matchIds()
+                )).collect(Collectors.toList());
     }
 
 
@@ -123,7 +118,7 @@ public class UserService {
      * to a {@link UserMatchDTO DTO} and returns it to the {@link UserController controller}
      * layer.
      *
-     * @param userId ID of the user to whom the client wants to assign a match.
+     * @param userId  ID of the user to whom the client wants to assign a match.
      * @param matchId ID of the match the client wants to sign up for.
      * @return {@link UserMatchDTO} Includes signed up userId and matchId.
      */
