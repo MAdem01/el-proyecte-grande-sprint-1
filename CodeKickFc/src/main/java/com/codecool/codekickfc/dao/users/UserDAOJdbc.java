@@ -26,8 +26,7 @@ public class UserDAOJdbc implements UserDAO {
      * <br></br>
      * It provides a SELECT SQL query, then establish the connection with the database and execute
      * the query. Next, it creates User objects from the results and add them to an ArrayList while
-     * the ResultSet has
-     * next row.
+     * the ResultSet has next row.
      *
      * @return A list of User object
      * @throws RuntimeException In case connection fails
@@ -177,14 +176,27 @@ public class UserDAOJdbc implements UserDAO {
         }
     }
 
+    /**
+     * This method returns an existing User from the database.
+     * <br></br>
+     * <b>Detailed explanation:</b>
+     * <br></br>
+     * It provides a SELECT SQL query, then establish the connection with the
+     * database and execute the query. Next, it creates a {@link User} object
+     * from the result if the {@link ResultSet} has next row.
+     *
+     * @param userId The ID of the user client wants to get.
+     * @return {@link User} found user, or null if not found
+     * @throws RuntimeException In case connection fails or ID was not found.
+     */
     @Override
     public User getUserById(int userId) {
         String sql = "SELECT * FROM \"user\" WHERE user_id = ?";
         try (Connection connection = databaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery();
         ) {
             preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int id = resultSet.getInt("user_id");
                 String username = resultSet.getString("username");
@@ -196,6 +208,7 @@ public class UserDAOJdbc implements UserDAO {
                 return new User
                         (id, username, firstName, lastName, password, email, matchIds);
             }
+            resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

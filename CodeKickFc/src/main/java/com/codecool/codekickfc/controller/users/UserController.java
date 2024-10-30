@@ -4,6 +4,7 @@ import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserDTO;
 import com.codecool.codekickfc.service.users.UserService;
+import com.codecool.codekickfc.dao.users.UserDAOJdbc;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,6 +65,13 @@ public class UserController {
         return userService.deleteUser(userId);
     }
 
+    /**
+     * Get an existing user from the database based on the provided ID through the
+     * {@link UserService service} and {@link UserDAOJdbc repository} layers.
+     *
+     * @param userId ID of the user client wants to get.
+     * @return ID of the found user.
+     */
     @GetMapping("/{userId}")
     public UserDTO getUserById(@PathVariable int userId) {
         return userService.getUserById(userId);
