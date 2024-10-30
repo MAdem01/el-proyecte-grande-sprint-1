@@ -90,4 +90,20 @@ public class FootballPitchJdbc implements FootballPitchDAO {
             throw new DatabaseAccessException("Encountered error inserting data into the database.", e);
         }
     };
+
+    @Override
+    public boolean deleteFootballPitch(long id) {
+        String sql = "DELETE FROM football_field WHERE field_id = ?";
+
+        try(Connection conn = databaseConnection.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setLong(1, id);
+            int resultSet = statement.executeUpdate();
+            return resultSet > 0;
+
+        } catch (SQLException e) {
+            throw new DatabaseAccessException("Encountered error deleting data from the database.", e);
+        }
+    }
 }

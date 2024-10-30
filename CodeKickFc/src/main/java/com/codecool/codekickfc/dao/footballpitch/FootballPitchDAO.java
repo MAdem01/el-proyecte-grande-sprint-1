@@ -8,4 +8,5 @@ import java.util.List;
 public interface FootballPitchDAO {
     List<FootballPitch> getAllFootballPitch();
     long postNewFootballPitch(NewFootballPitchDTO footballPitchDTO);
+    boolean deleteFootballPitch(long fieldId);
 }
