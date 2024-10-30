@@ -1,13 +1,10 @@
 package com.codecool.codekickfc.dao.footballpitch;
 
-import com.codecool.codekickfc.controller.dto.pitches.FootballPitchDTO;
 import com.codecool.codekickfc.controller.dto.pitches.NewFootballPitchDTO;
-import com.codecool.codekickfc.controller.dto.pitches.UpdateFootballPitchDTO;
 import com.codecool.codekickfc.dao.model.pitches.FootballPitch;
 import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.SQL;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -44,16 +41,7 @@ public class FootballPitchJdbc implements FootballPitchDAO {
              ResultSet resultSet = statement.executeQuery(sql);
         ) {
             while(resultSet.next()) {
-                int id = resultSet.getInt("field_id");
-                String fieldName = resultSet.getString("field_name");
-                double price = resultSet.getDouble("rental_price");
-                int maxPlayers = resultSet.getInt("max_players");
-                int postCode = resultSet.getInt("field_postcode");
-                String city = resultSet.getString("field_city");
-                String street = resultSet.getString("field_street");
-                int streetNumber = resultSet.getInt("field_street_number");
-
-                footballPitchList.add(new FootballPitch(id, fieldName, maxPlayers, price, postCode, city, street, streetNumber));
+                footballPitchList.add(createFootballPitchFromData(resultSet));
             }
 
         } catch (SQLException e) {
@@ -72,16 +60,7 @@ public class FootballPitchJdbc implements FootballPitchDAO {
             statement.setLong(1, fieldId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    int id = resultSet.getInt("field_id");
-                    String fieldName = resultSet.getString("field_name");
-                    double price = resultSet.getDouble("rental_price");
-                    int maxPlayers = resultSet.getInt("max_players");
-                    int postCode = resultSet.getInt("field_postcode");
-                    String city = resultSet.getString("field_city");
-                    String street = resultSet.getString("field_street");
-                    int streetNumber = resultSet.getInt("field_street_number");
-
-                    return new FootballPitch(id, fieldName, maxPlayers, price, postCode, city, street, streetNumber);
+                    return createFootballPitchFromData(resultSet);
                 } else {
                     return null;
                 }
@@ -170,5 +149,18 @@ public class FootballPitchJdbc implements FootballPitchDAO {
         statement.setString(5, footballPitchDTO.city());
         statement.setString(6, footballPitchDTO.street());
         statement.setInt(7, footballPitchDTO.street_number());
+    }
+
+    private FootballPitch createFootballPitchFromData(ResultSet rs) throws SQLException {
+        int id = rs.getInt("field_id");
+        String fieldName = rs.getString("field_name");
+        double price = rs.getDouble("rental_price");
+        int maxPlayers = rs.getInt("max_players");
+        int postCode = rs.getInt("field_postcode");
+        String city = rs.getString("field_city");
+        String street = rs.getString("field_street");
+        int streetNumber = rs.getInt("field_street_number");
+
+        return new FootballPitch(id, fieldName, maxPlayers, price, postCode, city, street, streetNumber);
     }
 }
