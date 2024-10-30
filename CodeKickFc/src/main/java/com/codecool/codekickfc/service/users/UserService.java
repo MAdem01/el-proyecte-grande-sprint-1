@@ -65,4 +65,8 @@ public class UserService {
         User updatedUser = userDAO.updateUser(updateUserDetails, userId);
         return updatedUser.id();
     }
+
+    public int deleteUser(int userId) {
+        return userDAO.deleteUser(userId);
+    }
 }
