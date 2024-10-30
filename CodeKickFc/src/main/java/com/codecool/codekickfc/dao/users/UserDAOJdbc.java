@@ -46,7 +46,9 @@ public class UserDAOJdbc implements UserDAO {
                 String lastName = resultSet.getString("last_name");
                 String email = resultSet.getString("user_email");
                 String password = resultSet.getString("user_password");
-                User user = new User(id, username, firstName, lastName, password, email);
+                Array matchIds = resultSet.getArray("match_id");
+                User user = new User
+                        (id, username, firstName, lastName, password, email, matchIds);
                 users.add(user);
             }
         } catch (SQLException e) {
