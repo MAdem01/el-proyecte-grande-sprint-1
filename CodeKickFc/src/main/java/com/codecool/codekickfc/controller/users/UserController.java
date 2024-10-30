@@ -78,8 +78,16 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
-    @PatchMapping("/{userId}/matches/{matchedId}")
-    public UserMatchDTO addUserToMatch(@PathVariable int userId, @PathVariable int matchedId) {
-        return userService.addUserToMatch(userId, matchedId);
+    /**
+     * Add an existing match from the database based on the provided ID to an existing user
+     * through the {@link UserService service} and {@link UserDAOJdbc repository} layers.
+     *
+     * @param userId ID of the user to whom the client wants to assign a match.
+     * @param matchId ID of the match the client wants to sign up for.
+     * @return {@link UserMatchDTO} Includes signed up userId and matchId.
+     */
+    @PatchMapping("/{userId}/matches/{matchId}")
+    public UserMatchDTO addUserToMatch(@PathVariable int userId, @PathVariable int matchId) {
+        return userService.addUserToMatch(userId, matchId);
     }
 }

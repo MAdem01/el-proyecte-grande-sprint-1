@@ -223,6 +223,27 @@ public class UserDAOJdbc implements UserDAO {
         return null;
     }
 
+    /**
+     * This method adds an existing Match to a User in the database.
+     * <br></br>
+     * <b>Detailed explanation:</b>
+     * <br></br>
+     * It provides three SQL query:
+     * <ol>
+     * <li>INSERT user and match ID into user_match table</li>
+     * <li>UPDATE user table by adding match_id into match_id column</li>
+     * <li>UPDATE match table by adding user_id into subscribed_players_id column</li>
+     * </ol>
+     * Then establish the connection with the database, sets the parameters and
+     * execute the update. Next, it creates a {@link UserMatch} object
+     * from the result if user or match exists.
+     *
+     * @param userId ID of the user to whom the client wants to assign a match.
+     * @param matchId ID of the match the client wants to sign up for.
+     * @return {@link UserMatch} Includes signed up userId and matchId.
+     * @throws RuntimeException In case connection fails or user or match not found in
+     * database.
+     */
     @Override
     public UserMatch addUserToMatch(int userId, int matchId) {
         String sqlUserMatch = "INSERT INTO \"user_match\" (user_id, match_id) VALUES (?,?)";

@@ -116,6 +116,17 @@ public class UserService {
         );
     }
 
+    /**
+     * Establish a connection between controller and the repository layer by calling
+     * {@link UserDAOJdbc addUserToMatch(int userId, int matchId)} method from the
+     * repository layer that returns a {@link UserMatch} object which is then being converted
+     * to a {@link UserMatchDTO DTO} and returns it to the {@link UserController controller}
+     * layer.
+     *
+     * @param userId ID of the user to whom the client wants to assign a match.
+     * @param matchId ID of the match the client wants to sign up for.
+     * @return {@link UserMatchDTO} Includes signed up userId and matchId.
+     */
     public UserMatchDTO addUserToMatch(int userId, int matchId) {
         UserMatch userMatch = userDAO.addUserToMatch(userId, matchId);
         return new UserMatchDTO(userMatch.userId(), userMatch.matchId());
