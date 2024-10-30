@@ -176,4 +176,29 @@ public class UserDAOJdbc implements UserDAO {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public User getUserById(int userId) {
+        String sql = "SELECT * FROM \"user\" WHERE user_id = ?";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery();
+        ) {
+            preparedStatement.setInt(1, userId);
+            if (resultSet.next()) {
+                int id = resultSet.getInt("user_id");
+                String username = resultSet.getString("username");
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                String email = resultSet.getString("user_email");
+                String password = resultSet.getString("user_password");
+                Array matchIds = resultSet.getArray("match_id");
+                return new User
+                        (id, username, firstName, lastName, password, email, matchIds);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }

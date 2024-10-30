@@ -47,7 +47,7 @@ public class UserController {
      * @param userId            ID of the user client wants to update.
      * @return ID of the updated user.
      */
-    @PatchMapping("/{userId}")
+    @PutMapping("/{userId}")
     public int updateUser(@PathVariable int userId, @RequestBody UpdateUserDTO updateUserDetails) {
         return userService.updateUser(updateUserDetails, userId);
     }

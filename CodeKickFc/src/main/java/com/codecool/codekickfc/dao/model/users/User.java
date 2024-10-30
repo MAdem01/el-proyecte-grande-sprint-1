@@ -31,4 +31,28 @@ public class User {
         this.email = email;
         this.matchIds = null;
     }
+
+    public int id() {
+        return id;
+    }
+
+    public String username() {
+        return username;
+    }
+
+    public String firstName() {
+        return firstName;
+    }
+
+    public String lastName() {
+        return lastName;
+    }
+
+    public String email() {
+        return email;
+    }
+
+    public Array matchIds() {
+        return matchIds;
+    }
 }

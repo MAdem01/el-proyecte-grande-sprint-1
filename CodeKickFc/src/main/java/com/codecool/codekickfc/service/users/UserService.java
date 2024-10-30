@@ -35,7 +35,13 @@ public class UserService {
 
         for (User user : users) {
             UserDTO userDTO =
-                    new UserDTO(user.username(), user.firstName(), user.lastName(), user.email());
+                    new UserDTO(
+                            user.username(),
+                            user.firstName(),
+                            user.lastName(),
+                            user.email(),
+                            user.matchIds()
+                    );
             userDTOs.add(userDTO);
         }
 

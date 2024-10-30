@@ -11,4 +11,5 @@ public interface UserDAO {
     User createUser(NewUserDTO newUser);
     User updateUser(UpdateUserDTO updateUserDetails, int userId);
     int deleteUser(int userId);
+    User getUserById(int userId);
 }
