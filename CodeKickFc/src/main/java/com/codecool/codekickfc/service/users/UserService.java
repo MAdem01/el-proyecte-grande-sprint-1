@@ -90,6 +90,9 @@ public class UserService {
 
     public UserDTO getUserById(int userId) {
         User user = userDAO.getUserById(userId);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
         return new UserDTO(
                 user.username(),
                 user.firstName(),
