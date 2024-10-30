@@ -5,7 +5,9 @@ import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserDTO;
 import com.codecool.codekickfc.dao.model.users.User;
 import com.codecool.codekickfc.dao.users.UserDAO;
+import com.codecool.codekickfc.dao.users.UserDAOJdbc;
 import org.springframework.stereotype.Service;
+import com.codecool.codekickfc.controller.users.UserController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +15,11 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserDAO userDAO;
+    private final UserDAOJdbc userDAOJdbc;
 
-    public UserService(UserDAO userDAO) {
+    public UserService(UserDAO userDAO, UserDAOJdbc userDAOJdbc) {
         this.userDAO = userDAO;
+        this.userDAOJdbc = userDAOJdbc;
     }
 
     /**
@@ -66,6 +70,14 @@ public class UserService {
         return updatedUser.id();
     }
 
+    /**
+     * Establish a connection between controller and the repository layer by calling
+     * {@link UserDAOJdbc deleteUser(int userId)} method from the repository layer and returns
+     * its result to the {@link UserController controller} layer.
+     *
+     * @param userId ID of the user client wants to delete.
+     * @return ID of the deleted user
+     */
     public int deleteUser(int userId) {
         return userDAO.deleteUser(userId);
     }

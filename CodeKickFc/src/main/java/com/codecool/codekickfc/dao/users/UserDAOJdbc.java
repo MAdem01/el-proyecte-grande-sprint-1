@@ -147,6 +147,18 @@ public class UserDAOJdbc implements UserDAO {
         }
     }
 
+    /**
+     * This method deletes an existing User from the database.
+     * <br></br>
+     * <b>Detailed explanation:</b>
+     * <br></br>
+     * It provides a DELETE SQL query, then establish the connection with the database,
+     * sets the SQL parameter and execute it.
+     *
+     * @param userId ID of the user client wants to delete.
+     * @return int ID of the deleted user.
+     * @throws RuntimeException In case connection fails or ID was not found.
+     */
     @Override
     public int deleteUser(int userId) {
         String sql = "DELETE FROM \"user\" WHERE user_id = ?";
