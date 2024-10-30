@@ -87,4 +87,15 @@ public class UserService {
     public int deleteUser(int userId) {
         return userDAO.deleteUser(userId);
     }
+
+    public UserDTO getUserById(int userId) {
+        User user = userDAO.getUserById(userId);
+        return new UserDTO(
+                user.username(),
+                user.firstName(),
+                user.lastName(),
+                user.email(),
+                user.matchIds()
+        );
+    }
 }
