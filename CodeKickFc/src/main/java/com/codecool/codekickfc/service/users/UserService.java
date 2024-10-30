@@ -6,6 +6,7 @@ import com.codecool.codekickfc.controller.dto.users.UserDTO;
 import com.codecool.codekickfc.dao.model.users.User;
 import com.codecool.codekickfc.dao.users.UserDAO;
 import com.codecool.codekickfc.dao.users.UserDAOJdbc;
+import com.codecool.codekickfc.dao.users.UserDAOJdbc.*;
 import org.springframework.stereotype.Service;
 import com.codecool.codekickfc.controller.users.UserController;
 
@@ -35,7 +36,13 @@ public class UserService {
 
         for (User user : users) {
             UserDTO userDTO =
-                    new UserDTO(user.username(), user.firstName(), user.lastName(), user.email());
+                    new UserDTO(
+                            user.username(),
+                            user.firstName(),
+                            user.lastName(),
+                            user.email(),
+                            user.matchIds()
+                    );
             userDTOs.add(userDTO);
         }
 
@@ -80,5 +87,29 @@ public class UserService {
      */
     public int deleteUser(int userId) {
         return userDAO.deleteUser(userId);
+    }
+
+    /**
+     * Establish a connection between controller and the repository layer by calling
+     * {@link UserDAOJdbc getUserById(int userId)} method from the repository layer that returns
+     * a User object which is then being converted to a DTO and returns it to
+     * the {@link UserController controller} layer. If User's value is null,
+     * {@link RuntimeException} is being thrown.
+     *
+     * @param userId ID of the user client wants to get.
+     * @return ID of the found user.
+     */
+    public UserDTO getUserById(int userId) {
+        User user = userDAO.getUserById(userId);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        return new UserDTO(
+                user.username(),
+                user.firstName(),
+                user.lastName(),
+                user.email(),
+                user.matchIds()
+        );
     }
 }

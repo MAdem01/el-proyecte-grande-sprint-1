@@ -26,8 +26,7 @@ public class UserDAOJdbc implements UserDAO {
      * <br></br>
      * It provides a SELECT SQL query, then establish the connection with the database and execute
      * the query. Next, it creates User objects from the results and add them to an ArrayList while
-     * the ResultSet has
-     * next row.
+     * the ResultSet has next row.
      *
      * @return A list of User object
      * @throws RuntimeException In case connection fails
@@ -46,7 +45,9 @@ public class UserDAOJdbc implements UserDAO {
                 String lastName = resultSet.getString("last_name");
                 String email = resultSet.getString("user_email");
                 String password = resultSet.getString("user_password");
-                User user = new User(id, username, firstName, lastName, password, email);
+                Array matchIds = resultSet.getArray("match_id");
+                User user = new User
+                        (id, username, firstName, lastName, password, email, matchIds);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -173,5 +174,44 @@ public class UserDAOJdbc implements UserDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * This method returns an existing User from the database.
+     * <br></br>
+     * <b>Detailed explanation:</b>
+     * <br></br>
+     * It provides a SELECT SQL query, then establish the connection with the
+     * database and execute the query. Next, it creates a {@link User} object
+     * from the result if the {@link ResultSet} has next row.
+     *
+     * @param userId The ID of the user client wants to get.
+     * @return {@link User} found user, or null if not found
+     * @throws RuntimeException In case connection fails or ID was not found.
+     */
+    @Override
+    public User getUserById(int userId) {
+        String sql = "SELECT * FROM \"user\" WHERE user_id = ?";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ) {
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int id = resultSet.getInt("user_id");
+                String username = resultSet.getString("username");
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                String email = resultSet.getString("user_email");
+                String password = resultSet.getString("user_password");
+                Array matchIds = resultSet.getArray("match_id");
+                return new User
+                        (id, username, firstName, lastName, password, email, matchIds);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }
