@@ -39,6 +39,7 @@ public class UserService {
         for (User user : users) {
             UserDTO userDTO =
                     new UserDTO(
+                            user.id(),
                             user.username(),
                             user.firstName(),
                             user.lastName(),
@@ -107,6 +108,7 @@ public class UserService {
             throw new RuntimeException("User not found");
         }
         return new UserDTO(
+                user.id(),
                 user.username(),
                 user.firstName(),
                 user.lastName(),

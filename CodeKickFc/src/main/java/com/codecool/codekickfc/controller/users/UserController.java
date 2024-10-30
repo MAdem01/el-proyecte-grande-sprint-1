@@ -3,6 +3,7 @@ package com.codecool.codekickfc.controller.users;
 import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserDTO;
+import com.codecool.codekickfc.controller.dto.users.UserMatchDTO;
 import com.codecool.codekickfc.service.users.UserService;
 import com.codecool.codekickfc.dao.users.UserDAOJdbc;
 import org.springframework.web.bind.annotation.*;
@@ -75,5 +76,10 @@ public class UserController {
     @GetMapping("/{userId}")
     public UserDTO getUserById(@PathVariable int userId) {
         return userService.getUserById(userId);
+    }
+
+    @PatchMapping("/{userId}/matches/{matchedId}")
+    public UserMatchDTO addUserToMatch(@PathVariable int userId, @PathVariable int matchedId) {
+        return userService.addUserToMatch(userId, matchedId);
     }
 }
