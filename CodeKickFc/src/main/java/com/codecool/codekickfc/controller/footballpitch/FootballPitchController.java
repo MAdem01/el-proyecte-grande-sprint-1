@@ -1,9 +1,7 @@
 package com.codecool.codekickfc.controller.footballpitch;
 
-import com.codecool.codekickfc.controller.dto.pitches.FootballPitchDTO;
-import com.codecool.codekickfc.controller.dto.pitches.FootballPitchDeleteDTO;
-import com.codecool.codekickfc.controller.dto.pitches.FootballPitchIdDTO;
-import com.codecool.codekickfc.controller.dto.pitches.NewFootballPitchDTO;
+import com.codecool.codekickfc.controller.dto.pitches.*;
+import com.codecool.codekickfc.dao.model.pitches.FootballPitch;
 import com.codecool.codekickfc.service.pitches.FootballPitchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +39,11 @@ public class FootballPitchController {
     @PostMapping("/api/fields")
     public FootballPitchIdDTO postFootballPitch(@RequestBody NewFootballPitchDTO footballPitchDTO) {
         return footballPitchService.addNewFootballPitch(footballPitchDTO);
+    }
+
+    @PutMapping("/api/fields/{fieldId}")
+    public FootballPitchIdDTO putFootballPitchById(@PathVariable Long fieldId, @RequestBody NewFootballPitchDTO updateFootballPitchDTO) {
+        return footballPitchService.updateFootballPitch(fieldId, updateFootballPitchDTO);
     }
 
     @DeleteMapping("/api/fields/{fieldId}")

@@ -1,13 +1,11 @@
 package com.codecool.codekickfc.service.pitches;
 
-import com.codecool.codekickfc.controller.dto.pitches.FootballPitchDTO;
-import com.codecool.codekickfc.controller.dto.pitches.FootballPitchDeleteDTO;
-import com.codecool.codekickfc.controller.dto.pitches.FootballPitchIdDTO;
-import com.codecool.codekickfc.controller.dto.pitches.NewFootballPitchDTO;
+import com.codecool.codekickfc.controller.dto.pitches.*;
 import com.codecool.codekickfc.dao.footballpitch.FootballPitchDAO;
 import com.codecool.codekickfc.dao.model.pitches.FootballPitch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +46,10 @@ public class FootballPitchService {
 
     public FootballPitchIdDTO addNewFootballPitch(NewFootballPitchDTO footballPitchDTO) {
         return new FootballPitchIdDTO(footballPitchDAO.postNewFootballPitch(footballPitchDTO));
+    }
+
+    public FootballPitchIdDTO updateFootballPitch(Long fieldId, NewFootballPitchDTO footballPitchDTO) {
+        return new FootballPitchIdDTO(footballPitchDAO.updateFootballPitch(fieldId, footballPitchDTO));
     }
 
     public FootballPitchDeleteDTO deleteFootballPitch(long fieldId) {
