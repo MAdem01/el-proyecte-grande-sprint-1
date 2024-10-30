@@ -1,6 +1,7 @@
 package com.codecool.codekickfc.service.users;
 
 import com.codecool.codekickfc.controller.users.NewUserDTO;
+import com.codecool.codekickfc.controller.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.users.UserDTO;
 import com.codecool.codekickfc.dao.users.User;
 import com.codecool.codekickfc.dao.users.UserDAO;
@@ -49,5 +50,19 @@ public class UserService {
     public int createUser(NewUserDTO newUserDTO) {
         User createdUser = userDAO.createUser(newUserDTO);
         return createdUser.id();
+    }
+
+    /**
+     * Establish a connection between controller and the repository layer. First returns all information
+     * from the updated user through the database, and then it filters the unnecessary details by
+     * extracting the ID as a response.
+     *
+     * @param updateUserDetails The request body based on the client inputs
+     * @param userId            ID of the user client wants to update.
+     * @return ID of the updated User model
+     */
+    public int updateUser(UpdateUserDTO updateUserDetails, int userId) {
+        User updatedUser = userDAO.updateUser(updateUserDetails, userId);
+        return updatedUser.id();
     }
 }

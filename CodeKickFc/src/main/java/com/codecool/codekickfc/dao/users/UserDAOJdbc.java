@@ -2,6 +2,8 @@ package com.codecool.codekickfc.dao.users;
 
 import com.codecool.codekickfc.controller.users.NewUserDTO;
 import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
+import com.codecool.codekickfc.controller.users.UpdateUserDTO;
+import com.codecool.codekickfc.controller.users.UserDTO;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -45,8 +47,7 @@ public class UserDAOJdbc implements UserDAO {
                 String lastName = resultSet.getString("last_name");
                 String email = resultSet.getString("user_email");
                 String password = resultSet.getString("user_password");
-                Array matchId = resultSet.getArray("match_id");
-                User user = new User(id, username, firstName, lastName, password, email, matchId);
+                User user = new User(id, username, firstName, lastName, password, email);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -91,13 +92,57 @@ public class UserDAOJdbc implements UserDAO {
                             newUser.firstName(),
                             newUser.lastName(),
                             newUser.password(),
-                            newUser.email(),
-                            null
+                            newUser.email()
                     );
                 } else {
                     throw new SQLException();
                 }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * This method updates a new User and save it to the database.
+     * <br></br>
+     * <b>Detailed explanation:</b>
+     * <br></br>
+     * It provides an UPDATE SQL query, then establish the connection with the database,
+     * sets the SQL parameters and execute it. Next, it creates a User object
+     * from the provided updated data.
+     *
+     * @param updateUserDetails Request body coming from the client with updated data.
+     * @param userId            ID of the user client wants to update.
+     * @return updated User object.
+     * @throws RuntimeException In case connection fails or ID was not found.
+     */
+    @Override
+    public User updateUser(UpdateUserDTO updateUserDetails, int userId) {
+        String sql = "UPDATE \"user\" SET " +
+                "username = ?, first_name = ?, last_name = ?, user_email = ?, user_password = ?" +
+                " WHERE user_id = ?";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            preparedStatement.setString(1, updateUserDetails.username());
+            preparedStatement.setString(2, updateUserDetails.firstName());
+            preparedStatement.setString(3, updateUserDetails.lastName());
+            preparedStatement.setString(4, updateUserDetails.email());
+            preparedStatement.setString(5, updateUserDetails.password());
+            preparedStatement.setInt(6, userId);
+
+            int rowsChanged = preparedStatement.executeUpdate();
+            if (rowsChanged == 0) {
+                throw new SQLException("No user found");
+            }
+            return new User(
+                    userId,
+                    updateUserDetails.username(),
+                    updateUserDetails.firstName(),
+                    updateUserDetails.lastName(),
+                    updateUserDetails.password(),
+                    updateUserDetails.email()
+            );
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

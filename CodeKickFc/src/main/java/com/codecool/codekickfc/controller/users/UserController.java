@@ -35,4 +35,17 @@ public class UserController {
     public int createUser(@RequestBody NewUserDTO newUser) {
         return userService.createUser(newUser);
     }
+
+    /**
+     * Update an existing user from the provided information and saves the changes in the
+     * database through the service and repository layers.
+     *
+     * @param updateUserDetails The request body based on the client inputs.
+     * @param userId            ID of the user client wants to update.
+     * @return ID of the updated user
+     */
+    @PatchMapping("/{userId}")
+    public int updateUser(@PathVariable int userId, @RequestBody UpdateUserDTO updateUserDetails) {
+        return userService.updateUser(updateUserDetails, userId);
+    }
 }
