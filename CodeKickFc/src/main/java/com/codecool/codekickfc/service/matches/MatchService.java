@@ -26,7 +26,6 @@ public class MatchService {
         for (Match match : matchList) {
             matchDTOList.add(MatchDTO.fromMatch(match));
         }
-
         return matchDTOList;
     }
 

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -25,7 +25,7 @@ public class MatchJdbc implements MatchDAO{
     public List<Match> getAllMatches() {
         List<Match> matches = new ArrayList<>();
 
-        String sql = "SELECT * FROM matches";
+        String sql = "SELECT * FROM match";
 
         try (Connection connection = databaseConnection.getConnection();
              Statement statement = connection.createStatement();
@@ -34,11 +34,14 @@ public class MatchJdbc implements MatchDAO{
             while (resultSet.next()) {
                 int id = resultSet.getInt("match_id");
                 Array subscribed_players = resultSet.getArray("subscribed_players_id");
-                double match_fee = resultSet.getDouble("match_fee_per_players");
+                List<Short> subscribedPlayersList = subscribed_players != null
+                        ? Arrays.asList((Short[]) subscribed_players.getArray())
+                        : List.of();
+                double match_fee = resultSet.getDouble("match_fee_per_player");
                 int field_id = resultSet.getInt("field_id");
                 Timestamp match_date = resultSet.getTimestamp("match_date");
 
-                matches.add(new Match(id, subscribed_players, match_fee, field_id, match_date.toLocalDateTime()));
+                matches.add(new Match(id, subscribedPlayersList, match_fee, field_id, match_date.toLocalDateTime()));
             }
 
         } catch (SQLException e) {
