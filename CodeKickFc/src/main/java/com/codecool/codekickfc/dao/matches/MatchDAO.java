@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MatchDAO {
     List<Match> getAllMatches();
+    Match getMatchById(int matchId);
 }

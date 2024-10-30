@@ -29,4 +29,7 @@ public class MatchService {
         return matchDTOList;
     }
 
+    public MatchDTO getMatchById(int matchId) {
+        return MatchDTO.fromMatch(matchDAO.getMatchById(matchId));
+    }
 }

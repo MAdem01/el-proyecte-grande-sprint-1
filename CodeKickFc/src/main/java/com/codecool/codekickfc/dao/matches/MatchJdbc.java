@@ -4,6 +4,7 @@ import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
 import com.codecool.codekickfc.dao.model.matches.Match;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.SQL;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -48,5 +49,33 @@ public class MatchJdbc implements MatchDAO{
         throw new DatabaseAccessException("Encountered error inserting data into the database.", e);
         }
         return matches;
+    }
+
+    public Match getMatchById(int matchId) {
+        String sql = "SELECT * FROM match WHERE match_id = ?";
+
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, matchId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("match_id");
+                    Array subscribed_players = resultSet.getArray("subscribed_players_id");
+                    List<Short> subscribedPlayersList = subscribed_players != null
+                            ? Arrays.asList((Short[]) subscribed_players.getArray())
+                            : List.of();
+                    double match_fee = resultSet.getDouble("match_fee_per_player");
+                    int field_id = resultSet.getInt("field_id");
+                    Timestamp match_date = resultSet.getTimestamp("match_date");
+
+                    return new Match(id, subscribedPlayersList, match_fee, field_id, match_date.toLocalDateTime());
+                } else {
+                    return null;
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseAccessException("Encountered error inserting data into the database.", e);
+        }
     }
 }
