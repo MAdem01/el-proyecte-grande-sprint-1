@@ -235,17 +235,23 @@ public class UserDAOJdbc implements UserDAO {
              PreparedStatement statementUser = connection.prepareStatement(sqlUser);
              PreparedStatement statementMatch = connection.prepareStatement(sqlMatch)
         ) {
-            statementUserMatch.setInt(1, userId);
-            statementUserMatch.setInt(2, matchId);
-            statementUserMatch.executeUpdate();
-
             statementUser.setInt(1, matchId);
             statementUser.setInt(2, userId);
-            statementUser.executeUpdate();
+            int rowsChangedInUser = statementUser.executeUpdate();
+            if (rowsChangedInUser == 0) {
+                throw new SQLException("No User found");
+            }
 
             statementMatch.setInt(1, userId);
             statementMatch.setInt(2, matchId);
-            statementMatch.executeUpdate();
+            int rowsChangedInMatch = statementMatch.executeUpdate();
+            if (rowsChangedInMatch == 0) {
+                throw new SQLException("No Match found");
+            }
+
+            statementUserMatch.setInt(1, userId);
+            statementUserMatch.setInt(2, matchId);
+            statementUserMatch.executeUpdate();
 
             return new UserMatch(userId, matchId);
         } catch (SQLException e) {
