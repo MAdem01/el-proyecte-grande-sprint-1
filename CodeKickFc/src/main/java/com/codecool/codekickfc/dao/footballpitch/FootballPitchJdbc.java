@@ -93,7 +93,8 @@ public class FootballPitchJdbc implements FootballPitchDAO {
     @Override
     public long postNewFootballPitch(NewFootballPitchDTO footballPitchDTO) {
         String sql = "INSERT INTO football_field (" +
-                "field_name, rental_price," +
+                "field_name," +
+                "rental_price," +
                 "max_players," +
                 "field_postcode," +
                 "field_city," +

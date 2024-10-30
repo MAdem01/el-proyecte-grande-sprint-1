@@ -1,5 +1,6 @@
 package com.codecool.codekickfc.dao.matches;
 
+import com.codecool.codekickfc.controller.dto.matches.MatchDTO;
 import com.codecool.codekickfc.controller.dto.matches.NewMatchDTO;
 import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
 import com.codecool.codekickfc.dao.model.matches.Match;
@@ -9,6 +10,7 @@ import org.springframework.data.relational.core.sql.SQL;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,16 +36,7 @@ public class MatchJdbc implements MatchDAO{
              ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("match_id");
-                Array subscribed_players = resultSet.getArray("subscribed_players_id");
-                List<Short> subscribedPlayersList = subscribed_players != null
-                        ? Arrays.asList((Short[]) subscribed_players.getArray())
-                        : List.of();
-                double match_fee = resultSet.getDouble("match_fee_per_player");
-                int field_id = resultSet.getInt("field_id");
-                Timestamp match_date = resultSet.getTimestamp("match_date");
-
-                matches.add(new Match(id, subscribedPlayersList, match_fee, field_id, match_date.toLocalDateTime()));
+                matches.add(createMatchRecord(resultSet));
             }
 
         } catch (SQLException e) {
@@ -61,16 +54,7 @@ public class MatchJdbc implements MatchDAO{
             statement.setInt(1, matchId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    int id = resultSet.getInt("match_id");
-                    Array subscribed_players = resultSet.getArray("subscribed_players_id");
-                    List<Short> subscribedPlayersList = subscribed_players != null
-                            ? Arrays.asList((Short[]) subscribed_players.getArray())
-                            : List.of();
-                    double match_fee = resultSet.getDouble("match_fee_per_player");
-                    int field_id = resultSet.getInt("field_id");
-                    Timestamp match_date = resultSet.getTimestamp("match_date");
-
-                    return new Match(id, subscribedPlayersList, match_fee, field_id, match_date.toLocalDateTime());
+                    return createMatchRecord(resultSet);
                 } else {
                     return null;
                 }
@@ -81,6 +65,52 @@ public class MatchJdbc implements MatchDAO{
     }
 
     public int postMatch(NewMatchDTO matchDTO) {
-        return 0;
+        String sql = "INSERT INTO match (" +
+                "subscribed_players_id," +
+                "match_fee_per_player," +
+                "field_id," +
+                "match_date) " +
+                "VALUES (?, ?, ?, ?) " +
+                "RETURNING match_id";
+
+        try (Connection conn = databaseConnection.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            setMatchParameters(statement, matchDTO, conn);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int id = resultSet.getInt("match_id");
+            }
+            return 0;
+
+        } catch (SQLException e) {
+            throw new DatabaseAccessException("Encountered error inserting data into the database.", e);
+        }
+    }
+
+    private void setMatchParameters(PreparedStatement statement, NewMatchDTO match, Connection conn) throws SQLException {
+        List<Short> playersList = match.subscribed_players_id();
+        Array playersArray = conn.createArrayOf("SMALLINT", playersList.toArray());
+        statement.setArray(1, playersArray);
+
+        statement.setDouble(2, match.match_fee_per_players());
+        statement.setInt(3, match.field_id());
+
+        LocalDateTime matchDateTime = match.match_date();
+        statement.setTimestamp(4, Timestamp.valueOf(matchDateTime));
+    }
+
+    private Match createMatchRecord(ResultSet rs) throws SQLException {
+        int id = rs.getInt("match_id");
+        Array subscribed_players = rs.getArray("subscribed_players_id");
+        List<Short> subscribedPlayersList = subscribed_players != null
+                ? Arrays.asList((Short[]) subscribed_players.getArray())
+                : List.of();
+        double match_fee = rs.getDouble("match_fee_per_player");
+        int field_id = rs.getInt("field_id");
+        Timestamp match_date = rs.getTimestamp("match_date");
+
+        return new Match(id, subscribedPlayersList, match_fee, field_id, match_date.toLocalDateTime());
     }
 }

@@ -36,6 +36,6 @@ public class MatchService {
     }
 
     public MatchIdDTO postMatch(NewMatchDTO matchDTO) {
-        return MatchIdDTO(matchDAO.postMatch(matchDTO));
+        return new MatchIdDTO(matchDAO.postMatch(matchDTO));
     }
 }
