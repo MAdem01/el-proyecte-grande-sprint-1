@@ -31,7 +31,14 @@ public class FootballPitchService {
      * for the controller layer.
      */
     public List<FootballPitchDTO> getAllFootballPitches() {
-        return null;
+        List<FootballPitch> footballPitchList = footballPitchDAO.getAllFootballPitch();
+        List<FootballPitchDTO> footballPitchDTOList = new ArrayList<>();
+
+        for (FootballPitch footballPitch : footballPitchList) {
+            footballPitchDTOList.add(FootballPitchDTO.fromFootballPitch(footballPitch));
+        }
+
+        return footballPitchDTOList;
     }
 
     public FootballPitchIdDTO addNewFootballPitch(NewFootballPitchDTO footballPitchDTO) {
