@@ -80,7 +80,7 @@ public class MatchJdbc implements MatchDAO{
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                int id = resultSet.getInt("match_id");
+                return resultSet.getInt("match_id");
             }
             return 0;
 
