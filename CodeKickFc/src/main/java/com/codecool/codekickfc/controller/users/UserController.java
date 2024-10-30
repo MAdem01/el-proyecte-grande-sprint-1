@@ -3,6 +3,7 @@ package com.codecool.codekickfc.controller.users;
 import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserDTO;
+import com.codecool.codekickfc.controller.dto.users.UserMatchDTO;
 import com.codecool.codekickfc.service.users.UserService;
 import com.codecool.codekickfc.dao.users.UserDAOJdbc;
 import org.springframework.web.bind.annotation.*;
@@ -75,5 +76,18 @@ public class UserController {
     @GetMapping("/{userId}")
     public UserDTO getUserById(@PathVariable int userId) {
         return userService.getUserById(userId);
+    }
+
+    /**
+     * Add an existing match from the database based on the provided ID to an existing user
+     * through the {@link UserService service} and {@link UserDAOJdbc repository} layers.
+     *
+     * @param userId ID of the user to whom the client wants to assign a match.
+     * @param matchId ID of the match the client wants to sign up for.
+     * @return {@link UserMatchDTO} Includes signed up userId and matchId.
+     */
+    @PatchMapping("/{userId}/matches/{matchId}")
+    public UserMatchDTO addUserToMatch(@PathVariable int userId, @PathVariable int matchId) {
+        return userService.addUserToMatch(userId, matchId);
     }
 }
