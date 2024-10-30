@@ -1,30 +1,46 @@
 import * as React from "react";
-import {createRoot} from "react-dom/client";
-import {createBrowserRouter, RouterProvider,} from "react-router-dom";
+import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
+import NavigationBar from './components/NavigationBar/NavigationBar.jsx';
+import HomePage from './pages/HomePage/HomePage.jsx';
+
+
+function Layout(){
+    return (
+        <>
+            <NavigationBar />
+            <Outlet />
+        </>
+    );
+}
+
 
 function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <div></div>
-        },
-        {
-            path: "/football-games",
-            element: <div></div>
-        },
-        {
-            path: "/users/register",
-            element: <div></div>
-        },
-        {
-            path: "/users/login",
-            element: <div></div>
-        }
-    ])
+            element: <Layout />,
+            children: [
+                {
+                    path: "/",
+                    element: <HomePage/>
+                },
+                {
+                    path: "/football-games"
 
-    createRoot(document.getElementById("root")).render(
+                },
+                {
+                    path: "/users/register",
+                },
+                {
+                    path: "/users/login",
+                },
+            ],
+        },
+    ]);
+
+    return (
         <RouterProvider router={router} />
     );
 }
 
-export default App
+export default App;

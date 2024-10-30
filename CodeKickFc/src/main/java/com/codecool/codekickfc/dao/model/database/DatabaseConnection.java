@@ -16,6 +16,12 @@ public class DatabaseConnection {
         this.databasePassword = databasePassword;
     }
 
+    /**
+     * Connect to database based on the given user related values.
+     *
+     * @return Connection object
+     * @throws SQLException
+     */
     public Connection getConnection() throws SQLException {
         Properties props = new Properties();
         props.put("user", databaseUsername);
