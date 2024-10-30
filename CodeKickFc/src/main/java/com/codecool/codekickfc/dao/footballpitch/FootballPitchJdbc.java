@@ -60,6 +60,34 @@ public class FootballPitchJdbc implements FootballPitchDAO {
     };
 
     @Override
+    public FootballPitch getFootballPitchById(Long fieldId) {
+        String sql = "SELECT * FROM football_field WHERE field_id = ?";
+
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql);) {
+
+            statement.setLong(1, fieldId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("field_id");
+                    String fieldName = resultSet.getString("field_name");
+                    double price = resultSet.getDouble("rental_price");
+                    int maxPlayers = resultSet.getInt("max_players");
+                    int postCode = resultSet.getInt("field_postcode");
+                    String city = resultSet.getString("field_city");
+                    String street = resultSet.getString("field_street");
+                    int streetNumber = resultSet.getInt("field_street_number");
+
+                    return new FootballPitch(id, fieldName, maxPlayers, price, postCode, city, street, streetNumber);
+                } else {
+                    return null;
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseAccessException("Encountered error fetching data from the database.", e);}
+    }
+
+    @Override
     public long postNewFootballPitch(NewFootballPitchDTO footballPitchDTO) {
         String sql = "INSERT INTO football_field (" +
                 "field_name," +

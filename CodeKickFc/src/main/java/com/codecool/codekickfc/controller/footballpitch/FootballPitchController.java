@@ -33,6 +33,11 @@ public class FootballPitchController {
         return footballPitchService.getAllFootballPitches();
     }
 
+    @GetMapping("/api/fields/{fieldId}")
+    public FootballPitchDTO getFootballPitchById(@PathVariable Long fieldId) {
+        return footballPitchService.getFootballPitchById(fieldId);
+    }
+
     @PostMapping("/api/fields")
     public FootballPitchIdDTO postFootballPitch(@RequestBody NewFootballPitchDTO footballPitchDTO) {
         return footballPitchService.addNewFootballPitch(footballPitchDTO);

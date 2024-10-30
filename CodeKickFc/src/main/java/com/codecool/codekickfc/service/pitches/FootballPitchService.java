@@ -42,6 +42,10 @@ public class FootballPitchService {
         return footballPitchDTOList;
     }
 
+    public FootballPitchDTO getFootballPitchById(Long fieldId) {
+        return FootballPitchDTO.fromFootballPitch(footballPitchDAO.getFootballPitchById(fieldId));
+    }
+
     public FootballPitchIdDTO addNewFootballPitch(NewFootballPitchDTO footballPitchDTO) {
         return new FootballPitchIdDTO(footballPitchDAO.postNewFootballPitch(footballPitchDTO));
     }
