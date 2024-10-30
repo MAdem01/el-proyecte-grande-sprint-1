@@ -3,7 +3,9 @@ package com.codecool.codekickfc.service.users;
 import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserDTO;
+import com.codecool.codekickfc.controller.dto.users.UserMatchDTO;
 import com.codecool.codekickfc.dao.model.users.User;
+import com.codecool.codekickfc.dao.model.users.UserMatch;
 import com.codecool.codekickfc.dao.users.UserDAO;
 import com.codecool.codekickfc.dao.users.UserDAOJdbc;
 import com.codecool.codekickfc.dao.users.UserDAOJdbc.*;
@@ -111,5 +113,10 @@ public class UserService {
                 user.email(),
                 user.matchIds()
         );
+    }
+
+    public UserMatchDTO addUserToMatch(int userId, int matchId) {
+        UserMatch userMatch = userDAO.addUserToMatch(userId, matchId);
+        return new UserMatchDTO(userMatch.userId(), userMatch.matchId());
     }
 }
