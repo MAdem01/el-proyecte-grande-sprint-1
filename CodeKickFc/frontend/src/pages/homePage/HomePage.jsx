@@ -20,12 +20,12 @@ export default function HomePage() {
 
 
     return (
-        <section>
+        <section className="homePageSection">
             <div className="homeContainer">
-                <h1>
+                <h1 className="homePageText-h1">
                     Play Football
                 </h1>
-                <h2>
+                <h2 className="homePageText-h2">
                     Even if you have no friends...
                 </h2>
             <div className="inputBox">
