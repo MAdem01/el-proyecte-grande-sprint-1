@@ -1,5 +1,8 @@
 package com.codecool.codekickfc.controller.users;
 
+import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
+import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
+import com.codecool.codekickfc.controller.dto.users.UserDTO;
 import com.codecool.codekickfc.service.users.UserService;
 import org.springframework.web.bind.annotation.*;
 

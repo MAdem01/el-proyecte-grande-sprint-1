@@ -1,4 +1,4 @@
-package com.codecool.codekickfc.controller.users;
+package com.codecool.codekickfc.controller.dto.users;
 
 public record UpdateUserDTO(String username, String firstName,
                             String lastName, String email, String password) {

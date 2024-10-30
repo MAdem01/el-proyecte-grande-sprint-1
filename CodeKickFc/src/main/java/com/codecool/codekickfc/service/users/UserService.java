@@ -1,9 +1,9 @@
 package com.codecool.codekickfc.service.users;
 
-import com.codecool.codekickfc.controller.users.NewUserDTO;
-import com.codecool.codekickfc.controller.users.UpdateUserDTO;
-import com.codecool.codekickfc.controller.users.UserDTO;
-import com.codecool.codekickfc.dao.users.User;
+import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
+import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
+import com.codecool.codekickfc.controller.dto.users.UserDTO;
+import com.codecool.codekickfc.dao.model.users.User;
 import com.codecool.codekickfc.dao.users.UserDAO;
 import org.springframework.stereotype.Service;
 

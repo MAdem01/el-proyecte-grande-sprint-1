@@ -1,7 +1,7 @@
 package com.codecool.codekickfc.dao.footballpitch;
 
-import com.codecool.codekickfc.controller.dto.NewFootballPitchDTO;
-import com.codecool.codekickfc.dao.model.FootballPitch;
+import com.codecool.codekickfc.controller.dto.pitches.NewFootballPitchDTO;
+import com.codecool.codekickfc.dao.model.pitches.FootballPitch;
 import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import org.springframework.beans.factory.annotation.Autowired;

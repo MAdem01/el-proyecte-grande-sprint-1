@@ -1,13 +1,12 @@
 package com.codecool.codekickfc.dao.users;
 
-import com.codecool.codekickfc.controller.users.NewUserDTO;
+import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
 import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
-import com.codecool.codekickfc.controller.users.UpdateUserDTO;
-import com.codecool.codekickfc.controller.users.UserDTO;
+import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
+import com.codecool.codekickfc.dao.model.users.User;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +142,19 @@ public class UserDAOJdbc implements UserDAO {
                     updateUserDetails.password(),
                     updateUserDetails.email()
             );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int deleteUser(int userId) {
+        String sql = "DELETE FROM \"user\" WHERE user_id = ?";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.executeUpdate();
+            return userId;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
