@@ -22,13 +22,7 @@ public class MatchService {
     }
 
     public List<MatchDTO> getAllMatches() {
-        List<Match> matchList = matchDAO.getAllMatches();
-        List<MatchDTO> matchDTOList = new ArrayList<>();
-
-        for (Match match : matchList) {
-            matchDTOList.add(MatchDTO.fromMatch(match));
-        }
-        return matchDTOList;
+        return matchDAO.getAllMatches().stream().map(MatchDTO::fromMatch).toList();
     }
 
     public MatchDTO getMatchById(int matchId) {
