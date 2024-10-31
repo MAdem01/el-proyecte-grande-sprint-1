@@ -11,18 +11,15 @@ import com.codecool.codekickfc.dao.users.UserDAO;
 import com.codecool.codekickfc.dao.users.UserDAOJdbc;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
     private final UserDAO userDAO;
-    private final UserDAOJdbc userDAOJdbc;
 
-    public UserService(UserDAO userDAO, UserDAOJdbc userDAOJdbc) {
+    public UserService(UserDAO userDAO) {
         this.userDAO = userDAO;
-        this.userDAOJdbc = userDAOJdbc;
     }
 
     /**

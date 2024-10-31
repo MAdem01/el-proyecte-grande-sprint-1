@@ -3,10 +3,7 @@ package com.codecool.codekickfc.config;
 import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-
-import javax.sql.DataSource;
 
 @SpringBootConfiguration
 public class Configuration {

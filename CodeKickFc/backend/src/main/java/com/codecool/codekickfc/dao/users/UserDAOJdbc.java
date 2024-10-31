@@ -5,6 +5,7 @@ import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.dao.model.database.DatabaseConnection;
 import com.codecool.codekickfc.dao.model.users.User;
 import com.codecool.codekickfc.dao.model.users.UserMatch;
+import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -58,7 +59,7 @@ public class UserDAOJdbc implements UserDAO {
                 users.add(user);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseAccessException("Error fetching data.", e);
         }
         return users;
     }
@@ -106,7 +107,7 @@ public class UserDAOJdbc implements UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseAccessException("Error creating user.", e);
         }
     }
 
@@ -140,7 +141,7 @@ public class UserDAOJdbc implements UserDAO {
 
             int rowsChanged = preparedStatement.executeUpdate();
             if (rowsChanged == 0) {
-                throw new SQLException("No user found");
+                throw new SQLException();
             }
             return new User(
                     userId,
@@ -151,7 +152,7 @@ public class UserDAOJdbc implements UserDAO {
                     updateUserDetails.email()
             );
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseAccessException("Error updating user.", e);
         }
     }
 
@@ -175,11 +176,11 @@ public class UserDAOJdbc implements UserDAO {
             preparedStatement.setInt(1, userId);
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new SQLException("No user found");
+                throw new SQLException();
             }
             return userId;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseAccessException("Error deleting user.", e);
         }
     }
 
@@ -229,7 +230,7 @@ public class UserDAOJdbc implements UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseAccessException("Error fetching user.", e);
         }
         return null;
     }
@@ -271,14 +272,14 @@ public class UserDAOJdbc implements UserDAO {
             statementUser.setInt(2, userId);
             int rowsChangedInUser = statementUser.executeUpdate();
             if (rowsChangedInUser == 0) {
-                throw new SQLException("No User found");
+                throw new SQLException();
             }
 
             statementMatch.setInt(1, userId);
             statementMatch.setInt(2, matchId);
             int rowsChangedInMatch = statementMatch.executeUpdate();
             if (rowsChangedInMatch == 0) {
-                throw new SQLException("No Match found");
+                throw new SQLException();
             }
 
             statementUserMatch.setInt(1, userId);
@@ -287,7 +288,7 @@ public class UserDAOJdbc implements UserDAO {
 
             return new UserMatch(userId, matchId);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseAccessException("Error adding user match.", e);
         }
     }
 }
