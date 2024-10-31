@@ -3,14 +3,17 @@ package com.codecool.codekickfc.service.users;
 import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserDTO;
+import com.codecool.codekickfc.controller.dto.users.UserMatchDTO;
+import com.codecool.codekickfc.controller.users.UserController;
 import com.codecool.codekickfc.dao.model.users.User;
+import com.codecool.codekickfc.dao.model.users.UserMatch;
 import com.codecool.codekickfc.dao.users.UserDAO;
 import com.codecool.codekickfc.dao.users.UserDAOJdbc;
 import org.springframework.stereotype.Service;
-import com.codecool.codekickfc.controller.users.UserController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -31,15 +34,16 @@ public class UserService {
      */
     public List<UserDTO> getAllUsers() {
         List<User> users = userDAO.getAllUsers();
-        List<UserDTO> userDTOs = new ArrayList<>();
 
-        for (User user : users) {
-            UserDTO userDTO =
-                    new UserDTO(user.username(), user.firstName(), user.lastName(), user.email());
-            userDTOs.add(userDTO);
-        }
-
-        return userDTOs;
+        return users.stream().
+                map(user -> new UserDTO(
+                        user.id(),
+                        user.username(),
+                        user.firstName(),
+                        user.lastName(),
+                        user.email(),
+                        user.matchIds()
+                )).collect(Collectors.toList());
     }
 
 
@@ -80,5 +84,46 @@ public class UserService {
      */
     public int deleteUser(int userId) {
         return userDAO.deleteUser(userId);
+    }
+
+    /**
+     * Establish a connection between controller and the repository layer by calling
+     * {@link UserDAOJdbc getUserById(int userId)} method from the repository layer that returns
+     * a User object which is then being converted to a DTO and returns it to
+     * the {@link UserController controller} layer. If User's value is null,
+     * {@link RuntimeException} is being thrown.
+     *
+     * @param userId ID of the user client wants to get.
+     * @return ID of the found user.
+     */
+    public UserDTO getUserById(int userId) {
+        User user = userDAO.getUserById(userId);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        return new UserDTO(
+                user.id(),
+                user.username(),
+                user.firstName(),
+                user.lastName(),
+                user.email(),
+                user.matchIds()
+        );
+    }
+
+    /**
+     * Establish a connection between controller and the repository layer by calling
+     * {@link UserDAOJdbc addUserToMatch(int userId, int matchId)} method from the
+     * repository layer that returns a {@link UserMatch} object which is then being converted
+     * to a {@link UserMatchDTO DTO} and returns it to the {@link UserController controller}
+     * layer.
+     *
+     * @param userId  ID of the user to whom the client wants to assign a match.
+     * @param matchId ID of the match the client wants to sign up for.
+     * @return {@link UserMatchDTO} Includes signed up userId and matchId.
+     */
+    public UserMatchDTO addUserToMatch(int userId, int matchId) {
+        UserMatch userMatch = userDAO.addUserToMatch(userId, matchId);
+        return new UserMatchDTO(userMatch.userId(), userMatch.matchId());
     }
 }
