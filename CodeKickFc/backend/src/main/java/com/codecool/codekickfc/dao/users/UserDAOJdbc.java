@@ -290,6 +290,5 @@ public class UserDAOJdbc implements UserDAO {
             throw new RuntimeException(e);
         }
     }
-
 }
 
