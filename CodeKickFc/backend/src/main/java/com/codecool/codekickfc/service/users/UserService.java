@@ -4,11 +4,16 @@ import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserMatchDTO;
-import com.codecool.codekickfc.controller.users.UserController;
+import com.codecool.codekickfc.dao.matches.MatchRepository;
+import com.codecool.codekickfc.dao.model.matches.Match;
 import com.codecool.codekickfc.dao.model.users.User;
-import com.codecool.codekickfc.dao.model.users.UserMatch;
-import com.codecool.codekickfc.dao.users.UserDAO;
-import com.codecool.codekickfc.dao.users.UserDAOJdbc;
+import com.codecool.codekickfc.dao.users.UserRepository;
+import com.codecool.codekickfc.exceptions.DatabaseAccessException;
+import com.codecool.codekickfc.exceptions.MatchNotFoundException;
+import com.codecool.codekickfc.exceptions.UserNotFoundException;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -133,12 +138,11 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
 
         return new UserDTO(
-                user.id(),
-                user.username(),
-                user.firstName(),
-                user.lastName(),
-                user.email(),
-                user.matchIds()
+                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getMatches()
         );
     }
 
