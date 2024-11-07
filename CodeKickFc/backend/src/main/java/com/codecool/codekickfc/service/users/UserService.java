@@ -84,9 +84,20 @@ public class UserService {
      * @throws UserNotFoundException   In case of user doesn't exist.
      * @throws DatabaseAccessException In case of connection failure.
      */
-    public int updateUser(UpdateUserDTO updateUserDetails, int userId) {
-        User updatedUser = userDAO.updateUser(updateUserDetails, userId);
-        return updatedUser.id();
+    public long updateUser(UpdateUserDTO updateUserDetails, long userId) {
+        User updatedUser = userRepository.findById(userId).
+                orElseThrow(UserNotFoundException::new);
+
+        updatedUser.setFirstName(updateUserDetails.firstName());
+        updatedUser.setLastName(updateUserDetails.lastName());
+        updatedUser.setEmail(updateUserDetails.email());
+        updatedUser.setUsername(updateUserDetails.username());
+
+        try {
+            return userRepository.save(updatedUser).getId();
+        } catch (DataAccessException e) {
+            throw new DatabaseAccessException(e);
+        }
     }
 
     /**
