@@ -42,12 +42,11 @@ public class UserService {
 
         return users.stream().
                 map(user -> new UserDTO(
-                        user.id(),
-                        user.username(),
-                        user.firstName(),
-                        user.lastName(),
-                        user.email(),
-                        user.matchIds()
+                        user.getUsername(),
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getEmail(),
+                        user.getMatches()
                 )).collect(Collectors.toList());
     }
 
@@ -61,9 +60,18 @@ public class UserService {
      * @return ID of the created User model
      * @throws DataAccessException In case of connection failure.
      */
-    public int createUser(NewUserDTO newUserDTO) {
-        User createdUser = userDAO.createUser(newUserDTO);
-        return createdUser.id();
+    public long createUser(NewUserDTO newUserDTO) {
+        User newUser = new User();
+        newUser.setFirstName(newUserDTO.firstName());
+        newUser.setLastName(newUserDTO.lastName());
+        newUser.setEmail(newUserDTO.email());
+        newUser.setUsername(newUserDTO.username());
+        newUser.setPassword(newUserDTO.password());
+        try {
+            return userRepository.save(newUser).getId();
+        } catch (DataAccessException e) {
+            throw new DatabaseAccessException(e);
+        }
     }
 
     /**
