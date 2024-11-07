@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-    private final UserDAO userDAO;
+    private final UserRepository userRepository;
+    private final MatchRepository matchRepository;
 
     public UserService(UserDAO userDAO) {
         this.userDAO = userDAO;
