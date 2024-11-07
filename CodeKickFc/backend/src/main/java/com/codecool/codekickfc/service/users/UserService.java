@@ -158,8 +158,21 @@ public class UserService {
      * @throws MatchNotFoundException In case of match doesn't exist.
      * @throws DatabaseAccessException In case of connection failure.
      */
-    public UserMatchDTO addUserToMatch(int userId, int matchId) {
-        UserMatch userMatch = userDAO.addUserToMatch(userId, matchId);
-        return new UserMatchDTO(userMatch.userId(), userMatch.matchId());
+    @Transactional
+    public UserMatchDTO addUserToMatch(long userId, long matchId) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        Match match = matchRepository.findById(matchId).orElseThrow(MatchNotFoundException::new);
+
+        user.addMatch(match);
+        match.addUser(user);
+
+        try {
+            return new UserMatchDTO(
+                    userRepository.save(user).getId(),
+                    matchRepository.save(match).getId()
+            );
+        } catch (DataAccessException e) {
+            throw new DatabaseAccessException(e);
+        }
     }
 }
