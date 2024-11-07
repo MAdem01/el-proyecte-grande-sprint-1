@@ -19,8 +19,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final MatchRepository matchRepository;
 
-    public UserService(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    @Autowired
+    public UserService(UserRepository userRepository, MatchRepository matchRepository) {
+        this.userRepository = userRepository;
+        this.matchRepository = matchRepository;
     }
 
     /**
@@ -32,7 +34,11 @@ public class UserService {
      * @throws DatabaseAccessException In case of connection failure.
      */
     public List<UserDTO> getAllUsers() {
-        List<User> users = userDAO.getAllUsers();
+        List<User> users = userRepository.findAll();
+
+        if (users.isEmpty()) {
+            throw new DatabaseAccessException();
+        }
 
         return users.stream().
                 map(user -> new UserDTO(
