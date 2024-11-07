@@ -5,7 +5,7 @@ import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserMatchDTO;
 import com.codecool.codekickfc.service.users.UserService;
-import com.codecool.codekickfc.dao.users.UserDAOJdbc;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +25,8 @@ public class UserController {
      * @return list of transformed user object that includes user's name, username and email.
      */
     @GetMapping
-    public List<UserDTO> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     /**
@@ -36,8 +36,8 @@ public class UserController {
      * @return ID of the newly created user
      */
     @PostMapping
-    public int createUser(@RequestBody NewUserDTO newUser) {
-        return userService.createUser(newUser);
+    public ResponseEntity<Long> createUser(@RequestBody NewUserDTO newUser) {
+        return ResponseEntity.ok(userService.createUser(newUser));
     }
 
     /**
@@ -49,8 +49,9 @@ public class UserController {
      * @return ID of the updated user.
      */
     @PutMapping("/{userId}")
-    public int updateUser(@PathVariable int userId, @RequestBody UpdateUserDTO updateUserDetails) {
-        return userService.updateUser(updateUserDetails, userId);
+    public ResponseEntity<Long> updateUser(@PathVariable long userId,
+                                           @RequestBody UpdateUserDTO updateUserDetails) {
+        return ResponseEntity.ok(userService.updateUser(updateUserDetails, userId));
     }
 
     /**
@@ -61,8 +62,8 @@ public class UserController {
      * @return ID of the deleted user
      */
     @DeleteMapping("/{userId}")
-    public int deleteUser(@PathVariable int userId) {
-        return userService.deleteUser(userId);
+    public ResponseEntity<Long> deleteUser(@PathVariable long userId) {
+        return ResponseEntity.ok(userService.deleteUser(userId));
     }
 
     /**
@@ -72,8 +73,8 @@ public class UserController {
      * @return ID of the found user.
      */
     @GetMapping("/{userId}")
-    public UserDTO getUserById(@PathVariable int userId) {
-        return userService.getUserById(userId);
+    public ResponseEntity<UserDTO> getUserById(@PathVariable long userId) {
+        return ResponseEntity.ok(userService.getUserById(userId));
     }
 
     /**
@@ -84,7 +85,7 @@ public class UserController {
      * @return {@link UserMatchDTO} Includes signed up userId and matchId.
      */
     @PatchMapping("/{userId}/matches/{matchId}")
-    public UserMatchDTO addUserToMatch(@PathVariable int userId, @PathVariable int matchId) {
-        return userService.addUserToMatch(userId, matchId);
+    public ResponseEntity<UserMatchDTO> addUserToMatch(@PathVariable long userId, @PathVariable long matchId) {
+        return ResponseEntity.ok(userService.addUserToMatch(userId, matchId));
     }
 }
