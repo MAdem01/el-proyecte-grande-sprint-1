@@ -108,24 +108,15 @@ public class UserService {
      * @throws UserNotFoundException   In case of user doesn't exist.
      * @throws DatabaseAccessException In case of connection failure.
      */
-    public int deleteUser(int userId) {
-        return userDAO.deleteUser(userId);
-    }
+    public long deleteUser(long userId) {
+        User deletableUser = userRepository.findById(userId).
+                orElseThrow(UserNotFoundException::new);
 
-    /**
-     * Establish a connection between controller and the repository layer by calling
-     * {@link UserDAOJdbc getUserById(int userId)} method from the repository layer that returns
-     * a User object which is then being converted to a DTO and returns it to
-     * the {@link UserController controller} layer. If User's value is null,
-     * {@link RuntimeException} is being thrown.
-     *
-     * @param userId ID of the user client wants to get.
-     * @return ID of the found user.
-     */
-    public UserDTO getUserById(int userId) {
-        User user = userDAO.getUserById(userId);
-        if (user == null) {
-            throw new RuntimeException("User not found");
+        try {
+            userRepository.deleteById(deletableUser.getId());
+            return deletableUser.getId();
+        } catch (DataAccessException e) {
+            throw new DatabaseAccessException(e);
         }
     }
 
