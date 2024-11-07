@@ -24,11 +24,12 @@ public class UserService {
     }
 
     /**
-     * Establish a connection between controller and the repository layer. First returns all information
-     * from users through the database, and then it filters the unnecessary details by converting the
-     * objects into DTO-s.
+     * Get all information from users through the database, and then it filters the
+     * unnecessary details by converting the objects into DTO-s.
      *
-     * @return a list of user data transfer object that includes user's full name, username and email.
+     * @return A list of user data transfer object that includes user's full name, username,
+     * email and matches.
+     * @throws DatabaseAccessException In case of connection failure.
      */
     public List<UserDTO> getAllUsers() {
         List<User> users = userDAO.getAllUsers();
@@ -46,12 +47,13 @@ public class UserService {
 
 
     /**
-     * Establish a connection between controller and the repository layer. First returns all information
-     * from the created user through the database, and then it filters the unnecessary details by
-     * extracting the ID as a response.
+     * Creates a new {@link User} model from the provided {@link NewUserDTO} request body,
+     * and then it filters the unnecessary details by extracting only the ID once from the
+     * saved data.
      *
      * @param newUserDTO The request body based on the client inputs
      * @return ID of the created User model
+     * @throws DataAccessException In case of connection failure.
      */
     public int createUser(NewUserDTO newUserDTO) {
         User createdUser = userDAO.createUser(newUserDTO);
@@ -59,13 +61,14 @@ public class UserService {
     }
 
     /**
-     * Establish a connection between controller and the repository layer. First returns all information
-     * from the updated user through the database, and then it filters the unnecessary details by
-     * extracting the ID as a response.
+     * Get all information from the user found in the database by its ID, update its fields,
+     * and then it filters the unnecessary details by extracting only the ID from the saved data.
      *
-     * @param updateUserDetails The request body based on the client inputs
+     * @param updateUserDetails The request body based on the client inputs.
      * @param userId            ID of the user client wants to update.
-     * @return ID of the updated User model
+     * @return ID of the updated User model.
+     * @throws UserNotFoundException   In case of user doesn't exist.
+     * @throws DatabaseAccessException In case of connection failure.
      */
     public int updateUser(UpdateUserDTO updateUserDetails, int userId) {
         User updatedUser = userDAO.updateUser(updateUserDetails, userId);
@@ -73,12 +76,12 @@ public class UserService {
     }
 
     /**
-     * Establish a connection between controller and the repository layer by calling
-     * {@link UserDAOJdbc deleteUser(int userId)} method from the repository layer and returns
-     * its result to the {@link UserController controller} layer.
+     * Get all information from the user found in the database by its ID and deletes it.
      *
      * @param userId ID of the user client wants to delete.
      * @return ID of the deleted user
+     * @throws UserNotFoundException   In case of user doesn't exist.
+     * @throws DatabaseAccessException In case of connection failure.
      */
     public int deleteUser(int userId) {
         return userDAO.deleteUser(userId);
@@ -99,6 +102,20 @@ public class UserService {
         if (user == null) {
             throw new RuntimeException("User not found");
         }
+    }
+
+    /**
+     * Get all information from the user found in the database by its ID, and then it
+     * filters the unnecessary details by converting the objects into DTO-s.
+     *
+     * @param userId ID of the user client wants to get.
+     * @return User data transfer object that includes user's full name, username,
+     * email and matches.
+     * @throws UserNotFoundException In case of user doesn't exist.
+     */
+    public UserDTO getUserById(long userId) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+
         return new UserDTO(
                 user.id(),
                 user.username(),
@@ -110,15 +127,16 @@ public class UserService {
     }
 
     /**
-     * Establish a connection between controller and the repository layer by calling
-     * {@link UserDAOJdbc addUserToMatch(int userId, int matchId)} method from the
-     * repository layer that returns a {@link UserMatch} object which is then being converted
-     * to a {@link UserMatchDTO DTO} and returns it to the {@link UserController controller}
-     * layer.
+     * Get all information from the user and match found in the database by their ID's, add
+     * them to each other, saves the updates and extracting their ID's as a response.
+     * Transactional annotation indicates that the updates should only happen together.
      *
      * @param userId  ID of the user to whom the client wants to assign a match.
      * @param matchId ID of the match the client wants to sign up for.
      * @return {@link UserMatchDTO} Includes signed up userId and matchId.
+     * @throws UserNotFoundException In case of user doesn't exist.
+     * @throws MatchNotFoundException In case of match doesn't exist.
+     * @throws DatabaseAccessException In case of connection failure.
      */
     public UserMatchDTO addUserToMatch(int userId, int matchId) {
         UserMatch userMatch = userDAO.addUserToMatch(userId, matchId);
