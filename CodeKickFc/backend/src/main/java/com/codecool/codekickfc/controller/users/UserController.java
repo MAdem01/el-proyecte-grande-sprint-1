@@ -30,8 +30,7 @@ public class UserController {
     }
 
     /**
-     * Create a new user from the provided information and saves into the database through the
-     * service and repository layers.
+     * Create a new user from the provided information and saves into the database.
      *
      * @param newUser The request body based on the client inputs
      * @return ID of the newly created user
@@ -43,7 +42,7 @@ public class UserController {
 
     /**
      * Update an existing user based on the provided information and saves the changes in the
-     * database through the service and repository layers.
+     * database.
      *
      * @param updateUserDetails The request body based on the client inputs.
      * @param userId            ID of the user client wants to update.
@@ -56,7 +55,7 @@ public class UserController {
 
     /**
      * Delete an existing user based on the provided ID and saves the changes in the
-     * database through the service and repository layers.
+     * database.
      *
      * @param userId ID of the user client wants to delete.
      * @return ID of the deleted user
@@ -67,8 +66,7 @@ public class UserController {
     }
 
     /**
-     * Get an existing user from the database based on the provided ID through the
-     * {@link UserService service} and {@link UserDAOJdbc repository} layers.
+     * Get an existing user from the database based on the provided ID.
      *
      * @param userId ID of the user client wants to get.
      * @return ID of the found user.
@@ -79,10 +77,9 @@ public class UserController {
     }
 
     /**
-     * Add an existing match from the database based on the provided ID to an existing user
-     * through the {@link UserService service} and {@link UserDAOJdbc repository} layers.
+     * Add an existing match from the database based on the provided ID to an existing user.
      *
-     * @param userId ID of the user to whom the client wants to assign a match.
+     * @param userId  ID of the user to whom the client wants to assign a match.
      * @param matchId ID of the match the client wants to sign up for.
      * @return {@link UserMatchDTO} Includes signed up userId and matchId.
      */
