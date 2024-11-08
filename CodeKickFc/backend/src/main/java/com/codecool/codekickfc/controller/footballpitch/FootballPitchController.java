@@ -1,53 +1,74 @@
-//package com.codecool.codekickfc.controller.footballpitch;
-//
-//import com.codecool.codekickfc.controller.dto.pitches.*;
-//import com.codecool.codekickfc.dao.model.pitches.FootballPitch;
-//import com.codecool.codekickfc.service.pitches.FootballPitchService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@RestController
-//public class FootballPitchController {
-//
-//    private final FootballPitchService footballPitchService;
-//
-//    @Autowired
-//    public FootballPitchController(FootballPitchService footballPitchService) {
-//        this.footballPitchService = footballPitchService;
-//    }
-//
-//    /**
-//     * Handles HTTP GET requests to retrieve all football pitch data.
-//     * This method calls the service layer to obtain a list of {@link FootballPitchDTO} objects,
-//     * which represent the available football pitches.
-//     *
-//     * @return a list of {@link FootballPitchDTO} records containing details of all football pitches.
-//     *         Returns an empty list if no pitches are found.
-//     */
-//    @GetMapping("/api/fields")
-//    public List<FootballPitchDTO> getFootballPitches() {
-//        return footballPitchService.getAllFootballPitches();
-//    }
-//
-//    @GetMapping("/api/fields/{fieldId}")
-//    public FootballPitchDTO getFootballPitchById(@PathVariable Long fieldId) {
-//        return footballPitchService.getFootballPitchById(fieldId);
-//    }
-//
-//    @PostMapping("/api/fields")
-//    public FootballPitchIdDTO postFootballPitch(@RequestBody NewFootballPitchDTO footballPitchDTO) {
-//        return footballPitchService.addNewFootballPitch(footballPitchDTO);
-//    }
-//
-//    @PutMapping("/api/fields/{fieldId}")
-//    public FootballPitchIdDTO putFootballPitchById(@PathVariable Long fieldId, @RequestBody NewFootballPitchDTO updateFootballPitchDTO) {
-//        return footballPitchService.updateFootballPitch(fieldId, updateFootballPitchDTO);
-//    }
-//
-//    @DeleteMapping("/api/fields/{fieldId}")
-//    public FootballPitchDeleteDTO deleteFootballPitch(@PathVariable long fieldId) {
-//        return footballPitchService.deleteFootballPitch(fieldId);
-//    }
-//}
+package com.codecool.codekickfc.controller.footballpitch;
+
+import com.codecool.codekickfc.controller.dto.pitches.FootballPitchDTO;
+import com.codecool.codekickfc.controller.dto.pitches.FootballPitchIdDTO;
+import com.codecool.codekickfc.controller.dto.pitches.NewFootballPitchDTO;
+import com.codecool.codekickfc.controller.dto.pitches.UpdateFootballPitchDTO;
+import com.codecool.codekickfc.service.pitches.FootballPitchService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("api/footballpitches")
+public class FootballPitchController {
+
+    private final FootballPitchService footballPitchService;
+
+    public FootballPitchController(FootballPitchService footballPitchService) {
+        this.footballPitchService = footballPitchService;
+    }
+
+    /**
+     * Extracts available information from all existing footballPitch in the database.
+     *
+     * @return list of transformed footballPitch object that includes footballPitch's id, name,
+     * type, address.
+     */
+    @GetMapping
+    public ResponseEntity<List<FootballPitchDTO>> getAllFootballPitches() {
+        return ResponseEntity.ok(footballPitchService.getAllFootballPitches());
+    }
+
+    /**
+     * Create a new footballPitch from the provided information and saves into the database.
+     *
+     * @param newFootballPitchDTO The request body based on the client inputs.
+     * @return ID of the newly created footballPitch.
+     */
+    @PostMapping
+    public ResponseEntity<FootballPitchIdDTO> createFootballPitch(@RequestBody NewFootballPitchDTO newFootballPitchDTO) {
+        return ResponseEntity.ok(footballPitchService.createFootballPitch(newFootballPitchDTO));
+    }
+
+    /**
+     * Update an existing footballPitch based on the provided information and saves the changes in the
+     * database.
+     *
+     * @param updateFootballPitchDetails The request body based on the client inputs.
+     * @param footballPitchId            ID of the footballPitch client wants to update.
+     * @return ID of the updated footballPitch.
+     */
+    @PutMapping("/{footballPitchId}")
+    public ResponseEntity<FootballPitchIdDTO> updateFootballPitch(
+            @PathVariable long footballPitchId,
+            @RequestBody UpdateFootballPitchDTO updateFootballPitchDetails
+    ) {
+        return ResponseEntity.ok(footballPitchService.updateFootballPitch(updateFootballPitchDetails, footballPitchId));
+    }
+
+    /**
+     * Get an existing footballPitch from the database based on the provided ID.
+     *
+     * @param footballPitchId ID of the footballPitch client wants to get.
+     * @return FootballPitch data transfer object that includes footballPitch's id, name, type,
+     * address.
+     */
+    @GetMapping("/{footballPitchId}")
+    public ResponseEntity<FootballPitchDTO> getFootballPitchById(
+            @PathVariable long footballPitchId
+    ) {
+        return ResponseEntity.ok(footballPitchService.getFootballPitchById(footballPitchId));
+    }
+}
