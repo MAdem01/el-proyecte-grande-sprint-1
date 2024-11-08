@@ -59,7 +59,8 @@ public class MatchService {
      *
      * @param newMatchDTO The request body based on the client inputs.
      * @return ID of the created Match model
-     * @throws DatabaseAccessException In case of connection failure.
+     * @throws DatabaseAccessException        In case of connection failure.
+     * @throws FootballPitchNotFoundException In case of football pitch doesn't exist.
      */
     public MatchIdDTO createMatch(NewMatchDTO newMatchDTO) {
         FootballPitch footballPitch = footballPitchRepository.
@@ -88,8 +89,9 @@ public class MatchService {
      * @param updateMatchDetails The request body based on the client inputs.
      * @param matchId            ID of the match client wants to update.
      * @return ID of the updated Match model.
-     * @throws MatchNotFoundException  In case of match doesn't exist.
-     * @throws DatabaseAccessException In case of connection failure.
+     * @throws MatchNotFoundException         In case of match doesn't exist.
+     * @throws FootballPitchNotFoundException In case of football pitch doesn't exist.
+     * @throws DatabaseAccessException        In case of connection failure.
      */
     public MatchIdDTO updateMatch(UpdateMatchDTO updateMatchDetails, long matchId) {
         Match updatedMatch = matchRepository.findById(matchId).
@@ -117,7 +119,7 @@ public class MatchService {
      *
      * @param matchId ID of the match client wants to delete.
      * @return ID of the deleted match.
-     * @throws MatchNotFoundException   In case of match doesn't exist.
+     * @throws MatchNotFoundException  In case of match doesn't exist.
      * @throws DatabaseAccessException In case of connection failure.
      */
     @Transactional
