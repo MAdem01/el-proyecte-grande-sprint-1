@@ -84,6 +84,5 @@ public class User {
 
     public void removeMatch(Match match) {
         this.matches.remove(match);
-        match.removeUser(this);
     }
 }
