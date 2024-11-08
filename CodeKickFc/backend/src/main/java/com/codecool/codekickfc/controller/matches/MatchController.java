@@ -27,8 +27,10 @@ public class MatchController {
      * football field, match date, rules, subscribed players.
      */
     @GetMapping
-    public ResponseEntity<List<MatchDTO>> getAllMatches() {
-        return ResponseEntity.ok(matchService.getAllMatches());
+    public ResponseEntity<List<MatchDTO>> getAllMatches(
+            @RequestParam(required = false) String city
+    ) {
+        return ResponseEntity.ok(matchService.getAllMatches(city));
     }
 
     /**

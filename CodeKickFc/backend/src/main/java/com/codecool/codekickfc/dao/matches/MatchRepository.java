@@ -13,4 +13,8 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             "ORDER BY m.matchDate ASC")
     List<Match> findUpcomingMatchesOrderByDateAsc();
 
+    @Query("SELECT m FROM Match m JOIN m.footballField f " +
+            "WHERE m.matchDate > CURRENT_TIMESTAMP AND f.address ILIKE %:city%" +
+            " ORDER BY m.matchDate ASC")
+    List<Match> findUpcomingMatchesOrderByDateAscAndByCity(String city);
 }
