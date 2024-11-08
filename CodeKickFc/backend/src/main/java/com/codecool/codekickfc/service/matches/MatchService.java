@@ -4,10 +4,13 @@ import com.codecool.codekickfc.controller.dto.matches.MatchDTO;
 import com.codecool.codekickfc.controller.dto.matches.MatchIdDTO;
 import com.codecool.codekickfc.controller.dto.matches.NewMatchDTO;
 import com.codecool.codekickfc.controller.dto.matches.UpdateMatchDTO;
+import com.codecool.codekickfc.dao.footballpitch.FootballPitchRepository;
 import com.codecool.codekickfc.dao.matches.MatchRepository;
 import com.codecool.codekickfc.dao.model.matches.Match;
+import com.codecool.codekickfc.dao.model.pitches.FootballPitch;
 import com.codecool.codekickfc.dao.model.users.User;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
+import com.codecool.codekickfc.exceptions.FootballPitchNotFoundException;
 import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
@@ -22,10 +25,13 @@ import java.util.stream.Collectors;
 public class MatchService {
 
     private final MatchRepository matchRepository;
+    private final FootballPitchRepository footballPitchRepository;
 
     @Autowired
-    public MatchService(MatchRepository matchRepository) {
+    public MatchService(MatchRepository matchRepository,
+                        FootballPitchRepository footballPitchRepository) {
         this.matchRepository = matchRepository;
+        this.footballPitchRepository = footballPitchRepository;
     }
 
     /**
@@ -37,7 +43,7 @@ public class MatchService {
      * @throws UserNotFoundException In case of no match in database.
      */
     public List<MatchDTO> getAllMatches() {
-        List<Match> matches = matchRepository.findUpcomingMatchesOrderByDateDesc();
+        List<Match> matches = matchRepository.findUpcomingMatchesOrderByDateAsc();
 
         if (matches.isEmpty()) {
             throw new MatchNotFoundException();
