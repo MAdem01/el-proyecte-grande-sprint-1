@@ -62,12 +62,17 @@ public class MatchService {
      * @throws DatabaseAccessException In case of connection failure.
      */
     public MatchIdDTO createMatch(NewMatchDTO newMatchDTO) {
+        FootballPitch footballPitch = footballPitchRepository.
+                findById(newMatchDTO.footballPitch().getId())
+                .orElseThrow(FootballPitchNotFoundException::new);
+
+
         Match newMatch = new Match(
                 newMatchDTO.maxPlayers(),
                 newMatchDTO.matchFeePerPerson(),
                 newMatchDTO.matchDate(),
                 newMatchDTO.matchRules(),
-                newMatchDTO.footballPitch()
+                footballPitch
         );
         try {
             return new MatchIdDTO(matchRepository.save(newMatch).getId());
