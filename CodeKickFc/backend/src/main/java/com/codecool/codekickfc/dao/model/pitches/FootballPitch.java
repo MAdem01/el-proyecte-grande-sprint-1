@@ -18,4 +18,40 @@ public class FootballPitch {
     private String pitchType;
     @Column(unique = true, nullable = false)
     private String address;
+
+    public long getId() {
+        return id;
+    }
+
+    public String getPitchName() {
+        return pitchName;
+    }
+
+    public void setPitchName(String pitchName) {
+        this.pitchName = pitchName;
+    }
+
+    public String getPitchDescription() {
+        return pitchDescription;
+    }
+
+    public void setPitchDescription(String pitchDescription) {
+        this.pitchDescription = pitchDescription;
+    }
+
+    public String getPitchType() {
+        return pitchType;
+    }
+
+    public void setPitchType(String pitchType) {
+        this.pitchType = pitchType;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
