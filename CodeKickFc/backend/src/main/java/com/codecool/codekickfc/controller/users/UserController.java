@@ -22,7 +22,8 @@ public class UserController {
     /**
      * Extracts available information from all existing users in the database.
      *
-     * @return list of transformed user object that includes user's name, username and email.
+     * @return list of transformed user object that includes user's name, username, email and
+     * matches.
      */
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
@@ -32,8 +33,8 @@ public class UserController {
     /**
      * Create a new user from the provided information and saves into the database.
      *
-     * @param newUser The request body based on the client inputs
-     * @return ID of the newly created user
+     * @param newUser The request body based on the client inputs.
+     * @return ID of the newly created user.
      */
     @PostMapping
     public ResponseEntity<Long> createUser(@RequestBody NewUserDTO newUser) {
@@ -70,7 +71,8 @@ public class UserController {
      * Get an existing user from the database based on the provided ID.
      *
      * @param userId ID of the user client wants to get.
-     * @return ID of the found user.
+     * @return User data transfer object that includes user's full name, username,
+     * email and matches.
      */
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable long userId) {
@@ -78,14 +80,16 @@ public class UserController {
     }
 
     /**
-     * Add an existing match from the database based on the provided ID to an existing user.
+     * Add an existing match from the database based on the provided ID to an existing user and
+     * vica-versa.
      *
      * @param userId  ID of the user to whom the client wants to assign a match.
      * @param matchId ID of the match the client wants to sign up for.
      * @return {@link UserMatchDTO} Includes signed up userId and matchId.
      */
-    @PatchMapping("/{userId}/matches/{matchId}")
-    public ResponseEntity<UserMatchDTO> addUserToMatch(@PathVariable long userId, @PathVariable long matchId) {
+    @PatchMapping("/{userId}/matches/{matchId}/add")
+    public ResponseEntity<UserMatchDTO> addUserToMatch(@PathVariable long userId,
+                                                       @PathVariable long matchId) {
         return ResponseEntity.ok(userService.addUserToMatch(userId, matchId));
     }
 }
