@@ -101,7 +101,7 @@ public class UserController {
      * @param matchId ID of the match the client wants cancel.
      * @return {@link UserMatchDTO} Includes removed userId and matchId.
      */
-    @DeleteMapping("/{userId}/matches/{matchId}")
+    @DeleteMapping("/{userId}/matches/{matchId}/remove")
     public ResponseEntity<UserMatchDTO> removeUserFromMatch(@PathVariable long userId,
                                                             @PathVariable long matchId) {
         return ResponseEntity.ok(userService.removeUserFromMatch(userId, matchId));

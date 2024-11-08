@@ -4,10 +4,13 @@ import com.codecool.codekickfc.controller.dto.matches.MatchDTO;
 import com.codecool.codekickfc.controller.dto.matches.MatchIdDTO;
 import com.codecool.codekickfc.controller.dto.matches.NewMatchDTO;
 import com.codecool.codekickfc.controller.dto.matches.UpdateMatchDTO;
+import com.codecool.codekickfc.dao.footballpitch.FootballPitchRepository;
 import com.codecool.codekickfc.dao.matches.MatchRepository;
 import com.codecool.codekickfc.dao.model.matches.Match;
+import com.codecool.codekickfc.dao.model.pitches.FootballPitch;
 import com.codecool.codekickfc.dao.model.users.User;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
+import com.codecool.codekickfc.exceptions.FootballPitchNotFoundException;
 import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
@@ -22,10 +25,13 @@ import java.util.stream.Collectors;
 public class MatchService {
 
     private final MatchRepository matchRepository;
+    private final FootballPitchRepository footballPitchRepository;
 
     @Autowired
-    public MatchService(MatchRepository matchRepository) {
+    public MatchService(MatchRepository matchRepository,
+                        FootballPitchRepository footballPitchRepository) {
         this.matchRepository = matchRepository;
+        this.footballPitchRepository = footballPitchRepository;
     }
 
     /**
@@ -37,7 +43,7 @@ public class MatchService {
      * @throws UserNotFoundException In case of no match in database.
      */
     public List<MatchDTO> getAllMatches() {
-        List<Match> matches = matchRepository.findUpcomingMatchesOrderByDateDesc();
+        List<Match> matches = matchRepository.findUpcomingMatchesOrderByDateAsc();
 
         if (matches.isEmpty()) {
             throw new MatchNotFoundException();
@@ -53,15 +59,21 @@ public class MatchService {
      *
      * @param newMatchDTO The request body based on the client inputs.
      * @return ID of the created Match model
-     * @throws DatabaseAccessException In case of connection failure.
+     * @throws DatabaseAccessException        In case of connection failure.
+     * @throws FootballPitchNotFoundException In case of football pitch doesn't exist.
      */
     public MatchIdDTO createMatch(NewMatchDTO newMatchDTO) {
+        FootballPitch footballPitch = footballPitchRepository.
+                findById(newMatchDTO.footballPitch().getId())
+                .orElseThrow(FootballPitchNotFoundException::new);
+
+
         Match newMatch = new Match(
                 newMatchDTO.maxPlayers(),
                 newMatchDTO.matchFeePerPerson(),
                 newMatchDTO.matchDate(),
                 newMatchDTO.matchRules(),
-                newMatchDTO.footballPitch()
+                footballPitch
         );
         try {
             return new MatchIdDTO(matchRepository.save(newMatch).getId());
@@ -77,18 +89,22 @@ public class MatchService {
      * @param updateMatchDetails The request body based on the client inputs.
      * @param matchId            ID of the match client wants to update.
      * @return ID of the updated Match model.
-     * @throws MatchNotFoundException  In case of match doesn't exist.
-     * @throws DatabaseAccessException In case of connection failure.
+     * @throws MatchNotFoundException         In case of match doesn't exist.
+     * @throws FootballPitchNotFoundException In case of football pitch doesn't exist.
+     * @throws DatabaseAccessException        In case of connection failure.
      */
     public MatchIdDTO updateMatch(UpdateMatchDTO updateMatchDetails, long matchId) {
         Match updatedMatch = matchRepository.findById(matchId).
                 orElseThrow(MatchNotFoundException::new);
+        FootballPitch footballPitch = footballPitchRepository.
+                findById(updateMatchDetails.footballPitch().getId())
+                .orElseThrow(FootballPitchNotFoundException::new);
 
         updatedMatch.setMaxPlayers(updateMatchDetails.maxPlayers());
         updatedMatch.setMatchFeePerPerson(updateMatchDetails.matchFeePerPerson());
         updatedMatch.setMatchDate(updateMatchDetails.matchDate());
         updatedMatch.setMatchRules(updateMatchDetails.matchRules());
-        updatedMatch.setFootballField(updateMatchDetails.footballPitch());
+        updatedMatch.setFootballField(footballPitch);
 
         try {
             return new MatchIdDTO(matchRepository.save(updatedMatch).getId());
@@ -103,7 +119,7 @@ public class MatchService {
      *
      * @param matchId ID of the match client wants to delete.
      * @return ID of the deleted match.
-     * @throws MatchNotFoundException   In case of match doesn't exist.
+     * @throws MatchNotFoundException  In case of match doesn't exist.
      * @throws DatabaseAccessException In case of connection failure.
      */
     @Transactional

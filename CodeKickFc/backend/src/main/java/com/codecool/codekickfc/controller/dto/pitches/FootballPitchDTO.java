@@ -2,7 +2,7 @@ package com.codecool.codekickfc.controller.dto.pitches;
 
 import com.codecool.codekickfc.dao.model.pitches.FootballPitch;
 
-public record FootballPitchDTO(long Id, String name, String description,
+public record FootballPitchDTO(long id, String name, String description,
                                String pitchType, String address) {
 
     public static FootballPitchDTO fromFootballPitch(FootballPitch footballPitch) {

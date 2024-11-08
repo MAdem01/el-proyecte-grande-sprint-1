@@ -9,6 +9,7 @@ import com.codecool.codekickfc.dao.matches.MatchRepository;
 import com.codecool.codekickfc.dao.model.matches.Match;
 import com.codecool.codekickfc.dao.model.users.User;
 import com.codecool.codekickfc.dao.users.UserRepository;
+import com.codecool.codekickfc.exceptions.AlreadySignedUpException;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.exceptions.UserNotFoundException;
@@ -166,6 +167,10 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         Match match = matchRepository.findById(matchId).orElseThrow(MatchNotFoundException::new);
 
+        if (user.getMatches().contains(match)) {
+            throw new AlreadySignedUpException(match.getId());
+        }
+
         user.addMatch(match);
 
         try {
@@ -194,6 +199,7 @@ public class UserService {
         Match match = matchRepository.findById(matchId).orElseThrow(MatchNotFoundException::new);
 
         user.removeMatch(match);
+        match.removeUser(user);
 
         try {
             userRepository.save(user);

@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Long> {
     @Query("SELECT m FROM Match m WHERE m.matchDate > CURRENT_TIMESTAMP " +
-            "ORDER BY m.matchDate DESC")
-    List<Match> findUpcomingMatchesOrderByDateDesc();
+            "ORDER BY m.matchDate ASC")
+    List<Match> findUpcomingMatchesOrderByDateAsc();
 
 }

@@ -19,6 +19,17 @@ public class FootballPitch {
     @Column(unique = true, nullable = false)
     private String address;
 
+    public FootballPitch(String pitchName, String pitchDescription,
+                         String pitchType, String address) {
+        this.pitchName = pitchName;
+        this.pitchDescription = pitchDescription;
+        this.pitchType = pitchType;
+        this.address = address;
+    }
+
+    public FootballPitch() {
+    }
+
     public long getId() {
         return id;
     }

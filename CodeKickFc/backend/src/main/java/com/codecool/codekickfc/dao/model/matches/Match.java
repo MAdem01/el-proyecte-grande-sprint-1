@@ -24,7 +24,7 @@ public class Match {
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private FootballPitch footballField;
-    @ManyToMany(mappedBy = "matches", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<User> users;
 
     public Match(int maxPlayers, double matchFeePerPerson, LocalDateTime matchDate,
