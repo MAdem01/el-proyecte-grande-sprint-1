@@ -3,6 +3,7 @@ package com.codecool.codekickfc.dao.model.users;
 import com.codecool.codekickfc.dao.model.matches.Match;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,8 +22,20 @@ public class User {
     private String password;
     @Column(unique = true, nullable = false)
     private String email;
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<Match> matches;
+
+    public User(String username, String firstName, String lastName, String password, String email) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.matches = new ArrayList<>();
+    }
+
+    public User() {
+    }
 
     public long getId() {
         return id;
@@ -70,5 +83,11 @@ public class User {
 
     public void addMatch(Match match) {
         this.matches.add(match);
+        match.addUser(this);
+    }
+
+    public void removeMatch(Match match) {
+        this.matches.remove(match);
+        match.removeUser(this);
     }
 }
