@@ -1,7 +1,9 @@
 package com.codecool.codekickfc.controller.dto.matches;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import com.codecool.codekickfc.dao.model.pitches.FootballPitch;
 
-public record NewMatchDTO(List<Short> subscribed_players_id, double match_fee_per_players, int field_id, LocalDateTime match_date) {
+import java.time.LocalDateTime;
+
+public record NewMatchDTO(int maxPlayers, double matchFeePerPerson, LocalDateTime matchDate,
+                          String matchRules, FootballPitch footballPitch) {
 }
