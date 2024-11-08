@@ -5,6 +5,7 @@ import com.codecool.codekickfc.dao.model.users.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,10 +21,24 @@ public class Match {
     private LocalDateTime matchDate;
     @Column(nullable = false)
     private String matchRules;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     private FootballPitch footballField;
-    @ManyToMany
+    @ManyToMany(mappedBy = "matches", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<User> users;
+
+    public Match(int maxPlayers, double matchFeePerPerson, LocalDateTime matchDate,
+                 String matchRules, FootballPitch footballField) {
+        this.maxPlayers = maxPlayers;
+        this.matchFeePerPerson = matchFeePerPerson;
+        this.matchDate = matchDate;
+        this.matchRules = matchRules;
+        this.footballField = footballField;
+        this.users = new ArrayList<>();
+    }
+
+    public Match() {
+    }
 
     public int getMaxPlayers() {
         return maxPlayers;
@@ -71,6 +86,10 @@ public class Match {
 
     public void addUser(User user) {
         this.users.add(user);
+    }
+
+    public void removeUser(User user) {
+        this.users.remove(user);
     }
 
     public long getId() {
