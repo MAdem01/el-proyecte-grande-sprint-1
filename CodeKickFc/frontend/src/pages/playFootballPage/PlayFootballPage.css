@@ -41,6 +41,7 @@ html, body {
     border-radius: 2px;
     width: 4rem;
     height: 1.6rem;
+    cursor: pointer;
 }
 
 .joinFootballBoxButton:hover{
