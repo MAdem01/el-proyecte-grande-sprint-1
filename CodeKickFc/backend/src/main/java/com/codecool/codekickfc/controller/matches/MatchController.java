@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("api/matches")
 public class MatchController {
 
     private final MatchService matchService;
@@ -25,7 +26,7 @@ public class MatchController {
      * @return list of transformed match object that includes match's id, fee, max capacity,
      * football field, match date, rules, subscribed players.
      */
-    @GetMapping("/api/matches")
+    @GetMapping
     public ResponseEntity<List<MatchDTO>> getAllMatches() {
         return ResponseEntity.ok(matchService.getAllMatches());
     }
@@ -36,7 +37,7 @@ public class MatchController {
      * @param newMatchDTO The request body based on the client inputs.
      * @return ID of the newly created match.
      */
-    @PostMapping("/api/matches")
+    @PostMapping
     public ResponseEntity<MatchIdDTO> createMatch(@RequestBody NewMatchDTO newMatchDTO) {
         return ResponseEntity.ok(matchService.createMatch(newMatchDTO));
     }
@@ -74,7 +75,7 @@ public class MatchController {
      * @return Match data transfer object that includes match's id, fee, max capacity,
      * football field, match date, rules, subscribed players.
      */
-    @GetMapping("/api/matches/{matchId}")
+    @GetMapping("/{matchId}")
     public ResponseEntity<MatchDTO> getMatchById(@PathVariable long matchId) {
         return ResponseEntity.ok(matchService.getMatchById(matchId));
     }
