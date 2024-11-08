@@ -92,4 +92,18 @@ public class UserController {
                                                        @PathVariable long matchId) {
         return ResponseEntity.ok(userService.addUserToMatch(userId, matchId));
     }
+
+    /**
+     * Remove an existing match from the database based on the provided ID from an existing user
+     * and vica-versa.
+     *
+     * @param userId  ID of the user from whom the client wants to delete a match.
+     * @param matchId ID of the match the client wants cancel.
+     * @return {@link UserMatchDTO} Includes removed userId and matchId.
+     */
+    @DeleteMapping("/{userId}/matches/{matchId}")
+    public ResponseEntity<UserMatchDTO> removeUserFromMatch(@PathVariable long userId,
+                                                            @PathVariable long matchId) {
+        return ResponseEntity.ok(userService.removeUserFromMatch(userId, matchId));
+    }
 }
