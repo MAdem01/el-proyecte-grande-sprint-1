@@ -47,43 +47,44 @@ export default function PlayFootballPage() {
     }
 
     return (
-        <section className="playFootballPage">
-            <div className="joinFootballBox">
-                <h2 className="joinFootballBoxText">
-                    Do you want to play football? Join CodeKickFC today for Free!
-                </h2>
-                <button onClick={() => navigate("/users/register")} className="joinFootballBoxButton">
-                    Join us
-                </button>
-            </div>
-            <div className="matchEntryContainer">
-                <div className="matchEntryTextBox">
-                    <h2 className="matchEntryText">
-                        Match Entries
-                    </h2>
-                    <h2 className="locationLabel">
-                        Location
-                    </h2>
-                    <h2 className="priceLabel">
-                        Price
-                    </h2>
-                    <h2 className="playerCountLabel">
-                        Player Count
-                    </h2>
-                </div>
-                <div className="matchEntriesBox">{
-                    footballMatches
-                            .map((footballMatch,index) => <MatchEntry
-                                key={index}
-                                date={footballMatch.date}
-                                location={footballMatch.location}
-                                price={footballMatch.price}
-                                currentPlayerCount={footballMatch.currentPlayerCount}
-                                maxPlayers={footballMatch.maxPlayers
-                            }></MatchEntry>)
-                    }
-                </div>
-            </div>
-        </section>
-    )
+        footballMatches ? (
+            footballMatches.error ? (
+                <h1>{footballMatches.error}</h1>
+            ) : (
+                <section className="playFootballPage">
+                    <div className="joinFootballBox">
+                        <h2 className="joinFootballBoxText">
+                            Do you want to play football? Join CodeKickFC today for Free!
+                        </h2>
+                        <button onClick={() => navigate("/users/register")} className="joinFootballBoxButton">
+                            Join us
+                        </button>
+                    </div>
+                    <div className="matchEntryContainer">
+                        <div className="matchEntryTextBox">
+                            <h2 className="matchEntryText">Match Entries</h2>
+                            <h2 className="locationLabel">Location</h2>
+                            <h2 className="priceLabel">Price</h2>
+                            <h2 className="playerCountLabel">Player Count</h2>
+                        </div>
+                        <div className="matchEntriesBox">
+                            {footballMatches.map((footballMatch) => (
+                                <MatchEntry
+                                    key={footballMatch.match_id}
+                                    date={formatDate(footballMatch.match_date)}
+                                    location={footballMatch.footballPitch.address.match(/\b[A-Z][a-z]*\b/)?.[0]}
+                                    price={footballMatch.match_fee_per_players}
+                                    currentPlayerCount={footballMatch.subscribedPlayers.length}
+                                    maxPlayers={footballMatch.maxPlayers}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )
+        ) : (
+            <h1>Loading...</h1>
+        )
+    );
+
 }
