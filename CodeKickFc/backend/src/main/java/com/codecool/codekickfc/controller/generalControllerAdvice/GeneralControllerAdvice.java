@@ -1,8 +1,6 @@
 package com.codecool.codekickfc.controller.generalControllerAdvice;
 
-import com.codecool.codekickfc.exceptions.DatabaseAccessException;
-import com.codecool.codekickfc.exceptions.MatchNotFoundException;
-import com.codecool.codekickfc.exceptions.UserNotFoundException;
+import com.codecool.codekickfc.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +28,20 @@ public class GeneralControllerAdvice {
     @ExceptionHandler(MatchNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleMatchNotFoundException(MatchNotFoundException e) {
+        return e.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(FootballPitchNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handlePitchNotFoundException(FootballPitchNotFoundException e) {
+        return e.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(AlreadySignedUpException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleAlreadySignedUpException(AlreadySignedUpException e) {
         return e.getMessage();
     }
 }
