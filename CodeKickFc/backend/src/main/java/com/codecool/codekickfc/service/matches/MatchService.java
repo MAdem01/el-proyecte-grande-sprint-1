@@ -94,12 +94,15 @@ public class MatchService {
     public MatchIdDTO updateMatch(UpdateMatchDTO updateMatchDetails, long matchId) {
         Match updatedMatch = matchRepository.findById(matchId).
                 orElseThrow(MatchNotFoundException::new);
+        FootballPitch footballPitch = footballPitchRepository.
+                findById(updateMatchDetails.footballPitch().getId())
+                .orElseThrow(FootballPitchNotFoundException::new);
 
         updatedMatch.setMaxPlayers(updateMatchDetails.maxPlayers());
         updatedMatch.setMatchFeePerPerson(updateMatchDetails.matchFeePerPerson());
         updatedMatch.setMatchDate(updateMatchDetails.matchDate());
         updatedMatch.setMatchRules(updateMatchDetails.matchRules());
-        updatedMatch.setFootballField(updateMatchDetails.footballPitch());
+        updatedMatch.setFootballField(footballPitch);
 
         try {
             return new MatchIdDTO(matchRepository.save(updatedMatch).getId());
