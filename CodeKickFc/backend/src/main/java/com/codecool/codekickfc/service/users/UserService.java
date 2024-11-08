@@ -169,10 +169,35 @@ public class UserService {
         user.addMatch(match);
 
         try {
-            return new UserMatchDTO(
-                    userRepository.save(user).getId(),
-                    matchRepository.save(match).getId()
-            );
+            userRepository.save(user);
+            return new UserMatchDTO(user.getId(), match.getId());
+        } catch (DataAccessException e) {
+            throw new DatabaseAccessException(e);
+        }
+    }
+
+    /**
+     * Get all information from the user and match found in the database by their ID's, remove
+     * them from each other, saves the updates and extracting their ID's as a response.
+     * Transactional annotation indicates that the updates should only happen together.
+     *
+     * @param userId  ID of the user from whom the client wants to remove a match.
+     * @param matchId ID of the match the client wants to cancel.
+     * @return {@link UserMatchDTO} Includes removed userId and matchId.
+     * @throws UserNotFoundException   In case of user doesn't exist.
+     * @throws MatchNotFoundException  In case of match doesn't exist.
+     * @throws DatabaseAccessException In case of connection failure.
+     */
+    @Transactional
+    public UserMatchDTO removeUserFromMatch(long userId, long matchId) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        Match match = matchRepository.findById(matchId).orElseThrow(MatchNotFoundException::new);
+
+        user.removeMatch(match);
+
+        try {
+            userRepository.save(user);
+            return new UserMatchDTO(user.getId(), match.getId());
         } catch (DataAccessException e) {
             throw new DatabaseAccessException(e);
         }
