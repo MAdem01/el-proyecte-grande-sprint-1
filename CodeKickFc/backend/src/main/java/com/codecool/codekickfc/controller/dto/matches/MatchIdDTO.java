@@ -1,3 +1,4 @@
 package com.codecool.codekickfc.controller.dto.matches;
 
-public record MatchIdDTO(int Id) { }
+public record MatchIdDTO(long Id) {
+}

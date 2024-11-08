@@ -1,5 +1,6 @@
 package com.codecool.codekickfc.service.users;
 
+import com.codecool.codekickfc.controller.dto.matches.MatchDTO;
 import com.codecool.codekickfc.controller.dto.users.NewUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserDTO;
@@ -34,44 +35,38 @@ public class UserService {
      * Get all information from users through the database, and then it filters the
      * unnecessary details by converting the objects into DTO-s.
      *
-     * @return A list of user data transfer object that includes user's full name, username,
+     * @return A list of user data transfer object that includes user's id, full name, username,
      * email and matches.
-     * @throws DatabaseAccessException In case of connection failure.
+     * @throws UserNotFoundException In case of no user in database.
      */
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
 
         if (users.isEmpty()) {
-            throw new DatabaseAccessException();
+            throw new UserNotFoundException();
         }
 
-        return users.stream().
-                map(user -> new UserDTO(
-                        user.getUsername(),
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getEmail(),
-                        user.getMatches()
-                )).collect(Collectors.toList());
+        return users.stream().map(UserDTO::fromUser).collect(Collectors.toList());
     }
 
 
     /**
      * Creates a new {@link User} model from the provided {@link NewUserDTO} request body,
-     * and then it filters the unnecessary details by extracting only the ID once from the
+     * and then it filters the unnecessary details by extracting only the ID from the
      * saved data.
      *
      * @param newUserDTO The request body based on the client inputs
      * @return ID of the created User model
-     * @throws DataAccessException In case of connection failure.
+     * @throws DatabaseAccessException In case of connection failure.
      */
     public long createUser(NewUserDTO newUserDTO) {
-        User newUser = new User();
-        newUser.setFirstName(newUserDTO.firstName());
-        newUser.setLastName(newUserDTO.lastName());
-        newUser.setEmail(newUserDTO.email());
-        newUser.setUsername(newUserDTO.username());
-        newUser.setPassword(newUserDTO.password());
+        User newUser = new User(
+                newUserDTO.username(),
+                newUserDTO.firstName(),
+                newUserDTO.lastName(),
+                newUserDTO.password(),
+                newUserDTO.email()
+        );
         try {
             return userRepository.save(newUser).getId();
         } catch (DataAccessException e) {
@@ -106,19 +101,25 @@ public class UserService {
     }
 
     /**
-     * Get all information from the user found in the database by its ID and deletes it.
+     * Get all information from the user found in the database by its ID, deletes it and also
+     * deletes itself from all associated matches.
      *
      * @param userId ID of the user client wants to delete.
      * @return ID of the deleted user
      * @throws UserNotFoundException   In case of user doesn't exist.
      * @throws DatabaseAccessException In case of connection failure.
      */
+    @Transactional
     public long deleteUser(long userId) {
         User deletableUser = userRepository.findById(userId).
                 orElseThrow(UserNotFoundException::new);
 
+        for (Match match : deletableUser.getMatches()) {
+            match.removeUser(deletableUser);
+        }
+
         try {
-            userRepository.deleteById(deletableUser.getId());
+            userRepository.delete(deletableUser);
             return deletableUser.getId();
         } catch (DataAccessException e) {
             throw new DatabaseAccessException(e);
@@ -126,8 +127,8 @@ public class UserService {
     }
 
     /**
-     * Get all information from the user found in the database by its ID, and then it
-     * filters the unnecessary details by converting the objects into DTO-s.
+     * Get all information from the user found in the database by its ID, get only the upcoming
+     * games, and then it filters the unnecessary details by converting the object into DTO.
      *
      * @param userId ID of the user client wants to get.
      * @return User data transfer object that includes user's full name, username,
@@ -136,13 +137,15 @@ public class UserService {
      */
     public UserDTO getUserById(long userId) {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        List<Match> upcomingMatches = userRepository.findUpcomingMatchesByUserId(user.getId());
 
         return new UserDTO(
+                user.getId(),
                 user.getUsername(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
-                user.getMatches()
+                upcomingMatches.stream().map(MatchDTO::fromMatch).toList()
         );
     }
 
@@ -154,8 +157,8 @@ public class UserService {
      * @param userId  ID of the user to whom the client wants to assign a match.
      * @param matchId ID of the match the client wants to sign up for.
      * @return {@link UserMatchDTO} Includes signed up userId and matchId.
-     * @throws UserNotFoundException In case of user doesn't exist.
-     * @throws MatchNotFoundException In case of match doesn't exist.
+     * @throws UserNotFoundException   In case of user doesn't exist.
+     * @throws MatchNotFoundException  In case of match doesn't exist.
      * @throws DatabaseAccessException In case of connection failure.
      */
     @Transactional
@@ -164,13 +167,37 @@ public class UserService {
         Match match = matchRepository.findById(matchId).orElseThrow(MatchNotFoundException::new);
 
         user.addMatch(match);
-        match.addUser(user);
 
         try {
-            return new UserMatchDTO(
-                    userRepository.save(user).getId(),
-                    matchRepository.save(match).getId()
-            );
+            userRepository.save(user);
+            return new UserMatchDTO(user.getId(), match.getId());
+        } catch (DataAccessException e) {
+            throw new DatabaseAccessException(e);
+        }
+    }
+
+    /**
+     * Get all information from the user and match found in the database by their ID's, remove
+     * them from each other, saves the updates and extracting their ID's as a response.
+     * Transactional annotation indicates that the updates should only happen together.
+     *
+     * @param userId  ID of the user from whom the client wants to remove a match.
+     * @param matchId ID of the match the client wants to cancel.
+     * @return {@link UserMatchDTO} Includes removed userId and matchId.
+     * @throws UserNotFoundException   In case of user doesn't exist.
+     * @throws MatchNotFoundException  In case of match doesn't exist.
+     * @throws DatabaseAccessException In case of connection failure.
+     */
+    @Transactional
+    public UserMatchDTO removeUserFromMatch(long userId, long matchId) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        Match match = matchRepository.findById(matchId).orElseThrow(MatchNotFoundException::new);
+
+        user.removeMatch(match);
+
+        try {
+            userRepository.save(user);
+            return new UserMatchDTO(user.getId(), match.getId());
         } catch (DataAccessException e) {
             throw new DatabaseAccessException(e);
         }
