@@ -72,7 +72,8 @@ export default function PlayFootballPage() {
                                 <MatchEntry
                                     key={footballMatch.match_id}
                                     date={formatDate(footballMatch.match_date)}
-                                    location={footballMatch.footballPitch.address.match(/\b[A-Z][a-z]*\b/)?.[0]}
+                                    city={footballMatch.footballPitch.city}
+                                    district={footballMatch.footballPitch.district}
                                     price={footballMatch.match_fee_per_players}
                                     currentPlayerCount={footballMatch.subscribedPlayers.length}
                                     maxPlayers={footballMatch.maxPlayers}
