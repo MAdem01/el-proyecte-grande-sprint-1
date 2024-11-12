@@ -1,0 +1,61 @@
+.formContainer{
+    position: relative;
+    display: flex;
+    width: 25%;
+    height: 85%;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 0.5rem;
+    background-color: white;
+
+}
+
+.loginForm{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 40%;
+    top: 50%;
+    transform: translateY(-50%);
+    gap: 5%
+}
+
+.loginPageInputField{
+    position: relative;
+    text-align: center;
+    width: 70%;
+    height: 30%;
+    border: 0.5px solid black;
+    border-radius: 2px;
+}
+
+.loginPageLoginButton{
+    width: 70%;
+    height: 40%;
+    background-color: rgb(238, 240, 252);
+    border: 0.5px solid black;
+    border-radius: 3px;
+}
+
+.loginPageLoginButton:hover{
+    color: rgb(209, 0 ,42);
+    cursor: pointer;
+}
+
+.loginPageRegisterButton{
+    width: 70%;
+    height: 40%;
+    background-color: rgb(209, 0 ,42);
+    color: black;
+    border: 0.5px solid black;
+    border-radius: 3px;
+}
+
+.loginPageRegisterButton:hover{
+    color: white;
+    cursor: pointer;
+    background-color: rgba(33, 47, 171, 0.918);
+}
