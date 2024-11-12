@@ -45,7 +45,7 @@ export default function RegisterPage(){
 
         const userId = await userIdResponse.json();
         localStorage.clear();
-        localStorage.setItem("userId", userId);
+        localStorage.setItem("userId", JSON.stringify(userId));
 
 
         navigate("/");
