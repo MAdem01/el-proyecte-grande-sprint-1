@@ -24,7 +24,6 @@ export default function PlayFootballPage() {
                     }
                 }
                 const matches = await response.json();
-                console.log(matches);
                 setFootballMatches(matches);
             } catch (error) {
                 console.error(error.message);
