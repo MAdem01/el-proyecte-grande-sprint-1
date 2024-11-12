@@ -8,3 +8,17 @@ html, body, #root{
 *{
   box-sizing: border-box;
 }
+
+.pageWrapper{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100vw;
+  height: 100vh;
+  max-height: calc(100vh - 67.8px);
+  width: 100vw;
+  background-image: url('https://images.pexels.com/photos/47354/the-ball-stadion-football-the-pitch-47354.jpeg?cs=srgb&dl=pexels-pixabay-47354.jpg&fm=jpg');
+  background-size: cover;
+  background-position: center;
+}
