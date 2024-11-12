@@ -4,7 +4,11 @@ import NavigationBar from './components/NavigationBar/NavigationBar.jsx';
 import HomePage from './pages/HomePage/HomePage.jsx';
 import PlayFootballPage from "./pages/playFootballPage/PlayFootballPage.jsx";
 import RegisterPage from "./pages/registerPage/RegisterPage.jsx";
+<<<<<<< HEAD
 import ProfilePage from "./pages/profilePage/ProfilePage.jsx";
+=======
+import LoginPage from "./pages/loginPage/LoginPage.jsx";
+>>>>>>> afcbdab2f3cb4c5486184d5e49774210616321fe
 
 
 function Layout(){
@@ -37,6 +41,7 @@ function App() {
                 },
                 {
                     path: "/users/login",
+                    element: <LoginPage />
                 },
                 {
                     path: "/user/:id",

@@ -19,19 +19,18 @@ export default function ProfilePage() {
     }
 
     return (
-        <div>
-            {isLoggedIn ?
+        <section>
+            {userData != null ?
             (
                 <div>
                     <p>Hi</p>
+                    <p>{userData.username}</p>
                 </div>
             ) : 
             (
                 <div>
-                    <p>Do I know you...</p>
-                    <button onClick={() => setIsLoggedIn(true)}>buttomn</button>
                 </div>
             )}
-        </div>
+        </section>
     )
 }
