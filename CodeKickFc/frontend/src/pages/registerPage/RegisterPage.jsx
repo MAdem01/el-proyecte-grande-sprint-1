@@ -53,7 +53,7 @@ export default function RegisterPage(){
 
 
     return (
-        <div className="registerPageWrapper">
+        <div className="pageWrapper">
             <div className="formContainer">
                 <form className="registerForm" onSubmit={handleSubmit}>
                 {isPasswordValid ? null : <h4 className="passwordErrorMessage"> Password does not match</h4>}

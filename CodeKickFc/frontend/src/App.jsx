@@ -4,6 +4,7 @@ import NavigationBar from './components/NavigationBar/NavigationBar.jsx';
 import HomePage from './pages/HomePage/HomePage.jsx';
 import PlayFootballPage from "./pages/playFootballPage/PlayFootballPage.jsx";
 import RegisterPage from "./pages/registerPage/RegisterPage.jsx";
+import LoginPage from "./pages/loginPage/LoginPage.jsx";
 
 
 function Layout(){
@@ -36,6 +37,7 @@ function App() {
                 },
                 {
                     path: "/users/login",
+                    element: <LoginPage />
                 },
             ],
         },
