@@ -3,6 +3,7 @@ import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import NavigationBar from './components/NavigationBar/NavigationBar.jsx';
 import HomePage from './pages/HomePage/HomePage.jsx';
 import PlayFootballPage from "./pages/playFootballPage/PlayFootballPage.jsx";
+import RegisterPage from "./pages/registerPage/RegisterPage.jsx";
 
 
 function Layout(){
@@ -31,6 +32,7 @@ function App() {
                 },
                 {
                     path: "/users/register",
+                    element: <RegisterPage />
                 },
                 {
                     path: "/users/login",
