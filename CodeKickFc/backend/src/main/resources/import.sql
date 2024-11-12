@@ -1,3 +1,3 @@
-INSERT INTO football_pitch (id, pitch_name, pitch_description, pitch_type, address) VALUES (0, 'Greater Yanrbourg', 'LOREM IPSUM', 'Open Field', 'Greater Yarnstrasse 12/23');
+INSERT INTO football_pitch (id, pitch_name, pitch_description, pitch_type, city, district, street_name, street_number, postcode) VALUES (0, 'Greater Yanrbourg', 'LOREM IPSUM', 'Open Field', 'Budapest', 'XIII', 'Street', '1', '1234');
 INSERT INTO match (id, max_players, match_fee_per_person, match_date, match_rules, football_field_id) VALUES (0, 12, 12.0, '2024-12-22 12:12:12', 'BE NICE', 0);
 INSERT INTO player (id, username, first_name, last_name, password, email) VALUES (1, 'john_doe', 'John', 'Doe', 'password123', 'john.doe@example.com'), (2, 'jane_doe', 'Jane', 'Doe', 'password456', 'jane.doe@example.com'), (3, 'mike_smith', 'Mike', 'Smith', 'password789', 'mike.smith@example.com');
