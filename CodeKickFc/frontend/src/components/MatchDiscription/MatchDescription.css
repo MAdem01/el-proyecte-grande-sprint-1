@@ -1,0 +1,72 @@
+.matchDescriptionBox {
+    display: flex;
+    flex-direction: column;
+    border: rgba(0, 0, 0, 0.37) solid 1px;
+    position: relative;
+    width: 30%;
+    height: 92%;
+    border-radius: 10px;
+    margin: 50px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.55);
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(7px);
+    overflow-y: scroll;
+}
+
+.matchDescriptionList, .matchRulesBox {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.matchDescriptionTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    border-bottom: rgba(0, 0, 0, 0.27) solid 1px;
+    font-family: "GT Walsheim", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1.5rem;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+
+.pitchImage {
+    vertical-align: middle;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5%;
+}
+
+.gameRulesText, .fieldTypeTitle, .fieldDescriptionTitle {
+    padding: 5px;
+    margin: 5px;
+    font-family: "GT Walsheim", ui-sans-serif, system-ui, sans-serif;
+    text-decoration: underline;
+    font-size: 1.2rem;
+}
+
+.matchRule, .fieldTypeText, .fieldDescriptionText {
+    padding: 5px;
+    margin: 5px;
+    color: rgba(0, 0, 0, 0.75);
+    font-family: "GT Walsheim", ui-sans-serif, system-ui, sans-serif;
+}
+
+.matchDescriptionBox::-webkit-scrollbar-track {
+    padding: 2px 0;
+}
+
+.matchDescriptionBox::-webkit-scrollbar {
+    width: 10px;
+}
+
+.matchDescriptionBox::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    background-color: #737272;
+    border: 1px solid #000;
+}

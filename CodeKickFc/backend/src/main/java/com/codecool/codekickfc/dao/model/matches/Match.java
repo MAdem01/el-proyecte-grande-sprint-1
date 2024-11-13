@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -64,8 +65,8 @@ public class Match {
         this.matchDate = matchDate;
     }
 
-    public String getMatchRules() {
-        return matchRules;
+    public List<String> getMatchRules() {
+        return new ArrayList<>(Arrays.asList(matchRules.split(",")));
     }
 
     public void setMatchRules(String matchRules) {

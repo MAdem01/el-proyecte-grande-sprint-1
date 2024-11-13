@@ -97,6 +97,9 @@ export default function PlayFootballPage() {
                                     price={footballMatch.match_fee_per_players}
                                     currentPlayerCount={footballMatch.subscribedPlayers.length}
                                     maxPlayers={footballMatch.maxPlayers}
+                                    matchId={footballMatch.match_id}
+                                    navigate={navigate}
+                                    match={footballMatch}
                                 />
                             ))}
                         </div>
