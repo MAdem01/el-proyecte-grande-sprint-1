@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 public class Match {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false)
     private int maxPlayers;
@@ -21,7 +21,7 @@ public class Match {
     private LocalDateTime matchDate;
     @Column(nullable = false)
     private String matchRules;
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private FootballPitch footballField;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
