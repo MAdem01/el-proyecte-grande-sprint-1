@@ -127,6 +127,7 @@ h3{
     color: white;
     border-radius: 2px;
     border-color: transparent;
+    cursor: pointer;
 }
 
 .pageButton:hover{
