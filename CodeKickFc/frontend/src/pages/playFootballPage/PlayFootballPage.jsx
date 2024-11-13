@@ -3,21 +3,24 @@ import {useLocation, useNavigate} from "react-router-dom";
 import MatchEntry from "../../components/MatchEntry/MatchEntry.jsx";
 import {useEffect, useState} from "react";
 import JoinFootballBar from "../../components/JoinFootballBar/JoinFootballBar.jsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 
 export default function PlayFootballPage() {
     const [footballMatches, setFootballMatches] = useState(null);
+    const [city, setCity] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const city = queryParams.get("city");
+    const cityParam = queryParams.get("city");
     const [pageNumber, setPageNumber] = useState(0);
 
     useEffect(() => {
         async function fetchMatches() {
             let url;
 
-            if(city && pageNumber || city){
-                url = `/api/matches?city=${city}&pageNumber=${pageNumber}`
+            if(cityParam && pageNumber || cityParam){
+                url = `/api/matches?city=${cityParam}&pageNumber=${pageNumber}`
             }else{
                 url = `/api/matches?pageNumber=${pageNumber}`
             }
@@ -41,7 +44,7 @@ export default function PlayFootballPage() {
         }
 
         fetchMatches();
-    }, [city, pageNumber]);
+    }, [cityParam, pageNumber]);
 
 
     function handleNextClick(e){
@@ -70,16 +73,43 @@ export default function PlayFootballPage() {
         return `${year}-${month}-${day} ${hours}:${minutes}`;
     }
 
+    async function handleSubmit(e){
+        e.preventDefault();
+
+        const response = await fetch(`/api/matches?city=${city}&pageNumber=${pageNumber}`)
+        if (!response.ok) {
+            if (response.status === 404) {
+                setFootballMatches(null);
+            } else {
+                throw new Error("Failed to fetch matches");
+            }
+        }
+        const matches = await response.json();
+        setFootballMatches(matches);
+    }
+
     return (
         footballMatches ? (
             footballMatches.error ? (
                 <h1>{footballMatches.error}</h1>
             ) : (
                 <section className="playFootballPage">
-                    <div className="matchEntryQueryBoxContainer">
-
+                    <div className="matchEntryQueryBox">
+                        <div className="matchEntryQueryBoxTextContainer">
+                            <h2 className="matchEntryQueryBoxText"> Find games</h2>
+                        </div>
+                        <form onSubmit={handleSubmit} className="matchEntryQueryBoxInputForm">
+                            <div className="matchEntryQueryBoxInputWrapper">
+                                <FontAwesomeIcon className="inputLogo" icon={faMagnifyingGlass}/>
+                                <input value={city} onChange={e => setCity(e.target.value)} className="inputField"
+                                       placeholder="Enter a district..."/>
+                            </div>
+                            <div >
+                                <button className="applyFilterButton">Apply filter</button>
+                            </div>
+                        </form>
                     </div>
-                    <JoinFootballBar />
+                    <JoinFootballBar/>
                     <div className="matchEntryContainer">
                         <div className="matchEntryTextBox">
                             <h2 className="matchEntryText">Match Entries</h2>

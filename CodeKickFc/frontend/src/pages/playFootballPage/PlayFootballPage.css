@@ -138,3 +138,50 @@ h3{
     position: relative;
     bottom: -20%;
 }
+
+.matchEntryQueryBox{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 2px;
+    height: 78%;
+    width: 23%;
+    top: 12.5%;
+    left: 3%
+}
+
+.matchEntryQueryBoxTextContainer{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 7%;
+    background-color: rgb(249, 250, 252);
+    border-width: 0.8px;
+    border-style: solid;
+    border-color: rgb(234, 238, 241);
+}
+
+.matchEntryQueryBoxText{
+    position: relative;
+    left: 5%;
+    font-size: large;
+}
+.matchEntryQueryBoxInputForm{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 100%;
+}
+
+.matchEntryQueryBoxInputWrapper{
+    height: 10%;
+    width: 100%;
+}
+
+.applyFilterButton{
+    width: 50%;
+    height: 100%
+}
