@@ -1,0 +1,11 @@
+.matchDetailsBox {
+    width: 100%;
+    max-height: calc(100vh - 67.8px);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('https://images.pexels.com/photos/28355102/pexels-photo-28355102/free-photo-of-a-group-of-men-playing-soccer-on-a-field.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+    background-size: cover;
+    background-position: center;
+}
