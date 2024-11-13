@@ -50,6 +50,8 @@
 }
 
 .matchEntryContainer{
+    display: flex;
+    flex-direction: column;
     position: relative;
     background-color: white;
     border-radius: 2px;
@@ -61,7 +63,6 @@
 
 .matchEntryTextBox{
     display: flex;
-    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -81,12 +82,11 @@
 }
 
 .matchEntriesBox{
-    position: absolute;
     display: flex;
     flex-direction: column;
-    height: 94%;
+    height: 70%;
     width: 100%;
-    bottom: -2rem;
+    top: 10%;
     gap: 3rem
 }
 
@@ -111,4 +111,30 @@ h3{
 
 .priceLabel {
     right: 17.5rem;
+}
+
+.pageButtonContainer{
+    display: flex;
+    width: 100%;
+    height: 15%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10%;
+}
+.pageButton{
+    background-color: rgb(209, 0 ,42);
+    color: white;
+    border-radius: 2px;
+    border-color: transparent;
+}
+
+.pageButton:hover{
+    background-color: rgba(33, 47, 171, 0.918);
+    color: white;
+}
+
+.pageNumber{
+    position: relative;
+    bottom: -20%;
 }

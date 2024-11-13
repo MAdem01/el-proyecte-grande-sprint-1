@@ -2,6 +2,7 @@ import "./PlayFootballPage.css"
 import {useLocation, useNavigate} from "react-router-dom";
 import MatchEntry from "../../components/MatchEntry/MatchEntry.jsx";
 import {useEffect, useState} from "react";
+import JoinFootballBar from "../../components/JoinFootballBar/JoinFootballBar.jsx";
 
 export default function PlayFootballPage() {
     const [footballMatches, setFootballMatches] = useState(null);
@@ -9,10 +10,18 @@ export default function PlayFootballPage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const city = queryParams.get("city");
+    const [pageNumber, setPageNumber] = useState(0);
 
     useEffect(() => {
         async function fetchMatches() {
-            const url = city ? `/api/matches?city=${city}` : "/api/matches";
+            let url;
+
+            if(city && pageNumber || city){
+                url = `/api/matches?city=${city}&pageNumber=${pageNumber}`
+            }else{
+                url = `/api/matches?pageNumber=${pageNumber}`
+            }
+
             try {
                 const response = await fetch(url);
                 if (!response.ok) {
@@ -32,8 +41,24 @@ export default function PlayFootballPage() {
         }
 
         fetchMatches();
-    }, [city]);
+    }, [city, pageNumber]);
 
+
+    function handleNextClick(e){
+        e.preventDefault();
+        if(footballMatches.length !== 5){
+            return
+        }
+        setPageNumber(pageNumber + 1);
+    }
+
+    function handlePreviousClick(e){
+        e.preventDefault();
+        if(pageNumber === 0){
+            return;
+        }
+        setPageNumber(pageNumber - 1);
+    }
 
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -54,14 +79,7 @@ export default function PlayFootballPage() {
                     <div className="matchEntryQueryBoxContainer">
 
                     </div>
-                    <div className="joinFootballBox">
-                        <h2 className="joinFootballBoxText">
-                            Do you want to play football? Join CodeKickFC today for Free!
-                        </h2>
-                        <button onClick={() => navigate("/users/register")} className="joinFootballBoxButton">
-                            Join us
-                        </button>
-                    </div>
+                    <JoinFootballBar />
                     <div className="matchEntryContainer">
                         <div className="matchEntryTextBox">
                             <h2 className="matchEntryText">Match Entries</h2>
@@ -81,6 +99,11 @@ export default function PlayFootballPage() {
                                     maxPlayers={footballMatch.maxPlayers}
                                 />
                             ))}
+                        </div>
+                        <div className="pageButtonContainer">
+                            <button className="pageButton" onClick={handlePreviousClick}>Previous</button>
+                            <h5 className="pageNumber">{pageNumber}</h5>
+                            <button className="pageButton" onClick={handleNextClick}>Next</button>
                         </div>
                     </div>
                 </section>

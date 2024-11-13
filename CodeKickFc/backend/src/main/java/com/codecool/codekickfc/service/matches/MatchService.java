@@ -16,6 +16,9 @@ import com.codecool.codekickfc.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,12 +45,13 @@ public class MatchService {
      * football field, match date, rules, subscribed players.
      * @throws UserNotFoundException In case of no match in database.
      */
-    public List<MatchDTO> getAllMatches(String city) {
-        List<Match> matches;
+    public List<MatchDTO> getAllMatches(String city, int pageNumber) {
+        Page<Match> matches;
+
         if (city == null || city.trim().isEmpty()) {
-            matches = matchRepository.findUpcomingMatchesOrderByDateAsc();
+            matches = matchRepository.findUpcomingMatchesOrderByDateAsc(PageRequest.of(pageNumber, 5));
         } else {
-            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByCity(city);
+            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByCity(city, PageRequest.of(pageNumber, 5));
         }
 
         if (matches.isEmpty()) {

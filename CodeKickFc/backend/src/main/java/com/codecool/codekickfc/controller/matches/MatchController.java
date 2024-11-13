@@ -28,9 +28,10 @@ public class MatchController {
      */
     @GetMapping
     public ResponseEntity<List<MatchDTO>> getAllMatches(
-            @RequestParam(required = false) String city
+            @RequestParam(required = false) String city,
+            @RequestParam(defaultValue = "0") int pageNumber
     ) {
-        return ResponseEntity.ok(matchService.getAllMatches(city));
+        return ResponseEntity.ok(matchService.getAllMatches(city, pageNumber));
     }
 
     /**
