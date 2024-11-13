@@ -51,6 +51,9 @@ export default function PlayFootballPage() {
                 <h1>{footballMatches.error}</h1>
             ) : (
                 <section className="playFootballPage">
+                    <div className="matchEntryQueryBoxContainer">
+
+                    </div>
                     <div className="joinFootballBox">
                         <h2 className="joinFootballBoxText">
                             Do you want to play football? Join CodeKickFC today for Free!

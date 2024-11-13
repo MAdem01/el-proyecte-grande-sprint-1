@@ -10,7 +10,8 @@ import java.util.List;
 @Table(name = "player")
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence-generator")
+    @SequenceGenerator(name = "sequence-generator", sequenceName = "userSequence", initialValue = 4, allocationSize = 1)
     private long id;
     @Column(unique = true, nullable = false)
     private String username;
