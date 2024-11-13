@@ -4,7 +4,9 @@ export default function MatchDescription(props) {
     console.log(props.rules);
     return (
         <div className="matchDescriptionBox">
-            <div className="matchDescriptionTitle">Description</div>
+            <div className="matchDescriptionTitle">Description
+                <h3 className="fieldName">{props.name}</h3>
+            </div>
             <ul className="matchDescriptionList">
                 <li>
                     <img src={props.image} alt="Football Field" className="pitchImage"/>

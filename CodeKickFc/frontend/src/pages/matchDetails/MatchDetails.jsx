@@ -21,7 +21,8 @@ export default function MatchDetails() {
             <MatchDescription image={match.footballPitch.imgUrl}
                               description={match.footballPitch.description}
                               pitchType={match.footballPitch.pitchType}
-                              rules={match.matchRules}/>
+                              rules={match.matchRules}
+                              name={match.footballPitch.name}/>
         </div>
     )
 }
