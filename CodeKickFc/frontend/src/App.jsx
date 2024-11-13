@@ -4,13 +4,14 @@ import NavigationBar from './components/NavigationBar/NavigationBar.jsx';
 import HomePage from './pages/HomePage/HomePage.jsx';
 import PlayFootballPage from "./pages/playFootballPage/PlayFootballPage.jsx";
 import RegisterPage from "./pages/registerPage/RegisterPage.jsx";
+import MatchDetails from "./pages/matchDetails/MatchDetails.jsx";
 
 
-function Layout(){
+function Layout() {
     return (
         <>
-            <NavigationBar />
-            <Outlet />
+            <NavigationBar/>
+            <Outlet/>
         </>
     );
 }
@@ -20,7 +21,7 @@ function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Layout />,
+            element: <Layout/>,
             children: [
                 {
                     path: "/",
@@ -28,21 +29,25 @@ function App() {
                 },
                 {
                     path: "/football-games",
-                    element: <PlayFootballPage />
+                    element: <PlayFootballPage/>
                 },
                 {
                     path: "/users/register",
-                    element: <RegisterPage />
+                    element: <RegisterPage/>
                 },
                 {
                     path: "/users/login",
                 },
+                {
+                    path: "/matchdetails/:matchId",
+                    element: <MatchDetails/>
+                }
             ],
         },
     ]);
 
     return (
-        <RouterProvider router={router} />
+        <RouterProvider router={router}/>
     );
 }
 
