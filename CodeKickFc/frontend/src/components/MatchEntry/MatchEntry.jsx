@@ -5,7 +5,7 @@ export default function MatchEntry(props) {
         <div className="matchEntryBox">
             <h3 className="matchDate">{props.date}</h3>
             <h3 className="matchLocation">{props.city + ", " + props.district}</h3>
-            <h3 className="matchPrice">{props.price + "£"}</h3>
+            <h3 className="matchPrice">{props.price + "Ft"}</h3>
             <button className="matchDetails"
                     onClick={() => props.navigate(`/matchdetails/${props.match.match_id}`,
                         {state: {match: props.match}})}>Details
