@@ -26,12 +26,17 @@ public class FootballPitch {
     private String streetNumber;
     @Column(nullable = false)
     private String imgUrl;
+    @Column(nullable = false)
+    private double longitude;
+    @Column(nullable = false)
+    private double latitude;
 
 
 
     public FootballPitch(String pitchName, String pitchDescription,
                          String pitchType, String city, String district, String postcode,
-                         String streetName, String streetNumber, String imgUrl) {
+                         String streetName, String streetNumber, String imgUrl,
+                         double longitude, double latitude) {
         this.pitchName = pitchName;
         this.pitchDescription = pitchDescription;
         this.pitchType = pitchType;
@@ -41,6 +46,8 @@ public class FootballPitch {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
         this.imgUrl = imgUrl;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public FootballPitch() {
@@ -120,5 +127,21 @@ public class FootballPitch {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }

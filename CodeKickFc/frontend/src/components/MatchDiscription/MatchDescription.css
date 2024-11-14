@@ -76,3 +76,10 @@
     background-color: #737272;
     border: 1px solid #000;
 }
+
+.fieldMapBox {
+    height: 35vh;
+    margin: 5px;
+    border: rgba(0, 0, 0, 0.27) solid 5px;
+    border-radius: 5px;
+}

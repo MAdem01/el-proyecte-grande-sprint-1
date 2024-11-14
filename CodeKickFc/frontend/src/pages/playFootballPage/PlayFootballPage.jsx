@@ -82,10 +82,11 @@ export default function PlayFootballPage() {
                     <JoinFootballBar />
                     <div className="matchEntryContainer">
                         <div className="matchEntryTextBox">
-                            <h2 className="matchEntryText">Match Entries</h2>
-                            <h2 className="locationLabel">Location</h2>
-                            <h2 className="priceLabel">Price</h2>
-                            <h2 className="playerCountLabel">Player Count</h2>
+                            <h3 className="column matchDateText">Match Entries</h3>
+                            <h3 className="column">Location</h3>
+                            <h3 className="column">Price</h3>
+                            <h3 className="column matchPlayerCountText">Player Count</h3>
+                            <h3 className="column">Details</h3>
                         </div>
                         <div className="matchEntriesBox">
                             {footballMatches.map((footballMatch) => (
