@@ -6,7 +6,6 @@ export default function ProfilePage() {
     const { id } = useParams();
 
     const[userData, setUserData] = useState(null);
-    const[isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
         fetchUserData();
