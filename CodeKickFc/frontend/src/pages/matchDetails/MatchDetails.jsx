@@ -22,7 +22,9 @@ export default function MatchDetails() {
                               description={match.footballPitch.description}
                               pitchType={match.footballPitch.pitchType}
                               rules={match.matchRules}
-                              name={match.footballPitch.name}/>
+                              name={match.footballPitch.name}
+                              longitude={match.footballPitch.longitude}
+                              latitude={match.footballPitch.latitude}/>
         </div>
     )
 }
