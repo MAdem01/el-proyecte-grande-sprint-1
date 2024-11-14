@@ -17,13 +17,7 @@ export default function PlayFootballPage() {
 
     useEffect(() => {
         async function fetchMatches() {
-            let url;
-
-            if(cityParam && pageNumber || cityParam){
-                url = `/api/matches?city=${cityParam}&pageNumber=${pageNumber}`
-            }else{
-                url = `/api/matches?pageNumber=${pageNumber}`
-            }
+            const url = cityParam ? `/api/matches?city=${cityParam}&pageNumber=${pageNumber}` : `/api/matches?pageNumber=${pageNumber}`;
 
             try {
                 const response = await fetch(url);
@@ -89,34 +83,31 @@ export default function PlayFootballPage() {
     }
 
     return (
-        footballMatches ? (
-            footballMatches.error ? (
-                <h1>{footballMatches.error}</h1>
-            ) : (
-                <section className="playFootballPage">
-                    <div className="matchEntryQueryBox">
-                        <div className="matchEntryQueryBoxTextContainer">
-                            <h2 className="matchEntryQueryBoxText"> Find games</h2>
-                        </div>
-                        <form onSubmit={handleSubmit} className="matchEntryQueryBoxInputForm">
-                            <div className="matchEntryQueryBoxInputWrapper">
-                                <FontAwesomeIcon className="inputLogo" icon={faMagnifyingGlass}/>
-                                <input value={city} onChange={e => setCity(e.target.value)} className="inputField"
-                                       placeholder="Enter a district..."/>
-                            </div>
-                            <div >
-                                <button className="applyFilterButton">Apply filter</button>
-                            </div>
-                        </form>
+            <section className="playFootballPage">
+                <div className="matchEntryQueryBox">
+                    <div className="matchEntryQueryBoxTextContainer">
+                        <h2 className="matchEntryQueryBoxText"> Find games</h2>
                     </div>
-                    <JoinFootballBar/>
-                    <div className="matchEntryContainer">
-                        <div className="matchEntryTextBox">
-                            <h2 className="matchEntryText">Match Entries</h2>
-                            <h2 className="locationLabel">Location</h2>
-                            <h2 className="priceLabel">Price</h2>
-                            <h2 className="playerCountLabel">Player Count</h2>
+                    <form onSubmit={handleSubmit} className="matchEntryQueryBoxInputForm">
+                        <div className="matchEntryQueryBoxInputWrapper">
+                            <FontAwesomeIcon className="inputLogo" icon={faMagnifyingGlass}/>
+                            <input value={city} onChange={e => setCity(e.target.value)} className="inputField"
+                                   placeholder="Enter a district..."/>
                         </div>
+                        <div>
+                            <button className="applyFilterButton">Apply filter</button>
+                        </div>
+                    </form>
+                </div>
+                <JoinFootballBar/>
+                <div className="matchEntryContainer">
+                    <div className="matchEntryTextBox">
+                        <h2 className="matchEntryText">Match Entries</h2>
+                        <h2 className="locationLabel">Location</h2>
+                        <h2 className="priceLabel">Price</h2>
+                        <h2 className="playerCountLabel">Player Count</h2>
+                    </div>
+                    {footballMatches ? !footballMatches.error ?
                         <div className="matchEntriesBox">
                             {footballMatches.map((footballMatch) => (
                                 <MatchEntry
@@ -129,18 +120,16 @@ export default function PlayFootballPage() {
                                     maxPlayers={footballMatch.maxPlayers}
                                 />
                             ))}
-                        </div>
+                        </div> : <h1>{footballMatches.error}</h1>  : null}
+
                         <div className="pageButtonContainer">
-                            <button className="pageButton" onClick={handlePreviousClick}>Previous</button>
-                            <h5 className="pageNumber">{pageNumber}</h5>
-                            <button className="pageButton" onClick={handleNextClick}>Next</button>
+                        <button className="pageButton" onClick={handlePreviousClick}>Previous
+                        </button>
+                             <h5 className="pageNumber">{pageNumber}</h5>
+                             <button className="pageButton" onClick={handleNextClick}>Next</button>
                         </div>
-                    </div>
-                </section>
-            )
-        ) : (
-            <h1>Loading...</h1>
-        )
+                </div>
+            </section>
     );
 
 }
