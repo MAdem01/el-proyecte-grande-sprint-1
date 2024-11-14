@@ -15,7 +15,7 @@ export default function WhenAndWhereBox(props) {
         const monthName = month[date.getMonth()];
         const day = weekday[date.getDay()];
 
-        return `${day}, ${monthName} ${date.getMonth()}, ${year}`;
+        return `${day}, ${monthName} ${date.getDate()}, ${year}`;
     }
 
     function formatTime(dateString) {
