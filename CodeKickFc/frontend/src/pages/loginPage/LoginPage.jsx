@@ -3,7 +3,7 @@ import InputField from "../../components/InputField/InputField.jsx";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-export default function LoginPage() {
+export default function LoginPage({setIsLoggedIn}) {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -23,8 +23,8 @@ export default function LoginPage() {
             },
             body: JSON.stringify({username: username, password: password}),
         })
-
-        navigate("/")
+        setIsLoggedIn(true);
+        navigate("/");
     }
 
     return (
