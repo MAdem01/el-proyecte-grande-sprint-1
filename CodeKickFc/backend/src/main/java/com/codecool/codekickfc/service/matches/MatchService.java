@@ -53,13 +53,23 @@ public class MatchService {
      * football field, match date, rules, subscribed players.
      * @throws UserNotFoundException In case of no match in database.
      */
-    public List<MatchDTO> getAllMatches(String city, int pageNumber) {
+    public List<MatchDTO> getAllMatches(String area, int pageNumber) {
         Page<Match> matches;
 
-        if (city == null || city.trim().isEmpty()) {
-            matches = matchRepository.findUpcomingMatchesOrderByDateAsc(PageRequest.of(pageNumber, 5));
+        if (area == null || area.trim().isEmpty()) {
+            matches = matchRepository.findUpcomingMatchesOrderByDateAsc(
+                    PageRequest.of(pageNumber, 5)
+            );
+        } else if (isNumeric(area)) {
+            matches = findMatchesByDistrict(area, pageNumber);
+        } else if (isRomanNumeric(area)) {
+            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByDistrict(
+                    area.trim().toUpperCase(), PageRequest.of(pageNumber, 5)
+            );
         } else {
-            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByCity(city, PageRequest.of(pageNumber, 5));
+            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByCity(
+                    area, PageRequest.of(pageNumber, 5)
+            );
         }
 
         if (matches.isEmpty()) {
@@ -169,5 +179,35 @@ public class MatchService {
         Match match = matchRepository.findById(matchId).orElseThrow(MatchNotFoundException::new);
 
         return MatchDTO.fromMatch(match);
+    }
+
+    private boolean isNumeric(String area) {
+        try {
+            Integer.parseInt(area.trim());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private boolean isRomanNumeric(String area) {
+        return Arrays.asList(ROMAN_SYMBOLS).contains(area.trim().toUpperCase());
+    }
+
+    private String convertNumberToRoman(int number) {
+        return ROMAN_SYMBOLS[number - 1];
+    }
+
+    private Page<Match> findMatchesByDistrict(String area, int pageNumber) {
+        Page<Match> matches;
+        try {
+            String district = convertNumberToRoman(Integer.parseInt(area.trim()));
+            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByDistrict(
+                    district, PageRequest.of(pageNumber, 5)
+            );
+            return matches;
+        } catch (Exception e) {
+            throw new MatchNotFoundException();
+        }
     }
 }
