@@ -1,7 +1,9 @@
 import "./MatchDescription.css";
+import {AdvancedMarker, APIProvider, Map, Pin} from "@vis.gl/react-google-maps";
 
 export default function MatchDescription(props) {
-    console.log(props.rules);
+    const position = {lat: props.latitude, lng: props.longitude};
+
     return (
         <div className="matchDescriptionBox">
             <div className="matchDescriptionTitle">Description
