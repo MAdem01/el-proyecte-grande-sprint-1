@@ -29,6 +29,19 @@ export default function MatchDescription(props) {
                     <h4 className="fieldDescriptionTitle">Field description:</h4>
                     <p className="fieldDescriptionText">{props.description}</p>
                 </li>
+                <li>
+                    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
+                        <div className="fieldMapBox">
+                            <Map defaultZoom={16}
+                                 defaultCenter={position}
+                                 mapId={import.meta.env.VITE_GOOGLE_MAP_ID}>
+                                <AdvancedMarker position={position}>
+                                    <Pin/>
+                                </AdvancedMarker>
+                            </Map>
+                        </div>
+                    </APIProvider>
+                </li>
             </ul>
         </div>
     )
