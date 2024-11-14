@@ -10,7 +10,7 @@ export default function LoginPage() {
 
     function handleRegisterClick(e){
         e.preventDefault();
-        navigate("user/register");
+        navigate("/users/register");
     }
 
     async function handleSubmit(e){
