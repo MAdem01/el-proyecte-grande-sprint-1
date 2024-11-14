@@ -36,7 +36,9 @@ export default function MatchDescription(props) {
                                  defaultCenter={position}
                                  mapId={import.meta.env.VITE_GOOGLE_MAP_ID}>
                                 <AdvancedMarker position={position}>
-                                    <Pin/>
+                                    <Pin background={"red"}
+                                         glyphColor={"yellow"}
+                                         borderColor={"black"}/>
                                 </AdvancedMarker>
                             </Map>
                         </div>
