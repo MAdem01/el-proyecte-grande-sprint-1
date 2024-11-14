@@ -1,60 +1,22 @@
 .matchEntryBox {
     position: relative;
-    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    justify-items: center;
+    gap: 10%;
     width: 100%;
+    height: 10%;
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .matchDate {
-    position: absolute;
-    left: 1.5rem
+    padding-left: 2%;
 }
 
-.matchLocation {
-    position: absolute;
-    left: 15rem;
-}
-
-.matchPrice {
-    position: absolute;
-    right: 27rem;
-    font-size: 1rem;
-}
-
-.matchPlayerCountBox {
-    display: flex;
-    position: relative;
-    background-color: rgb(91, 192, 222);
-    border-color: rgb(91, 192, 222);
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 2px;
-    height: 1.2rem;
-    width: 3.5rem;
-    left: 76%;
-    top: 0.9rem
-}
-
-.currentPlayerCount {
-    position: absolute;
-    right: 65%;
-    top: -1rem;
-    font-size: 1rem;
-
-}
-
-.maxPlayerCount {
-    position: absolute;
-    right: 15%;
-    top: -1rem;
-    font-size: 1rem;
-}
-
-.matchDetails {
+.matchDetailsButton {
     color: white;
-    position: absolute;
-    top: 0.5rem;
-    right: 3%;
     background-color: rgb(209, 0, 42);
     border-color: rgb(209, 0, 42);
     border-width: 1px;
@@ -63,9 +25,14 @@
     height: 1.6rem;
     cursor: pointer;
     border-radius: 50px;
+
 }
 
-.matchDetails:hover {
+.matchDetailsButton:hover {
     background-color: rgba(33, 47, 171, 0.918);
     border-width: 0;
+}
+
+.column{
+    flex: 1 1 0;
 }
