@@ -13,7 +13,7 @@ import java.util.List;
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "match_sequence")
-    @SequenceGenerator(name = "match_sequence", sequenceName = "match_sequence", initialValue = 2, allocationSize = 1)
+    @SequenceGenerator(name = "match_sequence", sequenceName = "match_sequence", initialValue = 100, allocationSize = 1)
     private long id;
     @Column(nullable = false)
     private int maxPlayers;

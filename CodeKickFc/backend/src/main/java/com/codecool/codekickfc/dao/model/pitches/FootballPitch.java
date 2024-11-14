@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public class FootballPitch {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pitch_sequence")
-    @SequenceGenerator(name = "pitch_sequence", sequenceName = "pitch_sequence", initialValue = 2, allocationSize = 1)
+    @SequenceGenerator(name = "pitch_sequence", sequenceName = "pitch_sequence", initialValue = 100, allocationSize = 1)
     private long id;
     @Column(unique = true, nullable = false)
     private String pitchName;
