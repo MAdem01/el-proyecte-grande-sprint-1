@@ -19,4 +19,9 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             "WHERE m.matchDate > CURRENT_TIMESTAMP AND f.city ILIKE %:city%" +
             " ORDER BY m.matchDate ASC")
     Page<Match> findUpcomingMatchesOrderByDateAscAndByCity(String city, Pageable pageable);
+
+    @Query("SELECT m FROM Match m JOIN m.footballField f " +
+            "WHERE m.matchDate > CURRENT_TIMESTAMP AND f.district = :district" +
+            " ORDER BY m.matchDate ASC")
+    Page<Match> findUpcomingMatchesOrderByDateAscAndByDistrict(String district, Pageable pageable);
 }
