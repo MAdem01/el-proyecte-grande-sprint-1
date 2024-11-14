@@ -3,7 +3,7 @@ import InputField from "../../components/InputField/InputField.jsx";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-export default function RegisterPage(){
+export default function RegisterPage({setIsLoggedIn}){
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [firstName, setFirstName] = useState("");
@@ -48,6 +48,7 @@ export default function RegisterPage(){
         localStorage.setItem("userId", JSON.stringify(userId));
 
 
+        setIsLoggedIn(true)
         navigate("/");
     }
 

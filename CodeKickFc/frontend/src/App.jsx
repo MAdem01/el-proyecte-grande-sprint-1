@@ -43,7 +43,8 @@ function App() {
                 },
                 {
                     path: "/users/register",
-                    element: <RegisterPage/>
+                    element: <RegisterPage
+                    setIsLoggedIn={setIsLoggedIn}/>
                 },
                 {
                     path: "/users/login",

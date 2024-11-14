@@ -16,10 +16,11 @@ export default function NavigationBar({isLoggedIn}) {
                         <FontAwesomeIcon className="logo" icon={faFutbol} />
                     </li>
                     <li>
-                        <a className="homeButton" href="/">Home</a>
+                        <a className="homeButton"
+                        onClick={() => navigate("/")}>Home</a>
                     </li>
                     <li>
-                        <a href="/football-games">Play Football</a>
+                        <a onClick={() => navigate("/football-games")}>Play Football</a>
                     </li>
                 </ul>
             </div>
