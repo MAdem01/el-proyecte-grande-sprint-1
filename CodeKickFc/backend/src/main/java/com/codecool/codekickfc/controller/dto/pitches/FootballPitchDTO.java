@@ -4,7 +4,8 @@ import com.codecool.codekickfc.dao.model.pitches.FootballPitch;
 
 public record FootballPitchDTO(long id, String name, String description,
                                String pitchType, String city, String district, String postcode,
-                               String streetName, String streetNumber, String imgUrl) {
+                               String streetName, String streetNumber, String imgUrl,
+                               double longitude, double latitude) {
 
     public static FootballPitchDTO fromFootballPitch(FootballPitch footballPitch) {
         return new FootballPitchDTO(
@@ -17,7 +18,9 @@ public record FootballPitchDTO(long id, String name, String description,
                 footballPitch.getPostcode(),
                 footballPitch.getStreetName(),
                 footballPitch.getStreetNumber(),
-                footballPitch.getImgUrl()
+                footballPitch.getImgUrl(),
+                footballPitch.getLongitude(),
+                footballPitch.getLatitude()
         );
     }
 }
