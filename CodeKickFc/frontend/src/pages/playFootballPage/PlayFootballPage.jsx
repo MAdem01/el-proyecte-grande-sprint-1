@@ -9,15 +9,15 @@ export default function PlayFootballPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const city = queryParams.get("city");
+    const area = queryParams.get("area");
     const [pageNumber, setPageNumber] = useState(0);
 
     useEffect(() => {
         async function fetchMatches() {
             let url;
 
-            if(city && pageNumber || city){
-                url = `/api/matches?city=${city}&pageNumber=${pageNumber}`
+            if(area && pageNumber || area){
+                url = `/api/matches?area=${area}&pageNumber=${pageNumber}`
             }else{
                 url = `/api/matches?pageNumber=${pageNumber}`
             }
@@ -41,7 +41,7 @@ export default function PlayFootballPage() {
         }
 
         fetchMatches();
-    }, [city, pageNumber]);
+    }, [area, pageNumber]);
 
 
     function handleNextClick(e){
