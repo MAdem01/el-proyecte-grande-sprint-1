@@ -1,9 +1,9 @@
-html, body {
-}
+
 
 .playFootballPage{
     width: 100%;
     height: 100vh;
+    max-height: calc(100vh - 67.8px);
     background: rgba(242,244,248,255)
 }
 
@@ -50,6 +50,8 @@ html, body {
 }
 
 .matchEntryContainer{
+    display: flex;
+    flex-direction: column;
     position: relative;
     background-color: white;
     border-radius: 2px;
@@ -61,7 +63,6 @@ html, body {
 
 .matchEntryTextBox{
     display: flex;
-    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -81,12 +82,11 @@ html, body {
 }
 
 .matchEntriesBox{
-    position: absolute;
     display: flex;
     flex-direction: column;
-    height: 94%;
+    height: 70%;
     width: 100%;
-    bottom: -2rem;
+    top: 10%;
     gap: 3rem
 }
 
@@ -102,13 +102,40 @@ h3{
 }
 
 .locationLabel{
-    right: 39.5rem;
+    right: 40rem;
 }
 
 .playerCountLabel{
-    right: 1rem;
+    right: 10rem;
 }
 
 .priceLabel {
-    right: 17.5rem;
+    right: 26.5rem;
+}
+
+.pageButtonContainer{
+    display: flex;
+    width: 100%;
+    height: 15%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10%;
+}
+.pageButton{
+    background-color: rgb(209, 0 ,42);
+    color: white;
+    border-radius: 2px;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+.pageButton:hover{
+    background-color: rgba(33, 47, 171, 0.918);
+    color: white;
+}
+
+.pageNumber{
+    position: relative;
+    bottom: -20%;
 }

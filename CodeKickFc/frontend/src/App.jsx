@@ -4,15 +4,19 @@ import NavigationBar from './components/NavigationBar/NavigationBar.jsx';
 import HomePage from './pages/HomePage/HomePage.jsx';
 import PlayFootballPage from "./pages/playFootballPage/PlayFootballPage.jsx";
 import RegisterPage from "./pages/registerPage/RegisterPage.jsx";
+<<<<<<< HEAD
 import ProfilePage from "./pages/profilePage/ProfilePage.jsx";
+=======
+import MatchDetails from "./pages/matchDetails/MatchDetails.jsx";
+>>>>>>> a6b466e05b87173f8526933f6326999d918fc208
 import LoginPage from "./pages/loginPage/LoginPage.jsx";
 
 
-function Layout(){
+function Layout() {
     return (
         <>
-            <NavigationBar />
-            <Outlet />
+            <NavigationBar/>
+            <Outlet/>
         </>
     );
 }
@@ -22,7 +26,7 @@ function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Layout />,
+            element: <Layout/>,
             children: [
                 {
                     path: "/",
@@ -30,26 +34,32 @@ function App() {
                 },
                 {
                     path: "/football-games",
-                    element: <PlayFootballPage />
+                    element: <PlayFootballPage/>
                 },
                 {
                     path: "/users/register",
-                    element: <RegisterPage />
+                    element: <RegisterPage/>
                 },
                 {
                     path: "/users/login",
                     element: <LoginPage />
                 },
                 {
+<<<<<<< HEAD
                     path: "/user/:id",
                     element: <ProfilePage/>
                 },
+=======
+                    path: "/matchdetails/:matchId",
+                    element: <MatchDetails/>
+                }
+>>>>>>> a6b466e05b87173f8526933f6326999d918fc208
             ],
         },
     ]);
 
     return (
-        <RouterProvider router={router} />
+        <RouterProvider router={router}/>
     );
 }
 
