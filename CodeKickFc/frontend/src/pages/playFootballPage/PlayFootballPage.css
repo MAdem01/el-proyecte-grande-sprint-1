@@ -57,7 +57,7 @@
     width: 67.7%;
     top: 5%;
     right: -27%;
-    height:73%;
+    height: 80%;
 }
 
 .matchEntryTextBox{
@@ -74,10 +74,12 @@
 }
 
 .matchEntriesBox{
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 70%;
     width: 100%;
+    top: 2%;
     gap: 15%
 }
 
