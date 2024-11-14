@@ -1,14 +1,12 @@
 package com.codecool.codekickfc.dao.model.pitches;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class FootballPitch {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pitch_sequence")
+    @SequenceGenerator(name = "pitch_sequence", sequenceName = "pitch_sequence", initialValue = 2, allocationSize = 1)
     private long id;
     @Column(unique = true, nullable = false)
     private String pitchName;
