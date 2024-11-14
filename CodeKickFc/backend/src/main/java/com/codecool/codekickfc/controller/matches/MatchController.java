@@ -28,10 +28,10 @@ public class MatchController {
      */
     @GetMapping
     public ResponseEntity<List<MatchDTO>> getAllMatches(
-            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String area,
             @RequestParam(defaultValue = "0") int pageNumber
     ) {
-        return ResponseEntity.ok(matchService.getAllMatches(city, pageNumber));
+        return ResponseEntity.ok(matchService.getAllMatches(area, pageNumber));
     }
 
     /**
