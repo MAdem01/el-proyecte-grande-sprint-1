@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -138,7 +139,9 @@ public class UserService {
      */
     public UserDTO getUserById(long userId) {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        List<Match> upcomingMatches = userRepository.findUpcomingMatchesByUserId(user.getId());
+        List<Match> upcomingMatches = matchRepository.findByUsersIdAndMatchDateAfter(
+                user.getId(), LocalDateTime.now()
+        );
 
         return new UserDTO(
                 user.getId(),
