@@ -8,7 +8,11 @@ import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 
 export default function PlayFootballPage() {
     const [footballMatches, setFootballMatches] = useState(null);
-    const [city, setCity] = useState('');
+    const [city, setCity] = useState(null);
+    const [minPrice, setMinPrice] = useState(null);
+    const [maxPrice, setMaxPrice] = useState(null);
+    const [date, setDate] = useState(null);
+
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -17,7 +21,7 @@ export default function PlayFootballPage() {
 
     useEffect(() => {
         async function fetchMatches() {
-            const url = cityParam ? `/api/matches?city=${cityParam}&pageNumber=${pageNumber}` : `/api/matches?pageNumber=${pageNumber}`;
+            const url = cityParam ? `/api/matches?district=${cityParam}` : `/api/matches`;
 
             try {
                 const response = await fetch(url);
@@ -69,8 +73,27 @@ export default function PlayFootballPage() {
 
     async function handleSubmit(e){
         e.preventDefault();
+        let queryParams = '';
 
-        const response = await fetch(`/api/matches?city=${city}&pageNumber=${pageNumber}`)
+        if (city != null) {
+            queryParams += `district=${city}&`;
+        }
+        if (minPrice != null) {
+            queryParams += `minPrice=${minPrice}&`;
+        }
+        if (maxPrice != null) {
+            queryParams += `maxPrice=${maxPrice}&`;
+        }
+        if (date !=null) {
+            queryParams += `matchDate=${date}&`;
+        }
+
+        queryParams = queryParams.endsWith('&') ? queryParams.slice(0, -1) : queryParams;
+
+        const url = `/api/matches?${queryParams}&pageNumber=${pageNumber}`;
+
+
+        const response = await fetch(url)
         if (!response.ok) {
             if (response.status === 404) {
                 setFootballMatches(null);
@@ -91,8 +114,14 @@ export default function PlayFootballPage() {
                     <form onSubmit={handleSubmit} className="matchEntryQueryBoxInputForm">
                         <div className="matchEntryQueryBoxInputWrapper">
                             <FontAwesomeIcon className="inputLogo" icon={faMagnifyingGlass}/>
-                            <input value={city} onChange={e => setCity(e.target.value)} className="inputField"
+                            <input value={city} onChange={e => setCity(e.target.value)} className="queryInputField"
                                    placeholder="Enter a district..."/>
+                            <input value={date} onChange={e => setDate(e.target.value)} className="queryInputField"
+                                   placeholder="Enter a date..." type="date"/>
+                            <input value={minPrice} onChange={e => setMinPrice(e.target.value)} className="queryInputField"
+                                   placeholder="Enter a min price..."/>
+                            <input value={maxPrice} onChange={e => setMaxPrice(e.target.value)} className="queryInputField"
+                                   placeholder="Enter a max price..."/>
                         </div>
                         <div>
                             <button className="applyFilterButton">Apply filter</button>
