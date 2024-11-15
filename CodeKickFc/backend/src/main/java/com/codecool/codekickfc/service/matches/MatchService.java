@@ -15,12 +15,17 @@ import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,20 +50,47 @@ public class MatchService {
      * football field, match date, rules, subscribed players.
      * @throws UserNotFoundException In case of no match in database.
      */
-    public List<MatchDTO> getAllMatches(String city, int pageNumber) {
+    public List<MatchDTO> getAllMatches(LocalDateTime date, Double minPrice, Double maxPrice, String district, Pageable pageable) {
         Page<Match> matches;
 
-        if (city == null || city.trim().isEmpty()) {
-            matches = matchRepository.findUpcomingMatchesOrderByDateAsc(PageRequest.of(pageNumber, 5));
-        } else {
-            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByCity(city, PageRequest.of(pageNumber, 5));
-        }
+        matches = findMatches(date, minPrice, maxPrice, district, pageable);
 
         if (matches.isEmpty()) {
             throw new MatchNotFoundException();
         }
 
         return matches.stream().map(MatchDTO::fromMatch).collect(Collectors.toList());
+    }
+
+    public Page<Match> findMatches(LocalDateTime matchDate, Double minPrice, Double maxPrice, String district, Pageable pageable) {
+        Specification<Match> specification = Specification.where(null);
+
+        if (matchDate != null) {
+            specification = specification.and(matchDateAfter(matchDate));
+        }
+
+        if (minPrice != null && maxPrice != null) {
+            specification = specification.and(matchFeeBetween(minPrice, maxPrice));
+        }
+
+        if (district != null && !district.trim().isEmpty()) {
+            specification = specification.and(footballFieldDistrictEquals(district));
+        }
+
+        return matchRepository.findAll(specification, pageable);
+    }
+
+    private Specification<Match> matchDateAfter(LocalDateTime matchDate) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThan(root.get("matchDate"), matchDate);
+    }
+
+    private Specification<Match> matchFeeBetween(double minPrice, double maxPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("matchFeePerPerson"), minPrice, maxPrice);
+    }
+
+    private Specification<Match> footballFieldDistrictEquals(String district) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(criteriaBuilder.lower(root.get("footballField").get("district")),
+                district.toLowerCase());
     }
 
     /**
