@@ -5,7 +5,7 @@ import com.codecool.codekickfc.controller.dto.pitches.FootballPitchIdDTO;
 import com.codecool.codekickfc.controller.dto.pitches.NewFootballPitchDTO;
 import com.codecool.codekickfc.controller.dto.pitches.UpdateFootballPitchDTO;
 import com.codecool.codekickfc.service.pitches.FootballPitchService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +16,7 @@ public class FootballPitchController {
 
     private final FootballPitchService footballPitchService;
 
+    @Autowired
     public FootballPitchController(FootballPitchService footballPitchService) {
         this.footballPitchService = footballPitchService;
     }
