@@ -6,12 +6,14 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
 public class Match {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "match_sequence")
+    @SequenceGenerator(name = "match_sequence", sequenceName = "match_sequence", initialValue = 100, allocationSize = 1)
     private long id;
     @Column(nullable = false)
     private int maxPlayers;
@@ -64,8 +66,8 @@ public class Match {
         this.matchDate = matchDate;
     }
 
-    public String getMatchRules() {
-        return matchRules;
+    public List<String> getMatchRules() {
+        return new ArrayList<>(Arrays.asList(matchRules.split(",")));
     }
 
     public void setMatchRules(String matchRules) {

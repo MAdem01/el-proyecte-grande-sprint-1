@@ -14,6 +14,8 @@ import com.codecool.codekickfc.exceptions.FootballPitchNotFoundException;
 import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.dao.DataAccessException;
@@ -26,6 +28,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +39,12 @@ public class MatchService {
 
     private final MatchRepository matchRepository;
     private final FootballPitchRepository footballPitchRepository;
+    private static final Logger logger = LoggerFactory.getLogger(MatchService.class);
+    private static final String[] ROMAN_SYMBOLS = {
+            "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
+            "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
+            "XXI", "XXII", "XXIII"};
+
 
     @Autowired
     public MatchService(MatchRepository matchRepository,
@@ -50,10 +61,26 @@ public class MatchService {
      * football field, match date, rules, subscribed players.
      * @throws UserNotFoundException In case of no match in database.
      */
-    public List<MatchDTO> getAllMatches(LocalDateTime date, Double minPrice, Double maxPrice, String district, Pageable pageable) {
+    public List<MatchDTO> getAllMatches(String area, LocalDateTime date, Double minPrice, Double maxPrice, String district, Pageable pageable) {
         Page<Match> matches;
 
         matches = findMatches(date, minPrice, maxPrice, district, pageable);
+   
+        if (area == null || area.trim().isEmpty()) {
+            matches = matchRepository.findUpcomingMatchesOrderByDateAsc(
+                    PageRequest.of(pageNumber, 5)
+            );
+        } else if (isNumeric(area)) {
+            matches = findMatchesByDistrict(area, pageNumber);
+        } else if (isRomanNumeric(area)) {
+            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByDistrict(
+                    area.trim().toUpperCase(), PageRequest.of(pageNumber, 5)
+            );
+        } else {
+            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByCity(
+                    area, PageRequest.of(pageNumber, 5)
+            );
+        }
 
         if (matches.isEmpty()) {
             throw new MatchNotFoundException();
@@ -193,5 +220,35 @@ public class MatchService {
         Match match = matchRepository.findById(matchId).orElseThrow(MatchNotFoundException::new);
 
         return MatchDTO.fromMatch(match);
+    }
+
+    private boolean isNumeric(String area) {
+        try {
+            Integer.parseInt(area.trim());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private boolean isRomanNumeric(String area) {
+        return Arrays.asList(ROMAN_SYMBOLS).contains(area.trim().toUpperCase());
+    }
+
+    private String convertNumberToRoman(int number) {
+        return ROMAN_SYMBOLS[number - 1];
+    }
+
+    private Page<Match> findMatchesByDistrict(String area, int pageNumber) {
+        Page<Match> matches;
+        try {
+            String district = convertNumberToRoman(Integer.parseInt(area.trim()));
+            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByDistrict(
+                    district, PageRequest.of(pageNumber, 5)
+            );
+            return matches;
+        } catch (Exception e) {
+            throw new MatchNotFoundException();
+        }
     }
 }

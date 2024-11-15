@@ -63,7 +63,10 @@ public class FootballPitchService {
                 newFootballPitchDTO.district(),
                 newFootballPitchDTO.postcode(),
                 newFootballPitchDTO.streetName(),
-                newFootballPitchDTO.streetNumber()
+                newFootballPitchDTO.streetNumber(),
+                newFootballPitchDTO.imgUrl(),
+                newFootballPitchDTO.longitude(),
+                newFootballPitchDTO.latitude()
         );
         try {
             return new FootballPitchIdDTO(footballPitchRepository.save(newFootballPitch).getId());
@@ -98,6 +101,9 @@ public class FootballPitchService {
         updatedFootballPitch.setPostcode(updateFootballPitchDetails.postcode());
         updatedFootballPitch.setStreetName(updateFootballPitchDetails.streetName());
         updatedFootballPitch.setStreetNumber(updateFootballPitchDetails.streetNumber());
+        updatedFootballPitch.setImgUrl(updateFootballPitchDetails.imgUrl());
+        updatedFootballPitch.setLongitude(updatedFootballPitch.getLongitude());
+        updatedFootballPitch.setLatitude(updatedFootballPitch.getLatitude());
 
         try {
             return new FootballPitchIdDTO(footballPitchRepository.save(updatedFootballPitch).getId());

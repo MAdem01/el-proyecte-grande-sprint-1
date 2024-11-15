@@ -1,27 +1,37 @@
 import * as React from "react";
+import {useState, useEffect} from "react";
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import NavigationBar from './components/NavigationBar/NavigationBar.jsx';
 import HomePage from './pages/HomePage/HomePage.jsx';
 import PlayFootballPage from "./pages/playFootballPage/PlayFootballPage.jsx";
 import RegisterPage from "./pages/registerPage/RegisterPage.jsx";
+import ProfilePage from "./pages/profilePage/ProfilePage.jsx";
+import MatchDetails from "./pages/matchDetails/MatchDetails.jsx";
 import LoginPage from "./pages/loginPage/LoginPage.jsx";
 
 
-function Layout(){
+function Layout({isLoggedIn}) {
     return (
         <>
-            <NavigationBar />
-            <Outlet />
+            <NavigationBar
+            isLoggedIn={isLoggedIn}
+            />
+            <Outlet/>
         </>
     );
 }
 
 
 function App() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Layout />,
+            element: <Layout
+            isLoggedIn={isLoggedIn}
+            />,
             children: [
                 {
                     path: "/",
@@ -29,22 +39,32 @@ function App() {
                 },
                 {
                     path: "/football-games",
-                    element: <PlayFootballPage />
+                    element: <PlayFootballPage/>
                 },
                 {
                     path: "/users/register",
-                    element: <RegisterPage />
+                    element: <RegisterPage
+                    setIsLoggedIn={setIsLoggedIn}/>
                 },
                 {
                     path: "/users/login",
-                    element: <LoginPage />
+                    element: <LoginPage
+                    setIsLoggedIn={setIsLoggedIn}/>
+                },
+                {
+                    path: "/user/:id",
+                    element: <ProfilePage/>
+                },
+                {
+                    path: "/matchdetails/:matchId",
+                    element: <MatchDetails/>
                 },
             ],
         },
     ]);
 
     return (
-        <RouterProvider router={router} />
+        <RouterProvider router={router}/>
     );
 }
 

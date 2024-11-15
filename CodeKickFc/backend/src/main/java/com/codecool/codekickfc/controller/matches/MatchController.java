@@ -36,6 +36,7 @@ public class MatchController {
      */
     @GetMapping
     public List<MatchDTO> getAllMatches(
+            @RequestParam(required = false) String area,
             @RequestParam(required = false) String matchDate,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
@@ -48,7 +49,8 @@ public class MatchController {
         LocalDateTime date = matchDate == null ? LocalDateTime.now() : LocalDate.parse(matchDate).atStartOfDay();
 
 
-        return matchService.getAllMatches(date, minPrice, maxPrice, district, pageable);
+        return matchService.getAllMatches(area, date, minPrice, maxPrice, district, pageable);
+
     }
 
     /**

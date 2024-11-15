@@ -5,28 +5,28 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 export default function HomePage() {
-    const [city, setCity] = useState('');
+    const [area, setArea] = useState('');
     const [isBugButtonClick, setIsBugButtonClick] = useState(false);
     const [bugEmailSubject, setBugEmailSubject] = useState('');
     const [bugEmailDescription, setBugEmailDescription] = useState('');
     const navigate = useNavigate();
 
 
-    function handleSubmit(e){
+    function handleSubmit(e) {
         e.preventDefault();
-        if(city === ""){
+        if (area === "") {
             navigate("/football-games");
             return
         }
 
-        navigate("/football-games?city="+city);
+        navigate("/football-games?area=" + area);
     }
 
-    function handleBugButtonClick(){
+    function handleBugButtonClick() {
         setIsBugButtonClick(!isBugButtonClick);
     }
 
-    async function handleBugSubmit(e){
+    async function handleBugSubmit(e) {
         e.preventDefault()
         try {
             const response = await fetch('/api/email/send', {
@@ -60,22 +60,26 @@ export default function HomePage() {
                 <h2 className="homePageText-h2">
                     Even if you have no friends...
                 </h2>
-            <div className="inputBox">
-                <h1 className="inputLabel">
-                    Find a game near you
-                </h1>
-                <form onSubmit={handleSubmit} className="inputForm">
-                    <div className="inputWrapper">
-                        <FontAwesomeIcon className="inputLogo" icon={faMagnifyingGlass} />
-                        <input value={city} onChange={e => setCity(e.target.value)} className="homePageInputField" placeholder="Enter a city..."/>
-                    </div>
-                    <button className="inputButton">Search for games</button>
-                </form>
-            </div>
+
+                <div className="inputBox">
+                    <h1 className="inputLabel">
+                        Find a game near you
+                    </h1>
+                    <form onSubmit={handleSubmit} className="inputForm">
+                        <div className="inputWrapper">
+                            <FontAwesomeIcon className="inputLogo" icon={faMagnifyingGlass}/>
+                            <input value={area} onChange={e => setArea(e.target.value)} className="inputField"
+                                   placeholder="Enter a city or a district..."/>
+                        </div>
+                        <button className="inputButton">Search for games</button>
+                    </form>
+                </div>
                 {isBugButtonClick ?
                     <form onSubmit={handleBugSubmit} className="bugForm">
-                        <input value={bugEmailSubject} onChange={e => setBugEmailSubject(e.target.value)} className="bugSubjectInputField" placeholder="Enter Subject"/>
-                        <input value={bugEmailDescription} onChange={e => setBugEmailDescription(e.target.value)} className="bugDescriptionInputField" placeholder="Enter Description"/>
+                        <input value={bugEmailSubject} onChange={e => setBugEmailSubject(e.target.value)}
+                               className="bugSubjectInputField" placeholder="Enter Subject"/>
+                        <input value={bugEmailDescription} onChange={e => setBugEmailDescription(e.target.value)}
+                               className="bugDescriptionInputField" placeholder="Enter Description"/>
                         <button className="bugFormButton" type="submit">Submit</button>
                     </form> : null
                 }

@@ -1,52 +1,38 @@
-.matchEntryBox{
+.matchEntryBox {
     position: relative;
-    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    justify-items: center;
+    gap: 10%;
     width: 100%;
+    height: 10%;
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.matchDate{
-    position: absolute;
-    left: 1.5rem
+.matchDate {
+    padding-left: 2%;
 }
 
-.matchLocation{
-    position: absolute;
-    left: 18rem;
-}
-
-.matchPrice{
-    position: absolute;
-    right: 18rem;
-    font-size: 1rem;
-}
-
-.matchPlayerCountBox{
-    display: flex;
-    position: relative;
-    background-color: rgb(91, 192, 222);
-    border-color: rgb(91, 192, 222);
+.matchDetailsButton {
+    color: white;
+    background-color: rgb(209, 0, 42);
+    border-color: rgb(209, 0, 42);
     border-width: 1px;
     border-style: solid;
-    border-radius: 2px;
-    height: 1.2rem;
-    width: 3.5rem;
-    left: 91%;
-    top: 0.9rem
-}
-
-.currentPlayerCount{
-    position: absolute;
-    right: 65%;
-    top: -1rem;
-    font-size: 1rem;
+    width: 4rem;
+    height: 1.6rem;
+    cursor: pointer;
+    border-radius: 50px;
 
 }
 
-.maxPlayerCount{
-    position: absolute;
-    right: 15%;
-    top: -1rem;
-    font-size: 1rem;
+.matchDetailsButton:hover {
+    background-color: rgba(33, 47, 171, 0.918);
+    border-width: 0;
+}
 
+.column{
+    flex: 1 1 0;
 }

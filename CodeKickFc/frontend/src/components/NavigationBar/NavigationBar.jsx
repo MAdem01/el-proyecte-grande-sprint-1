@@ -1,9 +1,13 @@
 import './NavigationBar.css'
+import { useNavigate } from 'react-router-dom';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faFutbol} from '@fortawesome/free-solid-svg-icons';
+import { faFutbol, faUser} from '@fortawesome/free-solid-svg-icons';
 
 
-export default function NavigationBar() {
+export default function NavigationBar({isLoggedIn}) {
+    const navigate = useNavigate();
+    const userId = localStorage.getItem("userId");
+
     return (
         <nav className="navbar">
             <div className="navbar-left">
@@ -12,10 +16,11 @@ export default function NavigationBar() {
                         <FontAwesomeIcon className="logo" icon={faFutbol} />
                     </li>
                     <li>
-                        <a className="homeButton" href="/">Home</a>
+                        <a className="homeButton"
+                        onClick={() => navigate("/")}>Home</a>
                     </li>
                     <li>
-                        <a href="/football-games">Play Football</a>
+                        <a onClick={() => navigate("/football-games")}>Play Football</a>
                     </li>
                 </ul>
             </div>
@@ -23,14 +28,27 @@ export default function NavigationBar() {
                 <a className="website-name" href="/">CodeKickFC</a>
             </div>
             <div className="navbar-right">
-                <ul className="navbar-right-links">
-                    <li>
-                        <a className="login-button" href="/users/login">Login</a>
-                    </li>
-                    <li>
-                        <a className="register-button" href="/users/register">Register</a>
-                    </li>
-                </ul>
+                    {isLoggedIn ?
+                    (
+                        <ul className="navbar-right-links">
+                            <li>
+                                <FontAwesomeIcon
+                                icon={faUser}
+                                style={{color: "000000",scale: "2"}}
+                                onClick={() => navigate(`/user/${userId}`)}/>
+                            </li>
+                        </ul>
+                    ) :
+                    (
+                        <ul className="navbar-right-links">
+                            <li>
+                                <a className="login-button" href="/users/login">Login</a>
+                            </li>
+                            <li>
+                                <a className="register-button" href="/users/register">Register</a>
+                            </li>
+                        </ul>
+                    )}
             </div>
         </nav>
     )

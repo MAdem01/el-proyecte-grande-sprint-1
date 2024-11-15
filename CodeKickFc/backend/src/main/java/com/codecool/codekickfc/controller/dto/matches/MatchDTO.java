@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public record MatchDTO(long match_id, double match_fee_per_players, int maxPlayers,
                        FootballPitchDTO footballPitch, LocalDateTime match_date,
-                       String matchRules, List<SimpleUserDTO> subscribedPlayers) {
+                       List<String> matchRules, List<SimpleUserDTO> subscribedPlayers) {
 
     public static MatchDTO fromMatch(Match match) {
         return new MatchDTO(

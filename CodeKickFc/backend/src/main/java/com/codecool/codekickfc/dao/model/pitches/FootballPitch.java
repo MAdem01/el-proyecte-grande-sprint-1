@@ -5,7 +5,8 @@ import jakarta.persistence.*;
 @Entity
 public class FootballPitch {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pitch_sequence")
+    @SequenceGenerator(name = "pitch_sequence", sequenceName = "pitch_sequence", initialValue = 100, allocationSize = 1)
     private long id;
     @Column(unique = true, nullable = false)
     private String pitchName;
@@ -23,12 +24,19 @@ public class FootballPitch {
     private String streetName;
     @Column(nullable = false)
     private String streetNumber;
+    @Column(nullable = false)
+    private String imgUrl;
+    @Column(nullable = false)
+    private double longitude;
+    @Column(nullable = false)
+    private double latitude;
 
 
 
     public FootballPitch(String pitchName, String pitchDescription,
                          String pitchType, String city, String district, String postcode,
-                         String streetName, String streetNumber) {
+                         String streetName, String streetNumber, String imgUrl,
+                         double longitude, double latitude) {
         this.pitchName = pitchName;
         this.pitchDescription = pitchDescription;
         this.pitchType = pitchType;
@@ -37,6 +45,9 @@ public class FootballPitch {
         this.postcode = postcode;
         this.streetName = streetName;
         this.streetNumber = streetNumber;
+        this.imgUrl = imgUrl;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public FootballPitch() {
@@ -108,5 +119,29 @@ public class FootballPitch {
 
     public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }

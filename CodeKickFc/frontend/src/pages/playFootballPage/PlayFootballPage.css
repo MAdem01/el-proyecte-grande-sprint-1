@@ -1,5 +1,3 @@
-
-
 .playFootballPage{
     width: 100%;
     height: 100vh;
@@ -9,39 +7,39 @@
 
 .joinFootballBox{
     position: relative;
+    display: flex;
+    flex-direction: column;
     background-color: rgb(252, 248, 227);
     border-color: rgb(250, 235, 204);
     border-width: 1px;
     border-style: solid;
     border-radius: 4px;
     width: 67.7%;
-    height: 4.5rem;
+    height: 10%;
     top: 3%;
     right: -27%;
 }
 
 .joinFootballBoxText{
-    position: absolute;
     color: rgb(138, 109, 59);
     font-size: 0.8rem;
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 700;
-    left: 1.5rem;
+    padding-left: 3%
 }
 
 .joinFootballBoxButton{
     color: white;
-    position: absolute;
-    top: 2.4rem;
-    left: 1.5rem;
     background-color: rgb(209, 0 ,42);
-    border-color: rgb(209, 0 ,42);
-    border-width: 1px;
-    border-style: solid;
+    border: rgb(209, 0 ,42) solid 1px;
     border-radius: 2px;
     width: 4rem;
-    height: 1.6rem;
+    height: 100%;
     cursor: pointer;
+}
+
+.joinFootballButtonBox{
+    padding-left: 3%;
 }
 
 .joinFootballBoxButton:hover{
@@ -52,65 +50,41 @@
 .matchEntryContainer{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     position: relative;
     background-color: white;
     border-radius: 2px;
-    width: 67.7% ;
+    width: 67.7%;
     top: 5%;
     right: -27%;
-    height:73%;
+    height: 80%;
 }
 
 .matchEntryTextBox{
     display: flex;
-    top: 0;
-    left: 0;
+    flex-direction: row;
+    justify-content: space-evenly;
+    justify-items: center;
+    gap: 10%;
     width: 100%;
     background-color: rgb(249, 250, 252);
-    border-width: 0.8px;
-    border-style: solid;
-    border-color: rgb(234, 238, 241);
+    border: rgb(234, 238, 241) solid 0.8px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
 }
 
-.matchEntryText{
-    font-weight: 700;
-    position: relative;
-    left: 1.5rem;
-    font-size: 1rem;
-}
-
 .matchEntriesBox{
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 70%;
     width: 100%;
-    top: 10%;
-    gap: 3rem
+    top: 2%;
+    gap: 15%
 }
 
 h3{
     font-weight: 300;
-}
-
-.locationLabel, .priceLabel, .playerCountLabel{
-    font-size: 1rem;
-    position: absolute;
-    font-weight: 700;
-    top: -0.2rem
-}
-
-.locationLabel{
-    right: 39.5rem;
-}
-
-.playerCountLabel{
-    right: 1rem;
-}
-
-.priceLabel {
-    right: 17.5rem;
 }
 
 .pageButtonContainer{
@@ -120,13 +94,14 @@ h3{
     flex-direction: row;
     justify-content: center;
     align-items: flex-end;
-    gap: 10%;
+        gap: 10%;
 }
 .pageButton{
     background-color: rgb(209, 0 ,42);
     color: white;
     border-radius: 2px;
     border-color: transparent;
+    cursor: pointer;
 }
 
 .pageButton:hover{
@@ -194,3 +169,15 @@ h3{
 .queryInputField{
     width: 80%;
 }
+.matchDateText{
+    padding-left: 2%
+}
+
+.matchPlayerCount{
+    padding-left: 2.5%;
+}
+
+.matchPlayerCountText{
+    padding-right: 2.5%;
+}
+

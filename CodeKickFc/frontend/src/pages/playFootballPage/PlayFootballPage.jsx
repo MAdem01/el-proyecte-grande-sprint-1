@@ -16,12 +16,14 @@ export default function PlayFootballPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const cityParam = queryParams.get("city");
+
+    const area = queryParams.get("area");
     const [pageNumber, setPageNumber] = useState(0);
 
     useEffect(() => {
         async function fetchMatches() {
-            const url = cityParam ? `/api/matches?district=${cityParam}` : `/api/matches`;
+            const url = cityParam ? `/api/matches?area=${area}` : `/api/matches`;
+
 
             try {
                 const response = await fetch(url);
@@ -42,7 +44,8 @@ export default function PlayFootballPage() {
         }
 
         fetchMatches();
-    }, [cityParam, pageNumber]);
+
+    }, [area, pageNumber]);
 
 
     function handleNextClick(e){
@@ -122,6 +125,15 @@ export default function PlayFootballPage() {
                                    placeholder="Enter a min price..."/>
                             <input value={maxPrice} onChange={e => setMaxPrice(e.target.value)} className="queryInputField"
                                    placeholder="Enter a max price..."/>
+
+                    <JoinFootballBar />
+                    <div className="matchEntryContainer">
+                        <div className="matchEntryTextBox">
+                            <h3 className="column matchDateText">Match Entries</h3>
+                            <h3 className="column">Location</h3>
+                            <h3 className="column">Price</h3>
+                            <h3 className="column matchPlayerCountText">Player Count</h3>
+                            <h3 className="column">Details</h3>
                         </div>
                         <div>
                             <button className="applyFilterButton">Apply filter</button>
@@ -147,6 +159,9 @@ export default function PlayFootballPage() {
                                     price={footballMatch.match_fee_per_players}
                                     currentPlayerCount={footballMatch.subscribedPlayers.length}
                                     maxPlayers={footballMatch.maxPlayers}
+                                    matchId={footballMatch.match_id}
+                                    navigate={navigate}
+                                    match={footballMatch}
                                 />
                             ))}
                         </div> : <h1>{footballMatches.error}</h1>  : null}
