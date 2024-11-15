@@ -5,7 +5,7 @@ import com.codecool.codekickfc.controller.dto.matches.MatchIdDTO;
 import com.codecool.codekickfc.controller.dto.matches.NewMatchDTO;
 import com.codecool.codekickfc.controller.dto.matches.UpdateMatchDTO;
 import com.codecool.codekickfc.service.matches.MatchService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +16,7 @@ public class MatchController {
 
     private final MatchService matchService;
 
+    @Autowired
     public MatchController(MatchService matchService) {
         this.matchService = matchService;
     }
@@ -27,11 +28,11 @@ public class MatchController {
      * football field, match date, rules, subscribed players.
      */
     @GetMapping
-    public ResponseEntity<List<MatchDTO>> getAllMatches(
+    public List<MatchDTO> getAllMatches(
             @RequestParam(required = false) String area,
             @RequestParam(defaultValue = "0") int pageNumber
     ) {
-        return ResponseEntity.ok(matchService.getAllMatches(area, pageNumber));
+        return matchService.getAllMatches(area, pageNumber);
     }
 
     /**
@@ -41,8 +42,8 @@ public class MatchController {
      * @return ID of the newly created match.
      */
     @PostMapping
-    public ResponseEntity<MatchIdDTO> createMatch(@RequestBody NewMatchDTO newMatchDTO) {
-        return ResponseEntity.ok(matchService.createMatch(newMatchDTO));
+    public MatchIdDTO createMatch(@RequestBody NewMatchDTO newMatchDTO) {
+        return matchService.createMatch(newMatchDTO);
     }
 
     /**
@@ -54,9 +55,9 @@ public class MatchController {
      * @return ID of the updated match.
      */
     @PutMapping("/{matchId}")
-    public ResponseEntity<MatchIdDTO> updateMatch(@PathVariable long matchId,
+    public MatchIdDTO updateMatch(@PathVariable long matchId,
                                             @RequestBody UpdateMatchDTO updateMatchDetails) {
-        return ResponseEntity.ok(matchService.updateMatch(updateMatchDetails, matchId));
+        return matchService.updateMatch(updateMatchDetails, matchId);
     }
 
     /**
@@ -67,8 +68,8 @@ public class MatchController {
      * @return ID of the deleted match
      */
     @DeleteMapping("/{matchId}")
-    public ResponseEntity<MatchIdDTO> deleteMatch(@PathVariable long matchId) {
-        return ResponseEntity.ok(matchService.deleteMatch(matchId));
+    public MatchIdDTO deleteMatch(@PathVariable long matchId) {
+        return matchService.deleteMatch(matchId);
     }
 
     /**
@@ -79,7 +80,7 @@ public class MatchController {
      * football field, match date, rules, subscribed players.
      */
     @GetMapping("/{matchId}")
-    public ResponseEntity<MatchDTO> getMatchById(@PathVariable long matchId) {
-        return ResponseEntity.ok(matchService.getMatchById(matchId));
+    public MatchDTO getMatchById(@PathVariable long matchId) {
+        return matchService.getMatchById(matchId);
     }
 }
