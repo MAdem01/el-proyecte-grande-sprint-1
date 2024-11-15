@@ -24,9 +24,9 @@
 
 .homePageText-h1{
     position: absolute;
-    top: 18%;
+    top: 14%;
     left: 5rem;
-    color: white;
+    color: rgb(22, 53, 28);
     font-family: "Fort Quinsy", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-feature-settings: "rlig", "calt";
     font-size: 6rem;
@@ -35,11 +35,11 @@
 
 .homePageText-h2{
     position: absolute;
-    top: 35%;
+    top: 34%;
     left: 7rem;
     font-family: "Fort Quinsy", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-feature-settings: "rlig", "calt";
-    color: white;
+    color: rgb(22, 53, 28);
     font-size: 4rem;
 }
 
