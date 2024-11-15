@@ -23,27 +23,13 @@ public class GeneralControllerAdvice {
     }
 
     @ResponseBody
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler({
+            UserNotFoundException.class,
+            MatchNotFoundException.class,
+            FootballPitchNotFoundException.class
+    })
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleUserNotFoundException(UserNotFoundException e) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", e.getMessage());
-        return response;
-    }
-
-    @ResponseBody
-    @ExceptionHandler(MatchNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleMatchNotFoundException(MatchNotFoundException e) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", e.getMessage());
-        return response;
-    }
-
-    @ResponseBody
-    @ExceptionHandler(FootballPitchNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handlePitchNotFoundException(FootballPitchNotFoundException e) {
+    public Map<String, String> handleNotFoundException(RuntimeException e) {
         Map<String, String> response = new HashMap<>();
         response.put("error", e.getMessage());
         return response;
