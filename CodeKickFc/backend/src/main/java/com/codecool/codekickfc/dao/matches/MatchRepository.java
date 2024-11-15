@@ -23,10 +23,11 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             Pageable pageable
     );
 
-    @Query("SELECT m FROM Match m JOIN m.footballField f " +
-            "WHERE m.matchDate > CURRENT_TIMESTAMP AND f.city ILIKE %:city%" +
-            " ORDER BY m.matchDate ASC")
-    Page<Match> findUpcomingMatchesOrderByDateAscAndByCity(String city, Pageable pageable);
+    Page<Match> findAllByFootballFieldDistrictEqualsIgnoreCaseAndMatchDateAfterOrderByMatchDate(
+            String district,
+            LocalDateTime date,
+            Pageable pageable
+    );
 
     @Query("SELECT m FROM Match m JOIN m.footballField f " +
             "WHERE m.matchDate > CURRENT_TIMESTAMP AND f.district = :district" +
