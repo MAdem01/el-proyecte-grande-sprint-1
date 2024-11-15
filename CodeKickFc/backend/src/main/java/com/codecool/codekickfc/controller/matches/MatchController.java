@@ -5,16 +5,24 @@ import com.codecool.codekickfc.controller.dto.matches.MatchIdDTO;
 import com.codecool.codekickfc.controller.dto.matches.NewMatchDTO;
 import com.codecool.codekickfc.controller.dto.matches.UpdateMatchDTO;
 import com.codecool.codekickfc.service.matches.MatchService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("api/matches")
 public class MatchController {
 
     private final MatchService matchService;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public MatchController(MatchService matchService) {
         this.matchService = matchService;
@@ -27,11 +35,20 @@ public class MatchController {
      * football field, match date, rules, subscribed players.
      */
     @GetMapping
-    public ResponseEntity<List<MatchDTO>> getAllMatches(
-            @RequestParam(required = false) String city,
-            @RequestParam(defaultValue = "0") int pageNumber
+    public List<MatchDTO> getAllMatches(
+            @RequestParam(required = false) String matchDate,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) String district,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "matchDate") String sortBy
     ) {
-        return ResponseEntity.ok(matchService.getAllMatches(city, pageNumber));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+        LocalDateTime date = matchDate == null ? LocalDateTime.now() : LocalDate.parse(matchDate).atStartOfDay();
+
+
+        return matchService.getAllMatches(date, minPrice, maxPrice, district, pageable);
     }
 
     /**
