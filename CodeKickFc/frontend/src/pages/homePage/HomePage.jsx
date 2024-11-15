@@ -67,7 +67,7 @@ export default function HomePage() {
                 <form onSubmit={handleSubmit} className="inputForm">
                     <div className="inputWrapper">
                         <FontAwesomeIcon className="inputLogo" icon={faMagnifyingGlass} />
-                        <input value={city} onChange={e => setCity(e.target.value)} className="inputField" placeholder="Enter a city..."/>
+                        <input value={city} onChange={e => setCity(e.target.value)} className="homePageInputField" placeholder="Enter a city..."/>
                     </div>
                     <button className="inputButton">Search for games</button>
                 </form>

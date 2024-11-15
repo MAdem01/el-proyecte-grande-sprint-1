@@ -84,7 +84,7 @@
     font-family: "GT Walsheim", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-.inputField{
+.homePageInputField{
     position: absolute;
     left: 3rem;
     top: 0.6rem;
@@ -94,7 +94,7 @@
     border-color: transparent;
 }
 
-.inputField:focus{
+.homePageInputField:focus{
     outline: none;
 }
 
