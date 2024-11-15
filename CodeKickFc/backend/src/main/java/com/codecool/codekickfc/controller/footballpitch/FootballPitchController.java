@@ -5,7 +5,7 @@ import com.codecool.codekickfc.controller.dto.pitches.FootballPitchIdDTO;
 import com.codecool.codekickfc.controller.dto.pitches.NewFootballPitchDTO;
 import com.codecool.codekickfc.controller.dto.pitches.UpdateFootballPitchDTO;
 import com.codecool.codekickfc.service.pitches.FootballPitchService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +16,7 @@ public class FootballPitchController {
 
     private final FootballPitchService footballPitchService;
 
+    @Autowired
     public FootballPitchController(FootballPitchService footballPitchService) {
         this.footballPitchService = footballPitchService;
     }
@@ -27,8 +28,8 @@ public class FootballPitchController {
      * type, address.
      */
     @GetMapping
-    public ResponseEntity<List<FootballPitchDTO>> getAllFootballPitches() {
-        return ResponseEntity.ok(footballPitchService.getAllFootballPitches());
+    public List<FootballPitchDTO> getAllFootballPitches() {
+        return footballPitchService.getAllFootballPitches();
     }
 
     /**
@@ -38,8 +39,8 @@ public class FootballPitchController {
      * @return ID of the newly created footballPitch.
      */
     @PostMapping
-    public ResponseEntity<FootballPitchIdDTO> createFootballPitch(@RequestBody NewFootballPitchDTO newFootballPitchDTO) {
-        return ResponseEntity.ok(footballPitchService.createFootballPitch(newFootballPitchDTO));
+    public FootballPitchIdDTO createFootballPitch(@RequestBody NewFootballPitchDTO newFootballPitchDTO) {
+        return footballPitchService.createFootballPitch(newFootballPitchDTO);
     }
 
     /**
@@ -51,11 +52,11 @@ public class FootballPitchController {
      * @return ID of the updated footballPitch.
      */
     @PutMapping("/{footballPitchId}")
-    public ResponseEntity<FootballPitchIdDTO> updateFootballPitch(
+    public FootballPitchIdDTO updateFootballPitch(
             @PathVariable long footballPitchId,
             @RequestBody UpdateFootballPitchDTO updateFootballPitchDetails
     ) {
-        return ResponseEntity.ok(footballPitchService.updateFootballPitch(updateFootballPitchDetails, footballPitchId));
+        return footballPitchService.updateFootballPitch(updateFootballPitchDetails, footballPitchId);
     }
 
     /**
@@ -66,9 +67,9 @@ public class FootballPitchController {
      * address.
      */
     @GetMapping("/{footballPitchId}")
-    public ResponseEntity<FootballPitchDTO> getFootballPitchById(
+    public FootballPitchDTO getFootballPitchById(
             @PathVariable long footballPitchId
     ) {
-        return ResponseEntity.ok(footballPitchService.getFootballPitchById(footballPitchId));
+        return footballPitchService.getFootballPitchById(footballPitchId);
     }
 }

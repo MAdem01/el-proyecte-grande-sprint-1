@@ -5,7 +5,7 @@ import com.codecool.codekickfc.controller.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserDTO;
 import com.codecool.codekickfc.controller.dto.users.UserMatchDTO;
 import com.codecool.codekickfc.service.users.UserService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -26,8 +27,8 @@ public class UserController {
      * matches.
      */
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public List<UserDTO> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     /**
@@ -37,8 +38,8 @@ public class UserController {
      * @return ID of the newly created user.
      */
     @PostMapping
-    public ResponseEntity<Long> createUser(@RequestBody NewUserDTO newUser) {
-        return ResponseEntity.ok(userService.createUser(newUser));
+    public Long createUser(@RequestBody NewUserDTO newUser) {
+        return userService.createUser(newUser);
     }
 
     /**
@@ -50,9 +51,9 @@ public class UserController {
      * @return ID of the updated user.
      */
     @PutMapping("/{userId}")
-    public ResponseEntity<Long> updateUser(@PathVariable long userId,
-                                           @RequestBody UpdateUserDTO updateUserDetails) {
-        return ResponseEntity.ok(userService.updateUser(updateUserDetails, userId));
+    public Long updateUser(@PathVariable long userId,
+                           @RequestBody UpdateUserDTO updateUserDetails) {
+        return userService.updateUser(updateUserDetails, userId);
     }
 
     /**
@@ -63,8 +64,8 @@ public class UserController {
      * @return ID of the deleted user
      */
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Long> deleteUser(@PathVariable long userId) {
-        return ResponseEntity.ok(userService.deleteUser(userId));
+    public Long deleteUser(@PathVariable long userId) {
+        return userService.deleteUser(userId);
     }
 
     /**
@@ -75,8 +76,8 @@ public class UserController {
      * email and matches.
      */
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable long userId) {
-        return ResponseEntity.ok(userService.getUserById(userId));
+    public UserDTO getUserById(@PathVariable long userId) {
+        return userService.getUserById(userId);
     }
 
     /**
@@ -88,9 +89,9 @@ public class UserController {
      * @return {@link UserMatchDTO} Includes signed up userId and matchId.
      */
     @PatchMapping("/{userId}/matches/{matchId}/add")
-    public ResponseEntity<UserMatchDTO> addUserToMatch(@PathVariable long userId,
-                                                       @PathVariable long matchId) {
-        return ResponseEntity.ok(userService.addUserToMatch(userId, matchId));
+    public UserMatchDTO addUserToMatch(@PathVariable long userId,
+                                       @PathVariable long matchId) {
+        return userService.addUserToMatch(userId, matchId);
     }
 
     /**
@@ -102,8 +103,8 @@ public class UserController {
      * @return {@link UserMatchDTO} Includes removed userId and matchId.
      */
     @DeleteMapping("/{userId}/matches/{matchId}/remove")
-    public ResponseEntity<UserMatchDTO> removeUserFromMatch(@PathVariable long userId,
-                                                            @PathVariable long matchId) {
-        return ResponseEntity.ok(userService.removeUserFromMatch(userId, matchId));
+    public UserMatchDTO removeUserFromMatch(@PathVariable long userId,
+                                            @PathVariable long matchId) {
+        return userService.removeUserFromMatch(userId, matchId);
     }
 }

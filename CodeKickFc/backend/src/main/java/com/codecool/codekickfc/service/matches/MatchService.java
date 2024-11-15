@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,19 +58,21 @@ public class MatchService {
         Page<Match> matches;
 
         if (area == null || area.trim().isEmpty()) {
-            matches = matchRepository.findUpcomingMatchesOrderByDateAsc(
-                    PageRequest.of(pageNumber, 5)
+            matches = matchRepository.findAllByMatchDateAfterOrderByMatchDate(
+                    LocalDateTime.now(), PageRequest.of(pageNumber, 5)
             );
-        } else if (isNumeric(area)) {
-            matches = findMatchesByDistrict(area, pageNumber);
-        } else if (isRomanNumeric(area)) {
-            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByDistrict(
-                    area.trim().toUpperCase(), PageRequest.of(pageNumber, 5)
-            );
+        } else if (isNumeric(area.trim())) {
+            matches = findMatchesByDistrict(area.trim(), pageNumber);
+        } else if (isRomanNumeric(area.trim().toUpperCase())) {
+            matches = matchRepository.
+                    findAllByFootballFieldDistrictEqualsIgnoreCaseAndMatchDateAfterOrderByMatchDate(
+                            area.trim(), LocalDateTime.now(), PageRequest.of(pageNumber, 5)
+                    );
         } else {
-            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByCity(
-                    area, PageRequest.of(pageNumber, 5)
-            );
+            matches = matchRepository.
+                    findAllByFootballFieldCityEqualsIgnoreCaseAndMatchDateAfterOrderByMatchDate(
+                            area.trim(), LocalDateTime.now(), PageRequest.of(pageNumber, 5)
+                    );
         }
 
         if (matches.isEmpty()) {
@@ -191,7 +194,7 @@ public class MatchService {
     }
 
     private boolean isRomanNumeric(String area) {
-        return Arrays.asList(ROMAN_SYMBOLS).contains(area.trim().toUpperCase());
+        return Arrays.asList(ROMAN_SYMBOLS).contains(area);
     }
 
     private String convertNumberToRoman(int number) {
@@ -201,10 +204,11 @@ public class MatchService {
     private Page<Match> findMatchesByDistrict(String area, int pageNumber) {
         Page<Match> matches;
         try {
-            String district = convertNumberToRoman(Integer.parseInt(area.trim()));
-            matches = matchRepository.findUpcomingMatchesOrderByDateAscAndByDistrict(
-                    district, PageRequest.of(pageNumber, 5)
-            );
+            String district = convertNumberToRoman(Integer.parseInt(area));
+            matches = matchRepository.
+                    findAllByFootballFieldDistrictEqualsIgnoreCaseAndMatchDateAfterOrderByMatchDate(
+                            district, LocalDateTime.now(), PageRequest.of(pageNumber, 5)
+                    );
             return matches;
         } catch (Exception e) {
             throw new MatchNotFoundException();
