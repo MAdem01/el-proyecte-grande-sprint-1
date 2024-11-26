@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import NavigationBar from './components/NavigationBar/NavigationBar.jsx';
 import HomePage from './pages/HomePage/HomePage.jsx';
@@ -10,12 +10,10 @@ import MatchDetails from "./pages/matchDetails/MatchDetails.jsx";
 import LoginPage from "./pages/loginPage/LoginPage.jsx";
 
 
-function Layout({isLoggedIn}) {
+function Layout() {
     return (
         <>
-            <NavigationBar
-            isLoggedIn={isLoggedIn}
-            />
+            <NavigationBar/>
             <Outlet/>
         </>
     );
@@ -23,14 +21,12 @@ function Layout({isLoggedIn}) {
 
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 
     const router = createBrowserRouter([
         {
             path: "/",
             element: <Layout
-            isLoggedIn={isLoggedIn}
             />,
             children: [
                 {
@@ -43,13 +39,11 @@ function App() {
                 },
                 {
                     path: "/users/register",
-                    element: <RegisterPage
-                    setIsLoggedIn={setIsLoggedIn}/>
+                    element: <RegisterPage/>
                 },
                 {
                     path: "/users/login",
-                    element: <LoginPage
-                    setIsLoggedIn={setIsLoggedIn}/>
+                    element: <LoginPage/>
                 },
                 {
                     path: "/user/:id",
