@@ -3,7 +3,9 @@ package com.codecool.codekickfc.repository.model;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "player")
@@ -24,6 +26,8 @@ public class User {
     private String email;
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<Match> matches;
+    @ManyToMany
+    private Set<Role> roles;
 
     public User(String username, String firstName, String lastName, String password, String email) {
         this.username = username;
@@ -32,6 +36,7 @@ public class User {
         this.password = password;
         this.email = email;
         this.matches = new ArrayList<>();
+        this.roles = new HashSet<>();
     }
 
     public User() {
@@ -80,6 +85,14 @@ public class User {
     public void addMatch(Match match) {
         this.matches.add(match);
         match.addUser(this);
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void removeMatch(Match match) {
