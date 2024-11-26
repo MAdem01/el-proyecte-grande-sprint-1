@@ -1,6 +1,14 @@
+@font-face {
+    font-family: 'Fort Quinsy';
+    src: url('../../assets/fonts/FORTQUINSY.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .formContainer{
-    position: relative;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 25%;
     height: 85%;
     border: 2px solid black;
@@ -11,15 +19,12 @@
 }
 
 .loginForm{
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 40%;
-    top: 50%;
-    transform: translateY(-50%);
+    height: 65%;
     gap: 5%
 }
 
@@ -58,4 +63,24 @@
     color: white;
     cursor: pointer;
     background-color: rgba(33, 47, 171, 0.918);
+}
+
+.loginFormTitle{
+    font-family: "Fort Quinsy", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: xxx-large;
+}
+
+.loginPageRegisterLink{
+    font-size: medium;
+    color: darkred;
+}
+
+.loginPageRegisterLink:hover{
+    cursor: pointer;
+    color: rgb(209, 0 ,42);
+}
+
+.googleLoginButton{
+    background-color: transparent;
+    border: none;
 }

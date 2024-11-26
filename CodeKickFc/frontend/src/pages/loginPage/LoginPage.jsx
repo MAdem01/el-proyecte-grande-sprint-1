@@ -2,11 +2,13 @@ import "./LoginPage.css"
 import InputField from "../../components/InputField/InputField.jsx";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import LoginWithGoogleSvg from "../../assets/images/btn_google_light.svg"
 
-export default function LoginPage({setIsLoggedIn}) {
+export default function LoginPage() {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [isUserNotFound, setIsUserNotFound] = useState(false);
 
     function handleRegisterClick(e){
         e.preventDefault();
@@ -16,21 +18,29 @@ export default function LoginPage({setIsLoggedIn}) {
     async function handleSubmit(e){
         e.preventDefault();
 
-        await fetch("/auth/login", {
+        const response = await fetch("/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({username: username, password: password}),
         })
-        setIsLoggedIn(true);
-        navigate("/");
+
+        if(response.status === 200) {
+            localStorage.setItem("user", JSON.stringify(response));
+            navigate("/");
+        }
+
+        if(response.status === 404){
+            setIsUserNotFound(true);
+        }
     }
 
     return (
         <div className="pageWrapper">
             <div className="formContainer">
                 <form className="loginForm" onSubmit={handleSubmit}>
+                    <h1 className="loginFormTitle">Login</h1>
                     <InputField className="loginPageInputField" placeholder="Username" type="text" value={username}
                                 onChange={(e) => setUsername(e.target.value)}/>
                     <InputField className="loginPageInputField" placeholder="Password" type="password"
@@ -38,6 +48,9 @@ export default function LoginPage({setIsLoggedIn}) {
                     <button className="loginPageRegisterButton" onClick={handleRegisterClick}>Register</button>
                     <button className="loginPageLoginButton">Login</button>
                 </form>
+                <h3 className="loginPageRegisterLink">First Time Here? Register!</h3>
+                <button className="googleLoginButton"><img src={LoginWithGoogleSvg} alt="test"/></button>
+                {isUserNotFound && <h3>Username Or Password Is Incorrect</h3>}
             </div>
         </div>
     )
