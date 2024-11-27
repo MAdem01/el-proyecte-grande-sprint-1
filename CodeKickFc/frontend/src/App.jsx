@@ -7,6 +7,7 @@ import ProfilePage from "./pages/profilePage/ProfilePage.jsx";
 import MatchDetails from "./pages/matchDetails/MatchDetails.jsx";
 import LoginPage from "./pages/loginPage/LoginPage.jsx";
 import PaymentPage from "./pages/paymentPage/PaymentPage.jsx";
+import AdminPage from "./pages/adminPage/AdminPage.jsx";
 
 
 function Layout() {
@@ -35,6 +36,10 @@ function App() {
                 {
                     path: "/football-games",
                     element: <PlayFootballPage/>
+                },
+                {
+                    path: "/admin/addmatch",
+                    element: <AdminPage/>
                 },
                 {
                     path: "/users/register",
