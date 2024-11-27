@@ -26,8 +26,10 @@ export default function LoginPage() {
             body: JSON.stringify({username: username, password: password}),
         })
 
+        const data = await response.json();
+
         if(response.status === 200) {
-            localStorage.setItem("user", JSON.stringify(response));
+            localStorage.setItem("user", JSON.stringify(data));
             navigate("/");
         }
 
