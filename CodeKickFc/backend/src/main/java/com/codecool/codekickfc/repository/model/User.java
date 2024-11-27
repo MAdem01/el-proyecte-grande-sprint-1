@@ -91,6 +91,10 @@ public class User {
         return roles;
     }
 
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
     public String getPassword() {
         return password;
     }

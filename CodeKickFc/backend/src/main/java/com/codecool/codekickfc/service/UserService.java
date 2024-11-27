@@ -6,7 +6,9 @@ import com.codecool.codekickfc.dto.users.UpdateUserDTO;
 import com.codecool.codekickfc.dto.users.UserDTO;
 import com.codecool.codekickfc.dto.users.UserMatchDTO;
 import com.codecool.codekickfc.repository.MatchRepository;
+import com.codecool.codekickfc.repository.RoleRepository;
 import com.codecool.codekickfc.repository.model.Match;
+import com.codecool.codekickfc.repository.model.Role;
 import com.codecool.codekickfc.repository.model.User;
 import com.codecool.codekickfc.repository.UserRepository;
 import com.codecool.codekickfc.exceptions.AlreadySignedUpException;
@@ -26,11 +28,13 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final MatchRepository matchRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, MatchRepository matchRepository) {
+    public UserService(UserRepository userRepository, MatchRepository matchRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.matchRepository = matchRepository;
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -62,6 +66,8 @@ public class UserService {
      * @throws DatabaseAccessException In case of connection failure.
      */
     public long createUser(NewUserDTO newUserDTO) {
+        final long userRoleId = 1;
+        Role userRole = roleRepository.getById(userRoleId);
         User newUser = new User(
                 newUserDTO.username(),
                 newUserDTO.firstName(),
@@ -69,6 +75,7 @@ public class UserService {
                 newUserDTO.password(),
                 newUserDTO.email()
         );
+        newUser.addRole(userRole);
         try {
             return userRepository.save(newUser).getId();
         } catch (DataAccessException e) {
