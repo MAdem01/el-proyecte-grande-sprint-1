@@ -15,9 +15,12 @@ import com.codecool.codekickfc.exceptions.AlreadySignedUpException;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.exceptions.UserNotFoundException;
+import com.codecool.codekickfc.security.jwt.JwtUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,11 +33,16 @@ public class UserService {
     private final MatchRepository matchRepository;
     private final RoleRepository roleRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserService(UserRepository userRepository, MatchRepository matchRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, MatchRepository matchRepository, RoleRepository roleRepository,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.matchRepository = matchRepository;
         this.roleRepository = roleRepository;
+
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -72,7 +80,7 @@ public class UserService {
                 newUserDTO.username(),
                 newUserDTO.firstName(),
                 newUserDTO.lastName(),
-                newUserDTO.password(),
+                passwordEncoder.encode(newUserDTO.password()),
                 newUserDTO.email()
         );
         newUser.addRole(userRole);
