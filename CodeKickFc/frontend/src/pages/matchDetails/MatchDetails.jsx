@@ -16,7 +16,11 @@ export default function MatchDetails() {
                              postcode={match.footballPitch.postcode}
                              streetName={match.footballPitch.streetName}
                              streetNumber={match.footballPitch.streetNumber}
-                             price={match.match_fee_per_players}/>
+                             price={match.match_fee_per_players}
+                             matchId={match.match_id}
+                             pitchName={match.footballPitch.name}
+                             maxPlayers={match.maxPlayers}
+                             subscribedPlayers={match.subscribedPlayers.length}/>
             <SubscribedPlayers subscribedPlayers={match.subscribedPlayers}/>
             <MatchDescription image={match.footballPitch.imgUrl}
                               description={match.footballPitch.description}
