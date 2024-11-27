@@ -21,5 +21,11 @@ public class EmailController {
         emailService.sendEmail(request.subject(), request.description());
         return "Email sent successfully!";
     }
+
+    @PostMapping("/confirmation")
+    public String confirmationEmail(@RequestBody EmailConfirmationDTO request) {
+        emailService.sendConfirmationEmail(request);
+        return "Email sent successfully!";
+    }
 }
 

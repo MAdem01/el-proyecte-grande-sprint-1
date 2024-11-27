@@ -8,6 +8,7 @@ import RegisterPage from "./pages/registerPage/RegisterPage.jsx";
 import ProfilePage from "./pages/profilePage/ProfilePage.jsx";
 import MatchDetails from "./pages/matchDetails/MatchDetails.jsx";
 import LoginPage from "./pages/loginPage/LoginPage.jsx";
+import PaymentPage from "./pages/paymentPage/PaymentPage.jsx";
 
 
 function Layout() {
@@ -53,6 +54,10 @@ function App() {
                     path: "/matchdetails/:matchId",
                     element: <MatchDetails/>
                 },
+                {
+                    path: "/payment/:userId/:matchId",
+                    element: <PaymentPage/>
+                }
             ],
         },
     ]);
