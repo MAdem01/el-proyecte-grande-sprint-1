@@ -1,5 +1,6 @@
 package com.codecool.codekickfc.controller.email;
 
+import com.codecool.codekickfc.controller.dto.email.EmailConfirmationDTO;
 import com.codecool.codekickfc.controller.dto.email.EmailDTO;
 import com.codecool.codekickfc.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,12 @@ public class EmailController {
     @PostMapping("/send")
     public String sendEmail(@RequestBody EmailDTO request) {
         emailService.sendEmail(request.subject(), request.description());
+        return "Email sent successfully!";
+    }
+
+    @PostMapping("/confirmation")
+    public String confirmationEmail(@RequestBody EmailConfirmationDTO request) {
+        emailService.sendConfirmationEmail(request);
         return "Email sent successfully!";
     }
 }
