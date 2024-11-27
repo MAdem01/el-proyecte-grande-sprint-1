@@ -45,6 +45,20 @@ export default function WhenAndWhereBox(props) {
                         <p className="whenAndWherePaymentText">{props.price + "Ft /person"}</p>
                     </div>
                 </li>
+                <li>
+                    <div className="whenAndWhereJoinGameButtonBox">
+                        <button
+                            className={props.subscribedPlayers >= props.maxPlayers ?
+                                "joinGameButton disabled" : "joinGameButton"}
+                            disabled={props.subscribedPlayers >= props.maxPlayers}
+                            onClick={() => navigate(
+                                `/payment/10/${props.matchId}`,
+                                {state: {matchDetails: props}}
+                            )}>
+                            Join Game
+                        </button>
+                    </div>
+                </li>
             </ul>
         </div>
     )
