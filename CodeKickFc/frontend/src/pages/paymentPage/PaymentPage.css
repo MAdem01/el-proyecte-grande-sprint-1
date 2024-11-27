@@ -1,0 +1,332 @@
+:root {
+    --primary-col: #6C7BEE;
+}
+
+.paymentPageBox {
+    display: flex;
+    justify-content: center;
+}
+
+.bg {
+    background-color: var(--primary-col);
+    width: 480px;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 40px;
+    font-family: 'Roboto', serif;
+    max-height: calc(100vh - 67.8px);
+    overflow-y: scroll;
+    border-radius: 15px 10px 10px 15px;
+}
+
+.card {
+    background-color: white;
+    width: 100%;
+    float: left;
+    margin-top: 40px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 80px 30px 25px 30px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.card__success {
+    position: absolute;
+    top: -50px;
+    left: 145px;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    background-color: #60c878;
+    border: 5px solid white;
+}
+
+.checkMarkIcon {
+    color: white;
+    line-height: 100px;
+    font-size: 55px;
+    margin-top: 18px;
+}
+
+.card__msg {
+    text-transform: uppercase;
+    color: #55585b;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.card__submsg {
+    color: #959a9e;
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 0;
+}
+
+.card__body {
+    background-color: #f8f6f6;
+    border-radius: 4px;
+    width: 100%;
+    margin-top: 30px;
+    float: left;
+    box-sizing: border-box;
+    padding: 30px;
+}
+
+.card__recipient-info {
+
+    display: inline-block;
+
+}
+
+.card__recipient {
+
+    color: #232528;
+    text-align: center;
+    margin-bottom: 5px;
+    font-weight: 600;
+
+}
+
+.card__email {
+
+    color: #838890;
+    text-align: center;
+    margin-top: 0;
+
+}
+
+.card__price {
+
+    color: #232528;
+    font-size: 2.5rem;
+    margin-top: 25px;
+    margin-bottom: 30px;
+
+    span {
+
+        font-size: 70px;
+
+    }
+
+}
+
+.card__method {
+
+    color: #d3cece;
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 11px;
+    margin-bottom: 5px;
+
+}
+
+.card__payment {
+
+    background-color: white;
+    border-radius: 4px;
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.card__credit-card {
+
+    width: 50px;
+    display: inline-block;
+    margin-right: 15px;
+
+}
+
+.card__card-details {
+
+    display: inline-block;
+    text-align: left;
+
+}
+
+.card__card-type {
+
+    text-transform: uppercase;
+    color: #232528;
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 3px;
+
+}
+
+.card__card-number {
+
+    color: #838890;
+    font-size: 12px;
+    margin-top: 0;
+
+}
+
+.card__tags {
+
+    clear: both;
+    padding-top: 15px;
+
+}
+
+.card__tag {
+
+    text-transform: uppercase;
+    background-color: #f8f6f6;
+    box-sizing: border-box;
+    padding: 3px 5px;
+    border-radius: 3px;
+    font-size: 10px;
+    color: #d3cece;
+}
+
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 -16px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.col-25 {
+    -ms-flex: 25%;
+    flex: 25%;
+}
+
+.col-50 {
+    -ms-flex: 50%;
+    flex: 50%;
+}
+
+.col-75 {
+    -ms-flex: 75%;
+    flex: 75%;
+    display: flex;
+    justify-content: center;
+}
+
+.col-25,
+.col-50,
+.col-75 {
+    padding: 0 16px;
+}
+
+.container {
+    margin-top: 10px;
+    background-color: rgba(0, 0, 0, 0.06);
+    padding: 5px 20px 15px 20px;
+    border: 1px solid lightgrey;
+    border-radius: 3px;
+    width: 50%;
+    max-height: 85vh;
+    overflow-y: scroll;
+}
+
+.container h2 {
+    text-align: center;
+}
+
+.container::-webkit-scrollbar-track {
+    padding: 2px 0;
+}
+
+.container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    background-color: rgba(115, 114, 114, 0.65);
+    border: 1px solid #000000;
+}
+
+.bg::-webkit-scrollbar-track {
+    padding: 2px 0;
+}
+
+.bg::-webkit-scrollbar {
+    width: 10px;
+}
+
+.bg::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    background-color: rgba(115, 114, 114, 0.65);
+    border: 1px solid #000000;
+}
+
+.row input[type=text],
+.row input[type="text"],
+.row input[type="password"],
+.row input[type="email"],
+.row input[type="number"] {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.row label {
+    margin-bottom: 10px;
+    display: block;
+}
+
+.icon-container {
+    margin-bottom: 20px;
+    padding: 7px 0;
+    font-size: 24px;
+}
+
+.btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    width: 100%;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 800px) {
+    .row {
+        flex-direction: column-reverse;
+    }
+
+    .col-25 {
+        margin-bottom: 20px;
+    }
+}
+
+.fa.fa-cc-visa {
+    color: navy;
+}
+
+.fa.fa-cc-amex {
+    color: blue;
+}
+
+.fa.fa-cc-mastercard {
+    color: red;
+}
+
+.fa.fa-cc-discover {
+    color: orange;
+}
+
