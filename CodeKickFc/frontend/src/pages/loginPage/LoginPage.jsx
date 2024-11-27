@@ -36,9 +36,13 @@ export default function LoginPage() {
         }
     }
 
+    function handleRedirection(){
+        navigate("/users/register");
+    }
+
     return (
         <div className="pageWrapper">
-            <div className="formContainer">
+            <div className="loginFormContainer">
                 <form className="loginForm" onSubmit={handleSubmit}>
                     <h1 className="loginFormTitle">Login</h1>
                     <InputField className="loginPageInputField" placeholder="Username" type="text" value={username}
@@ -48,7 +52,7 @@ export default function LoginPage() {
                     <button className="loginPageRegisterButton" onClick={handleRegisterClick}>Register</button>
                     <button className="loginPageLoginButton">Login</button>
                 </form>
-                <h3 className="loginPageRegisterLink">First Time Here? Register!</h3>
+                <h3 className="loginPageRegisterLink" onClick={handleRedirection}>First Time Here? Register!</h3>
                 <button className="googleLoginButton"><img src={LoginWithGoogleSvg} alt="test"/></button>
                 {isUserNotFound && <h3>Username Or Password Is Incorrect</h3>}
             </div>

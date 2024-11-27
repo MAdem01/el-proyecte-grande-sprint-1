@@ -3,6 +3,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import MatchEntry from "../../components/MatchEntry/MatchEntry.jsx";
 import {useEffect, useState} from "react";
 import JoinFootballBar from "../../components/JoinFootballBar/JoinFootballBar.jsx";
+import {formatDateDefault} from "../../utils/ReusableFunctions.js";
 
 export default function PlayFootballPage() {
     const [footballMatches, setFootballMatches] = useState(null);
@@ -60,16 +61,6 @@ export default function PlayFootballPage() {
         setPageNumber(pageNumber - 1);
     }
 
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        return `${year}-${month}-${day} ${hours}:${minutes}`;
-    }
-
     return (
         footballMatches ? (
             footballMatches.error ? (
@@ -92,7 +83,7 @@ export default function PlayFootballPage() {
                             {footballMatches.map((footballMatch) => (
                                 <MatchEntry
                                     key={footballMatch.match_id}
-                                    date={formatDate(footballMatch.match_date)}
+                                    date={formatDateDefault(footballMatch.match_date)}
                                     city={footballMatch.footballPitch.city}
                                     district={footballMatch.footballPitch.district}
                                     price={footballMatch.match_fee_per_players}

@@ -4,7 +4,7 @@
     border: rgba(0, 0, 0, 0.37) solid 1px;
     position: relative;
     width: 20%;
-    height: 62%;
+    height: 65%;
     max-width: 300px;
     border-radius: 10px;
     margin: 50px;
@@ -52,6 +52,7 @@
     list-style-type: none;
     padding: 0;
     margin: 0;
+    align-items: center;
 }
 
 .whenAndWhereDateIcon, .whenAndWhereTimeIcon, .whenAndWhereLocationIcon, .whenAndWherePaymentIcon {
@@ -81,4 +82,34 @@
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
     background-color: #737272;
     border: 1px solid #000;
+}
+
+.whenAndWhereJoinGameButtonBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.joinGameButton {
+    background-color: #00ac22;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    color: #e8e8e8;
+    cursor: pointer;
+    font-family: "GT Walsheim", ui-sans-serif, system-ui, sans-serif;
+    font-size: 1.2rem;
+}
+
+.joinGameButton:hover {
+    background-color: #00881d;
+}
+
+.disabled {
+    cursor: not-allowed;
+    background-color: rgb(110, 110, 110);
+}
+
+.disabled:hover {
+    background-color: rgb(101, 101, 101);
 }
