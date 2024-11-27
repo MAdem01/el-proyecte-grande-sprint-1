@@ -15,16 +15,37 @@ export default function RegisterPage() {
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isUsernameValid, setIsUsernameValid] = useState(true);
     const [isRegistered, setIsRegistered] = useState(false);
+    const [isFirstNameValid, setIsFirstNameValid] = useState(true);
+    const [isLastNameValid, setIsLastNameValid] = useState(true);
 
     function doInputValidation() {
-        checkIfPasswordIsValid()
-        checkIfEmailIsValid()
+        checkIfPasswordIsValid();
+        checkIfEmailIsValid();
+        checkIfFirstNameIsValid();
+        checkIfLastNameIsValid();
 
-        return isEmailValid && isPasswordValid
+        return isEmailValid && isPasswordValid && firstName !== "" && lastName !== "" && username !== ""
     }
+
 
     function handleRedirection(){
         navigate("/users/login");
+    }
+
+    function checkIfFirstNameIsValid(){
+        if(firstName === ""){
+            setIsFirstNameValid(false)
+        }else{
+            setIsFirstNameValid(true)
+        }
+    }
+
+    function checkIfLastNameIsValid(){
+        if(lastName === ""){
+            setIsLastNameValid(false)
+        }else{
+            setIsLastNameValid(true)
+        }
     }
 
     function checkIfEmailIsValid() {
@@ -59,7 +80,11 @@ export default function RegisterPage() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        doInputValidation()
+        setIsRegistered(false)
+
+        if(!doInputValidation()){
+            return
+        }
 
         const response = await fetch('/api/users', {
             method: 'POST',
@@ -80,8 +105,14 @@ export default function RegisterPage() {
         }
 
         if(response.status === 200){
-            localStorage.setItem("user", JSON.stringify(response));
             setIsRegistered(true);
+            setUsername("");
+            setFirstName("");
+            setLastName("");
+            setEmail("");
+            setPassword("");
+            setPasswordConfirm("");
+            setIsUsernameValid(true)
         }
 
     }
@@ -94,13 +125,13 @@ export default function RegisterPage() {
                 <h3 className={`registrationMessage ${isRegistered ? "visible" : ""}`}>Successfully Registered!</h3>
                 <div className="registrationFormWrapper">
                     <form className="registrationForm">
-                        <h3 className="errorMessage">dd</h3>
-                        <InputField className="registerPageInputField" placeholder="Username" type="text"
+                        <h3 className={`errorMessage ${!isUsernameValid ? "visible" : ""}`}>Username is already in use</h3>
+                        <InputField  className="registerPageInputField" placeholder="Username" type="text"
                                     value={username} onChange={(e) => setUsername(e.target.value)}/>
-                        <h3 className="errorMessage">.</h3>
+                        <h3 className={`errorMessage ${!isFirstNameValid ? "visible" : ""}`}>Enter a first name</h3>
                         <InputField className="registerPageInputField" placeholder="First Name" type="text"
                                     value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
-                        <h3 className="errorMessage">.</h3>
+                        <h3 className={`errorMessage ${!isLastNameValid ? "visible" : ""}`}>Enter a last name</h3>
                         <InputField className="registerPageInputField" placeholder="Last Name" type="text"
                                     value={lastName} onChange={(e) => setLastName(e.target.value)}/>
                     </form>
