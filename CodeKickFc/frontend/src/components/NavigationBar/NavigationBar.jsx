@@ -20,7 +20,10 @@ export default function NavigationBar({isLoggedIn}) {
                         onClick={() => navigate("/")}>Home</a>
                     </li>
                     <li>
-                        <a onClick={() => navigate("/football-games")}>Play Football</a>
+                        <a className="homeButton" onClick={() => navigate("/football-games")}>Play Football</a>
+                    </li>
+                    <li>
+                        <a className="homeButton" onClick={() => navigate("/admin/addmatch")}>Add Match</a>
                     </li>
                 </ul>
             </div>
