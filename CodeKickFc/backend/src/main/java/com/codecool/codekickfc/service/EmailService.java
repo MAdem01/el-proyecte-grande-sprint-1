@@ -1,6 +1,6 @@
 package com.codecool.codekickfc.service;
 
-import com.codecool.codekickfc.controller.dto.email.EmailConfirmationDTO;
+import com.codecool.codekickfc.dto.email.EmailConfirmationDTO;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;

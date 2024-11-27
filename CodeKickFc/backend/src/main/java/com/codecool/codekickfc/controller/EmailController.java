@@ -1,5 +1,6 @@
 package com.codecool.codekickfc.controller;
 
+import com.codecool.codekickfc.dto.email.EmailConfirmationDTO;
 import com.codecool.codekickfc.dto.email.EmailDTO;
 import com.codecool.codekickfc.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
