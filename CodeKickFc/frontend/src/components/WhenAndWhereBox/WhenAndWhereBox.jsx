@@ -1,37 +1,12 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCalendarDays, faCreditCard, faClock, faMapLocationDot} from '@fortawesome/free-solid-svg-icons';
+import {faCalendarDays, faClock, faCreditCard, faMapLocationDot} from '@fortawesome/free-solid-svg-icons';
 import "./WhenAndWhereBox.css";
+import {useNavigate} from "react-router-dom";
+import "../../utils/ReusableFunctions.js";
+import {formatAddress, formatDate, formatTime} from "../../utils/ReusableFunctions.js";
 
 export default function WhenAndWhereBox(props) {
-    const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const month = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
-
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const monthName = month[date.getMonth()];
-        const day = weekday[date.getDay()];
-
-        return `${day}, ${monthName} ${date.getDate()}, ${year}`;
-    }
-
-    function formatTime(dateString) {
-        const date = new Date(dateString);
-        const hour = date.getHours();
-        let minutes = date.getMinutes().toString();
-        if (minutes.length === 1) {
-            minutes = `0${minutes}`;
-        }
-
-        return `${hour}:${minutes}`;
-    }
-
-    function formatAddress(city, district, postcode, streetName, streetNumber) {
-        return `${postcode}, ${city}, ${district}. district, ${streetName} Str. ${streetNumber}`;
-    }
+    const navigate = useNavigate();
 
     return (
         <div className="whenAndWhereBox">
