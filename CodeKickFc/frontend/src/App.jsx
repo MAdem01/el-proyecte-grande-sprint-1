@@ -1,5 +1,3 @@
-import * as React from "react";
-import {useState} from "react";
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import NavigationBar from './components/NavigationBar/NavigationBar.jsx';
 import HomePage from './pages/HomePage/HomePage.jsx';
