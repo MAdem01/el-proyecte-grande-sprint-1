@@ -8,13 +8,14 @@ import RegisterPage from "./pages/registerPage/RegisterPage.jsx";
 import ProfilePage from "./pages/profilePage/ProfilePage.jsx";
 import MatchDetails from "./pages/matchDetails/MatchDetails.jsx";
 import LoginPage from "./pages/loginPage/LoginPage.jsx";
+import PaymentPage from "./pages/paymentPage/PaymentPage.jsx";
 
 
 function Layout({isLoggedIn}) {
     return (
         <>
             <NavigationBar
-            isLoggedIn={isLoggedIn}
+                isLoggedIn={isLoggedIn}
             />
             <Outlet/>
         </>
@@ -30,7 +31,7 @@ function App() {
         {
             path: "/",
             element: <Layout
-            isLoggedIn={isLoggedIn}
+                isLoggedIn={isLoggedIn}
             />,
             children: [
                 {
@@ -44,12 +45,12 @@ function App() {
                 {
                     path: "/users/register",
                     element: <RegisterPage
-                    setIsLoggedIn={setIsLoggedIn}/>
+                        setIsLoggedIn={setIsLoggedIn}/>
                 },
                 {
                     path: "/users/login",
                     element: <LoginPage
-                    setIsLoggedIn={setIsLoggedIn}/>
+                        setIsLoggedIn={setIsLoggedIn}/>
                 },
                 {
                     path: "/user/:id",
@@ -59,6 +60,10 @@ function App() {
                     path: "/matchdetails/:matchId",
                     element: <MatchDetails/>
                 },
+                {
+                    path: "/payment/:userId/:matchId",
+                    element: <PaymentPage/>
+                }
             ],
         },
     ]);
