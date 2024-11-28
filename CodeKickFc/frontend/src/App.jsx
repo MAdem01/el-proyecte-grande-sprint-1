@@ -64,7 +64,11 @@ function App() {
                 },
                 {
                     path: "/payment/:userId/:matchId",
-                    element: <PaymentPage/>
+                    element: (
+                        <ProtectedRoute>
+                            <PaymentPage/>
+                        </ProtectedRoute>
+                    )
                 }
             ],
         },
