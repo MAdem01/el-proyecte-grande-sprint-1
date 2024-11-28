@@ -4,9 +4,21 @@ import "./WhenAndWhereBox.css";
 import {useNavigate} from "react-router-dom";
 import "../../utils/ReusableFunctions.js";
 import {formatAddress, formatDate, formatTime} from "../../utils/ReusableFunctions.js";
+import {useEffect, useState} from "react";
 
 export default function WhenAndWhereBox(props) {
     const navigate = useNavigate();
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        function getUserId() {
+            if (localStorage.getItem("user")) {
+                setUserId(JSON.parse(localStorage.getItem("user")).id);
+            }
+        }
+
+        getUserId()
+    }, []);
 
     return (
         <div className="whenAndWhereBox">
