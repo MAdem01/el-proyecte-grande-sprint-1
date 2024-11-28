@@ -67,50 +67,56 @@ export default function AdminPage() {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>
+        <div className="addMatchFormBox">
+            <form onSubmit={handleSubmit} className="addMatchForm">
+                <label className="adminPageLabel">
                     Max Players
-                    <input type="number"
+                    <input className="adminPageInput"
+                           type="number"
                            min="8"
                            placeholder="Add match capacity"
                            value={maxPlayers}
                            onChange={(e) => setMaxPlayers(e.target.value)}
                            required/>
                 </label>
-                <label>
+                <label className="adminPageLabel">
                     Match Fee Per Player
-                    <input type="number"
+                    <input className="adminPageInput"
+                           type="number"
                            min="1000"
                            placeholder="Add match fee"
                            value={matchFee}
                            onChange={(e) => setMatchFee(e.target.value)}
                            required/>
                 </label>
-                <label>
+                <label className="adminPageLabel">
                     Match Date
-                    <input type="date"
+                    <input className="adminPageInput"
+                           type="date"
                            min={setMinimumDate()}
                            value={matchDate}
                            onChange={(e) => setMatchDate(e.target.value)}
                            required/>
                 </label>
-                <label>
+                <label className="adminPageLabel">
                     Match Time
-                    <input type="time"
+                    <input className="adminPageInput"
+                           type="time"
                            value={matchTime}
                            onChange={(e) => setMatchTime(e.target.value)}
                            required/>
                 </label>
-                <label>
+                <label className="adminPageLabel">
                     Match Rules
-                    <textarea cols="50" rows="10" placeholder="Add match rules"
+                    <textarea className="adminPageInput"
+                              cols="50" rows="10" placeholder="Add match rules"
                               value={matchRules}
                               onChange={(e) =>
                                   setMatchRules(e.target.value)}
                               required/>
                 </label>
                 <select
+                    className="adminPageInput"
                     value={footballPitchId}
                     onChange={(e) => setFootballPitchId(e.target.value)}
                     required>
@@ -120,7 +126,7 @@ export default function AdminPage() {
                         </option>
                     ))}
                 </select>
-                <button type="submit">Submit</button>
+                <button type="submit" className="adminPageButton">Submit</button>
             </form>
         </div>
     )
