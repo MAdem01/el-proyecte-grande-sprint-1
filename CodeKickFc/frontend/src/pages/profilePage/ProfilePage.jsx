@@ -16,7 +16,13 @@ export default function ProfilePage() {
     }, []);
 
     const fetchUserData = async () => {
-        const response = await fetch(`/api/users/${id}`);
+        const response = await fetch(`/api/users/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
         const data = await response.json();
         setUserData(data);
     }
