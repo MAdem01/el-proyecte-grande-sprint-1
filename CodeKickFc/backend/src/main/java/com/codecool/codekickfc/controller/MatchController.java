@@ -41,7 +41,7 @@ public class MatchController {
      * @param newMatchDTO The request body based on the client inputs.
      * @return ID of the newly created match.
      */
-    @PostMapping
+    @PostMapping("/admin")
     public MatchIdDTO createMatch(@RequestBody NewMatchDTO newMatchDTO) {
         return matchService.createMatch(newMatchDTO);
     }
