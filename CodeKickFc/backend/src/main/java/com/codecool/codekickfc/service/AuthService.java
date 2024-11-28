@@ -25,6 +25,7 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final UserRepository userRepository;
 
     @Autowired
     public AuthService(
@@ -34,6 +35,7 @@ public class AuthService {
     ) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
+        this.userRepository = userRepository;
     }
 
     public JwtResponse authenticateUser(LoginRequest loginRequest) {
@@ -42,12 +44,16 @@ public class AuthService {
         );
 
 
+        User user = userRepository.findByUsername(loginRequest.username()).orElseThrow(
+                UserNotFoundException::new
+        );
+
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String jwt = jwtUtils.generateJwtToken(authentication);
-        List<String> roles =userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
 
-        return new JwtResponse(jwt, userDetails.getUsername(), roles);
+        return new JwtResponse(jwt, userDetails.getUsername(), user.getId() , roles);
     }
 
     public Map<String, Object> getUserDetails() {
