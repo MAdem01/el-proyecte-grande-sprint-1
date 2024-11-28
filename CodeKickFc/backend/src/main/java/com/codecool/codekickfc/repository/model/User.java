@@ -26,7 +26,7 @@ public class User {
     private String email;
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<Match> matches;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     public User(String username, String firstName, String lastName, String password, String email) {
