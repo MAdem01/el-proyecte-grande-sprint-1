@@ -6,6 +6,7 @@ import com.codecool.codekickfc.dto.matches.NewMatchDTO;
 import com.codecool.codekickfc.dto.matches.UpdateMatchDTO;
 import com.codecool.codekickfc.service.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,7 +42,8 @@ public class MatchController {
      * @param newMatchDTO The request body based on the client inputs.
      * @return ID of the newly created match.
      */
-    @PostMapping
+    @PostMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
     public MatchIdDTO createMatch(@RequestBody NewMatchDTO newMatchDTO) {
         return matchService.createMatch(newMatchDTO);
     }

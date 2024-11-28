@@ -1,25 +1,20 @@
 package com.codecool.codekickfc.service;
 
 import com.codecool.codekickfc.dto.matches.MatchDTO;
-import com.codecool.codekickfc.dto.users.NewUserDTO;
-import com.codecool.codekickfc.dto.users.UpdateUserDTO;
-import com.codecool.codekickfc.dto.users.UserDTO;
-import com.codecool.codekickfc.dto.users.UserMatchDTO;
-import com.codecool.codekickfc.repository.MatchRepository;
-import com.codecool.codekickfc.repository.RoleRepository;
-import com.codecool.codekickfc.repository.model.Match;
-import com.codecool.codekickfc.repository.model.Role;
-import com.codecool.codekickfc.repository.model.User;
-import com.codecool.codekickfc.repository.UserRepository;
+import com.codecool.codekickfc.dto.users.*;
 import com.codecool.codekickfc.exceptions.AlreadySignedUpException;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.exceptions.UserNotFoundException;
-import com.codecool.codekickfc.security.jwt.JwtUtils;
+import com.codecool.codekickfc.repository.MatchRepository;
+import com.codecool.codekickfc.repository.RoleRepository;
+import com.codecool.codekickfc.repository.UserRepository;
+import com.codecool.codekickfc.repository.model.Match;
+import com.codecool.codekickfc.repository.model.Role;
+import com.codecool.codekickfc.repository.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,17 +22,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final MatchRepository matchRepository;
     private final RoleRepository roleRepository;
-
+    private static final long ROLE_ADMIN_ID = 2;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, MatchRepository matchRepository, RoleRepository roleRepository,
-                       PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, MatchRepository matchRepository,
+                       RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.matchRepository = matchRepository;
         this.roleRepository = roleRepository;
@@ -74,8 +71,7 @@ public class UserService {
      * @throws DatabaseAccessException In case of connection failure.
      */
     public long createUser(NewUserDTO newUserDTO) {
-        final long userRoleId = 1;
-        Role userRole = roleRepository.getById(userRoleId);
+        Role userRole = roleRepository.findByType("ROLE_USER");
         User newUser = new User(
                 newUserDTO.username(),
                 newUserDTO.firstName(),
@@ -225,5 +221,16 @@ public class UserService {
         } catch (DataAccessException e) {
             throw new DatabaseAccessException(e);
         }
+    }
+
+    public long addAdminRoleFor(UsernameDTO user) {
+        Role adminRole = roleRepository.getById(ROLE_ADMIN_ID);
+        User userEntity = userRepository.findByUsername(user.username()).
+                orElseThrow(() ->
+                        new IllegalArgumentException(
+                                format("User %s not found", user.username())
+                        ));
+        userEntity.addRole(adminRole);
+        return userRepository.save(userEntity).getId();
     }
 }

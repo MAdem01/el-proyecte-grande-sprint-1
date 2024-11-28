@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFutbol, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 
+
 export default function NavigationBar() {
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState(null);
@@ -40,14 +41,19 @@ export default function NavigationBar() {
             <div className="navbar-left">
                 <ul className="navbar-left-links">
                     <li>
-                        <FontAwesomeIcon className="logo" icon={faFutbol} />
+                        <FontAwesomeIcon className="logo" icon={faFutbol}/>
                     </li>
                     <li>
                         <a className="homeButton" onClick={() => navigate("/")}>Home</a>
+
                     </li>
                     <li>
-                        <a onClick={() => navigate("/football-games")}>Play Football</a>
+                        <a className="homeButton" onClick={() => navigate("/football-games")}>Play Football</a>
                     </li>
+                    {userRoles?.includes("ROLE_ADMIN") &&
+                        <li>
+                            <a className="homeButton" onClick={() => navigate("/admin/addmatch")}>Add Match</a>
+                        </li>}
                 </ul>
             </div>
             <div className="navbar-center">
@@ -56,6 +62,7 @@ export default function NavigationBar() {
             <div className="navbar-right">
                 {
                     userInfo && userInfo.authorities && userInfo.authorities[0]?.authority === "ROLE_USER" ? (
+
                         <ul className="navbar-right-links">
                             <li>
                                 <FontAwesomeIcon
@@ -66,6 +73,7 @@ export default function NavigationBar() {
                             </li>
                             <li>
                                 <a className="register-button" onClick={handleLogOut}>Log Out</a>
+
                             </li>
                         </ul>
                     ) : (

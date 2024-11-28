@@ -10,12 +10,12 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const [isUserNotFound, setIsUserNotFound] = useState(false);
 
-    function handleRegisterClick(e){
+    function handleRegisterClick(e) {
         e.preventDefault();
         navigate("/users/register");
     }
 
-    async function handleSubmit(e){
+    async function handleSubmit(e) {
         e.preventDefault();
 
         const response = await fetch("/auth/login", {
@@ -26,19 +26,17 @@ export default function LoginPage() {
             body: JSON.stringify({username: username, password: password}),
         })
 
-        if(response.status === 401){
-            setIsUserNotFound(true);
-        }
 
-        const data = await response.json();
-        if(response.status === 200) {
+        if (response.status === 401) {
+            setIsUserNotFound(true);
+        } else if (response.status === 200) {
+            const data = await response.json();
             localStorage.setItem("user", JSON.stringify(data));
             navigate("/");
         }
-
     }
 
-    function handleRedirection(){
+    function handleRedirection() {
         navigate("/users/register");
     }
 

@@ -2,7 +2,9 @@ package com.codecool.codekickfc.service;
 
 import com.codecool.codekickfc.dto.users.JwtResponse;
 import com.codecool.codekickfc.dto.users.LoginRequest;
+import com.codecool.codekickfc.exceptions.UserNotFoundException;
 import com.codecool.codekickfc.repository.UserRepository;
+import com.codecool.codekickfc.repository.model.User;
 import com.codecool.codekickfc.security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +27,11 @@ public class AuthService {
     private final JwtUtils jwtUtils;
 
     @Autowired
-    public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserRepository userRepository) {
+    public AuthService(
+            AuthenticationManager authenticationManager,
+            JwtUtils jwtUtils,
+            UserRepository userRepository
+    ) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
     }
