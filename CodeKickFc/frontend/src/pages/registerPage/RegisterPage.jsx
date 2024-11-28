@@ -19,33 +19,25 @@ export default function RegisterPage() {
     const [isLastNameValid, setIsLastNameValid] = useState(true);
 
     function doInputValidation() {
-        checkIfPasswordIsValid();
-        checkIfEmailIsValid();
-        checkIfFirstNameIsValid();
-        checkIfLastNameIsValid();
 
-        return isEmailValid && isPasswordValid && firstName !== "" && lastName !== "" && username !== ""
+
+        return checkIfPasswordIsValid() &&
+            checkIfEmailIsValid() &&
+            checkIfFirstNameIsValid() &&
+            checkIfLastNameIsValid()
     }
 
 
-    function handleRedirection(){
+    function handleRedirection() {
         navigate("/users/login");
     }
 
-    function checkIfFirstNameIsValid(){
-        if(firstName === ""){
-            setIsFirstNameValid(false)
-        }else{
-            setIsFirstNameValid(true)
-        }
+    function checkIfFirstNameIsValid() {
+        return firstName !== "";
     }
 
-    function checkIfLastNameIsValid(){
-        if(lastName === ""){
-            setIsLastNameValid(false)
-        }else{
-            setIsLastNameValid(true)
-        }
+    function checkIfLastNameIsValid() {
+        return lastName !== "";
     }
 
     function checkIfEmailIsValid() {
@@ -82,9 +74,10 @@ export default function RegisterPage() {
 
         setIsRegistered(false)
 
-        if(!doInputValidation()){
+        if (!doInputValidation()) {
             return
         }
+
 
         const response = await fetch('/api/users', {
             method: 'POST',
@@ -100,11 +93,11 @@ export default function RegisterPage() {
             }),
         })
 
-        if(response.status === 500){
+        if (response.status === 500) {
             setIsUsernameValid(false)
         }
 
-        if(response.status === 200){
+        if (response.status === 200) {
             setIsRegistered(true);
             setUsername("");
             setFirstName("");
@@ -125,8 +118,9 @@ export default function RegisterPage() {
                 <h3 className={`registrationMessage ${isRegistered ? "visible" : ""}`}>Successfully Registered!</h3>
                 <div className="registrationFormWrapper">
                     <form className="registrationForm">
-                        <h3 className={`errorMessage ${!isUsernameValid ? "visible" : ""}`}>Username is already in use</h3>
-                        <InputField  className="registerPageInputField" placeholder="Username" type="text"
+                        <h3 className={`errorMessage ${!isUsernameValid ? "visible" : ""}`}>Username is already in
+                            use</h3>
+                        <InputField className="registerPageInputField" placeholder="Username" type="text"
                                     value={username} onChange={(e) => setUsername(e.target.value)}/>
                         <h3 className={`errorMessage ${!isFirstNameValid ? "visible" : ""}`}>Enter a first name</h3>
                         <InputField className="registerPageInputField" placeholder="First Name" type="text"

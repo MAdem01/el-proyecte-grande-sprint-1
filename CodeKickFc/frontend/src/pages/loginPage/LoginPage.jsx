@@ -26,6 +26,7 @@ export default function LoginPage() {
             body: JSON.stringify({username: username, password: password}),
         })
 
+
         if (response.status === 401) {
             setIsUserNotFound(true);
         } else if (response.status === 200) {
