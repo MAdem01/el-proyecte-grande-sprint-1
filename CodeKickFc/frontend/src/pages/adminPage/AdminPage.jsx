@@ -21,7 +21,13 @@ export default function AdminPage() {
 
     useEffect(() => {
         async function fetchFootballPitches() {
-            const response = await fetch("/api/footballpitches");
+            const response = await fetch("/api/footballpitches", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
             const footballPitches = await response.json();
             setFootballPitches(footballPitches);
             setFootballPitchId(footballPitches[0].id);
