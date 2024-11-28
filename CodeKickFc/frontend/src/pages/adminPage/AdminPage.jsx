@@ -49,10 +49,11 @@ export default function AdminPage() {
             }
         };
 
-        const response = await fetch("/api/matches", {
+        await fetch("/api/matches/admin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(match)
         });
