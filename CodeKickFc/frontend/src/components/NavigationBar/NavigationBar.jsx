@@ -1,8 +1,8 @@
 import './NavigationBar.css';
-import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFutbol, faUser } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import {useNavigate} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faFutbol, faUser} from '@fortawesome/free-solid-svg-icons';
+import {useEffect, useState} from 'react';
 
 
 export default function NavigationBar() {
@@ -12,28 +12,40 @@ export default function NavigationBar() {
     useEffect(() => {
 
         async function fetchUserData() {
-            if(localStorage.getItem('user')){
-            const data = await fetch("/auth/user/me", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${JSON.parse(localStorage.getItem("user")).jwt}`
-                }
-            });
-            const info = await data.json();
-            console.log(info);
-            setUserInfo(info);
+            if (localStorage.getItem('user')) {
+                const data = await fetch("/auth/user/me", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("user")).jwt}`
+                    }
+                });
+                const info = await data.json();
+                console.log(info);
+                setUserInfo(info);
             }
         }
+
         fetchUserData();
 
 
     }, [location.pathname]);
 
-    function handleLogOut(){
+    function handleLogOut() {
         navigate("/")
         localStorage.clear()
         setUserInfo(null)
+    }
+
+    function isAdmin() {
+        if (userInfo && userInfo.authorities && userInfo.authorities) {
+            for (const role of userInfo.authorities) {
+                if (role.authority === "ROLE_ADMIN") {
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     return (
@@ -50,7 +62,7 @@ export default function NavigationBar() {
                     <li>
                         <a className="homeButton" onClick={() => navigate("/football-games")}>Play Football</a>
                     </li>
-                    {userRoles?.includes("ROLE_ADMIN") &&
+                    {isAdmin() &&
                         <li>
                             <a className="homeButton" onClick={() => navigate("/admin/addmatch")}>Add Match</a>
                         </li>}
@@ -79,7 +91,7 @@ export default function NavigationBar() {
                     ) : (
                         <ul className="navbar-right-links">
                             <li>
-                            <a className="login-button" href="/users/login">Login</a>
+                                <a className="login-button" href="/users/login">Login</a>
                             </li>
                             <li>
                                 <a className="register-button" href="/users/register">Register</a>
