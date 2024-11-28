@@ -5,6 +5,8 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 export default function HomePage() {
+    // localStorage.clear();
+    // console.log(localStorage);
     const [area, setArea] = useState('');
     const [isBugButtonClick, setIsBugButtonClick] = useState(false);
     const [bugEmailSubject, setBugEmailSubject] = useState('');
