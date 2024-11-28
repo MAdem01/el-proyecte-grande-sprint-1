@@ -7,6 +7,8 @@ import ProfilePage from "./pages/profilePage/ProfilePage.jsx";
 import MatchDetails from "./pages/matchDetails/MatchDetails.jsx";
 import LoginPage from "./pages/loginPage/LoginPage.jsx";
 import PaymentPage from "./pages/paymentPage/PaymentPage.jsx";
+import AdminPage from "./pages/adminPage/AdminPage.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
 
 function Layout() {
@@ -37,6 +39,10 @@ function App() {
                     element: <PlayFootballPage/>
                 },
                 {
+                    path: "/admin/addmatch",
+                    element: <AdminPage/>
+                },
+                {
                     path: "/users/register",
                     element: <RegisterPage/>
                 },
@@ -46,7 +52,11 @@ function App() {
                 },
                 {
                     path: "/user/:id",
-                    element: <ProfilePage/>
+                    element: (
+                        <ProtectedRoute>
+                            <ProfilePage/>
+                        </ProtectedRoute>
+                    )
                 },
                 {
                     path: "/matchdetails/:matchId",
@@ -54,7 +64,11 @@ function App() {
                 },
                 {
                     path: "/payment/:userId/:matchId",
-                    element: <PaymentPage/>
+                    element: (
+                        <ProtectedRoute>
+                            <PaymentPage/>
+                        </ProtectedRoute>
+                    )
                 }
             ],
         },
