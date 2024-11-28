@@ -71,8 +71,7 @@ public class UserService {
      * @throws DatabaseAccessException In case of connection failure.
      */
     public long createUser(NewUserDTO newUserDTO) {
-        final long userRoleId = 1;
-        Role userRole = roleRepository.getById(userRoleId);
+        Role userRole = roleRepository.findByType("ROLE_USER");
         User newUser = new User(
                 newUserDTO.username(),
                 newUserDTO.firstName(),
