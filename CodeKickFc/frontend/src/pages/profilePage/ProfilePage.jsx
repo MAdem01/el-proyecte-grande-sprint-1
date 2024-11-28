@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import "./profilePage.css";
 import {useState, useEffect} from "react";
 import MatchEntry from "../../components/MatchEntry/MatchEntry.jsx";
@@ -6,14 +6,14 @@ import "./ProfilePage.css"
 import {formatDateDefault} from "../../utils/ReusableFunctions.js";
 
 export default function ProfilePage() {
-    const { id } = useParams();
+    const {id} = useParams();
     const navigate = useNavigate();
-
-    const[userData, setUserData] = useState(null);
+    const token = JSON.parse(localStorage.getItem("user")).jwt;
+    const [userData, setUserData] = useState(null);
 
     useEffect(() => {
         fetchUserData();
-    },[]);
+    }, []);
 
     const fetchUserData = async () => {
         const response = await fetch(`/api/users/${id}`);
