@@ -1,7 +1,9 @@
 import {useEffect, useState} from "react";
+import "./AdminPage.css";
 
 
 export default function AdminPage() {
+    const token = JSON.parse(localStorage.getItem("user")).jwt;
     const [maxPlayers, setMaxPlayers] = useState(0);
     const [matchFee, setMatchFee] = useState(0);
     const [matchDate, setMatchDate] = useState("");
@@ -9,6 +11,7 @@ export default function AdminPage() {
     const [matchRules, setMatchRules] = useState("");
     const [footballPitchId, setFootballPitchId] = useState(0);
     const [footballPitches, setFootballPitches] = useState(null);
+
 
     function setMinimumDate() {
         const tomorrow = new Date();
@@ -25,7 +28,7 @@ export default function AdminPage() {
         }
 
         fetchFootballPitches();
-    }, []);
+    }, [token]);
 
     async function handleSubmit(event) {
         event.preventDefault();
