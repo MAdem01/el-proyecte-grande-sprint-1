@@ -58,9 +58,12 @@ export default function AdminPage() {
             body: JSON.stringify(match)
         });
 
-        const data = await response.json();
-
-        console.log(data);
+        setMaxPlayers(0);
+        setMatchFee(0);
+        setMatchDate("");
+        setMatchTime("");
+        setFootballPitchId(0);
+        setMatchRules("");
     }
 
     return (
