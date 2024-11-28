@@ -23,23 +23,24 @@ export default function NavigationBar({isLoggedIn}) {
                     <li>
                         <a className="homeButton" onClick={() => navigate("/football-games")}>Play Football</a>
                     </li>
-                    <li>
-                        <a className="homeButton" onClick={() => navigate("/admin/addmatch")}>Add Match</a>
-                    </li>
+                    {userRoles?.includes("ROLE_ADMIN") &&
+                        <li>
+                            <a className="homeButton" onClick={() => navigate("/admin/addmatch")}>Add Match</a>
+                        </li>}
                 </ul>
             </div>
             <div className="navbar-center">
                 <a className="website-name" href="/">CodeKickFC</a>
             </div>
             <div className="navbar-right">
-                    {isLoggedIn ?
+                {isLoggedIn ?
                     (
                         <ul className="navbar-right-links">
                             <li>
                                 <FontAwesomeIcon
-                                icon={faUser}
-                                style={{color: "000000",scale: "2"}}
-                                onClick={() => navigate(`/user/${userId}`)}/>
+                                    icon={faUser}
+                                    style={{color: "000000", scale: "2"}}
+                                    onClick={() => navigate(`/user/${userId}`)}/>
                             </li>
                         </ul>
                     ) :
