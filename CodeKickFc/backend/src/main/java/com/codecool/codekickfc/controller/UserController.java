@@ -1,9 +1,6 @@
 package com.codecool.codekickfc.controller;
 
-import com.codecool.codekickfc.dto.users.NewUserDTO;
-import com.codecool.codekickfc.dto.users.UpdateUserDTO;
-import com.codecool.codekickfc.dto.users.UserDTO;
-import com.codecool.codekickfc.dto.users.UserMatchDTO;
+import com.codecool.codekickfc.dto.users.*;
 import com.codecool.codekickfc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -106,5 +103,10 @@ public class UserController {
     public UserMatchDTO removeUserFromMatch(@PathVariable long userId,
                                             @PathVariable long matchId) {
         return userService.removeUserFromMatch(userId, matchId);
+    }
+
+    @PostMapping("/admin/add")
+    public long addAdmin(@RequestBody UsernameDTO user) {
+        return userService.addAdminRoleFor(user);
     }
 }

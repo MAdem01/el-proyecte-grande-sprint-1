@@ -30,9 +30,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
         List<SimpleGrantedAuthority> roles = new ArrayList<>();
+
         for (Role role : user.getRoles()) {
             roles.add(new SimpleGrantedAuthority(role.getType()));
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), roles);
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(), user.getPassword(), roles
+        );
     }
 }

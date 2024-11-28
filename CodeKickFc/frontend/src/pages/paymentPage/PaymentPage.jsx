@@ -7,6 +7,7 @@ import {faCheck} from '@fortawesome/free-solid-svg-icons';
 
 
 export default function PaymentPage() {
+    const token = JSON.parse(localStorage.getItem("user")).jwt;
     const {userId, matchId} = useParams();
     const location = useLocation();
     const matchDetails = location.state.matchDetails;
@@ -22,6 +23,7 @@ export default function PaymentPage() {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             }
         });
 
@@ -36,6 +38,7 @@ export default function PaymentPage() {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         subject: "Confirmation",
