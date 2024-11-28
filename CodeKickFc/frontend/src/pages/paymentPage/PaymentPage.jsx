@@ -7,6 +7,7 @@ import {faCheck} from '@fortawesome/free-solid-svg-icons';
 
 
 export default function PaymentPage() {
+    const token = JSON.parse(localStorage.getItem("user")).jwt;
     const {userId, matchId} = useParams();
     const location = useLocation();
     const matchDetails = location.state.matchDetails;
