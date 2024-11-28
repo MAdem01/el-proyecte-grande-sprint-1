@@ -26,16 +26,16 @@ export default function LoginPage() {
             body: JSON.stringify({username: username, password: password}),
         })
 
-        const data = await response.json();
+        if(response.status === 401){
+            setIsUserNotFound(true);
+        }
 
+        const data = await response.json();
         if(response.status === 200) {
             localStorage.setItem("user", JSON.stringify(data));
             navigate("/");
         }
 
-        if(response.status === 404){
-            setIsUserNotFound(true);
-        }
     }
 
     function handleRedirection(){
