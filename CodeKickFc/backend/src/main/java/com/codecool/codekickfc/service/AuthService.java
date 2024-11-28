@@ -6,6 +6,8 @@ import com.codecool.codekickfc.exceptions.UserNotFoundException;
 import com.codecool.codekickfc.repository.UserRepository;
 import com.codecool.codekickfc.repository.model.User;
 import com.codecool.codekickfc.security.jwt.JwtUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,8 +16,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AuthService {
@@ -37,23 +40,31 @@ public class AuthService {
 
     public JwtResponse authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.username(),
-                        loginRequest.password()
-                )
+                new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password())
         );
+
 
         User user = userRepository.findByUsername(loginRequest.username()).orElseThrow(
                 UserNotFoundException::new
         );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream().
-                map(GrantedAuthority::getAuthority).toList();
+        String jwt = jwtUtils.generateJwtToken(authentication);
+        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-        return new JwtResponse(jwt, userDetails.getUsername(), user.getId(), roles);
+
+        return new JwtResponse(jwt, userDetails.getUsername(), user.getId() , roles);
+    }
+
+    public Map<String, Object> getUserDetails() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            Map<String, Object> userInfo = new HashMap<>();
+            userInfo.put("username", userDetails.getUsername());
+            userInfo.put("authorities", userDetails.getAuthorities());
+            return userInfo;
+        }
+        return null;
     }
 }

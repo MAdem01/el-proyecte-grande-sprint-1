@@ -1,13 +1,52 @@
-import './NavigationBar.css'
+import './NavigationBar.css';
 import {useNavigate} from 'react-router-dom';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faFutbol, faUser} from '@fortawesome/free-solid-svg-icons';
+import {useEffect, useState} from 'react';
 
 
-export default function NavigationBar({isLoggedIn}) {
+export default function NavigationBar() {
     const navigate = useNavigate();
-    const user = localStorage.getItem("user");
-    const userRoles = user ? JSON.parse(user).roles : null;
+    const [userInfo, setUserInfo] = useState(null);
+
+    useEffect(() => {
+
+        async function fetchUserData() {
+            if (localStorage.getItem('user')) {
+                const data = await fetch("/auth/user/me", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("user")).jwt}`
+                    }
+                });
+                const info = await data.json();
+                console.log(info);
+                setUserInfo(info);
+            }
+        }
+
+        fetchUserData();
+
+
+    }, [location.pathname]);
+
+    function handleLogOut() {
+        navigate("/")
+        localStorage.clear()
+        setUserInfo(null)
+    }
+
+    function isAdmin() {
+        if (userInfo && userInfo.authorities && userInfo.authorities) {
+            for (const role of userInfo.authorities) {
+                if (role.authority === "ROLE_ADMIN") {
+                    return true
+                }
+            }
+        }
+        return false
+    }
 
     return (
         <nav className="navbar">
@@ -17,13 +56,13 @@ export default function NavigationBar({isLoggedIn}) {
                         <FontAwesomeIcon className="logo" icon={faFutbol}/>
                     </li>
                     <li>
-                        <a className="homeButton"
-                           onClick={() => navigate("/")}>Home</a>
+                        <a className="homeButton" onClick={() => navigate("/")}>Home</a>
+
                     </li>
                     <li>
                         <a className="homeButton" onClick={() => navigate("/football-games")}>Play Football</a>
                     </li>
-                    {userRoles?.includes("ROLE_ADMIN") &&
+                    {isAdmin() &&
                         <li>
                             <a className="homeButton" onClick={() => navigate("/admin/addmatch")}>Add Match</a>
                         </li>}
@@ -33,18 +72,23 @@ export default function NavigationBar({isLoggedIn}) {
                 <a className="website-name" href="/">CodeKickFC</a>
             </div>
             <div className="navbar-right">
-                {isLoggedIn ?
-                    (
+                {
+                    userInfo && userInfo.authorities && userInfo.authorities[0]?.authority === "ROLE_USER" ? (
+
                         <ul className="navbar-right-links">
                             <li>
                                 <FontAwesomeIcon
                                     icon={faUser}
-                                    style={{color: "000000", scale: "2"}}
-                                    onClick={() => navigate(`/user/${userId}`)}/>
+                                    style={{color: "black", transform: "scale(2)"}}
+                                    onClick={() => navigate(`/user/${userInfo.username}`)}  // Use `userInfo.username` instead of `userId`
+                                />
+                            </li>
+                            <li>
+                                <a className="register-button" onClick={handleLogOut}>Log Out</a>
+
                             </li>
                         </ul>
-                    ) :
-                    (
+                    ) : (
                         <ul className="navbar-right-links">
                             <li>
                                 <a className="login-button" href="/users/login">Login</a>
@@ -53,8 +97,9 @@ export default function NavigationBar({isLoggedIn}) {
                                 <a className="register-button" href="/users/register">Register</a>
                             </li>
                         </ul>
-                    )}
+                    )
+                }
             </div>
         </nav>
-    )
+    );
 }
