@@ -1,23 +1,24 @@
 import './NavigationBar.css'
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faFutbol, faUser} from '@fortawesome/free-solid-svg-icons';
+import {faFutbol, faUser} from '@fortawesome/free-solid-svg-icons';
 
 
 export default function NavigationBar({isLoggedIn}) {
     const navigate = useNavigate();
-    const userId = localStorage.getItem("userId");
+    const user = localStorage.getItem("user");
+    const userRoles = user ? JSON.parse(user).roles : null;
 
     return (
         <nav className="navbar">
             <div className="navbar-left">
                 <ul className="navbar-left-links">
                     <li>
-                        <FontAwesomeIcon className="logo" icon={faFutbol} />
+                        <FontAwesomeIcon className="logo" icon={faFutbol}/>
                     </li>
                     <li>
                         <a className="homeButton"
-                        onClick={() => navigate("/")}>Home</a>
+                           onClick={() => navigate("/")}>Home</a>
                     </li>
                     <li>
                         <a className="homeButton" onClick={() => navigate("/football-games")}>Play Football</a>
