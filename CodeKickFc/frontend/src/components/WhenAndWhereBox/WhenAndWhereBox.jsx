@@ -64,7 +64,7 @@ export default function WhenAndWhereBox(props) {
                                 "joinGameButton disabled" : "joinGameButton"}
                             disabled={props.subscribedPlayers >= props.maxPlayers}
                             onClick={() => navigate(
-                                `/payment/10/${props.matchId}`,
+                                `/payment/${userId}/${props.matchId}`,
                                 {state: {matchDetails: props}}
                             )}>
                             Join Game
