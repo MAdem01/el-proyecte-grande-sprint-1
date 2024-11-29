@@ -76,7 +76,8 @@ export default function AdminPage() {
                            min="8"
                            placeholder="Add match capacity"
                            value={maxPlayers}
-                           onChange={(e) => setMaxPlayers(e.target.value)}
+                           onChange={(e) =>
+                               setMaxPlayers(e.target.value)}
                            required/>
                 </label>
                 <label className="adminPageLabel">
@@ -86,7 +87,8 @@ export default function AdminPage() {
                            min="1000"
                            placeholder="Add match fee"
                            value={matchFee}
-                           onChange={(e) => setMatchFee(e.target.value)}
+                           onChange={(e) =>
+                               setMatchFee(e.target.value)}
                            required/>
                 </label>
                 <label className="adminPageLabel">
@@ -95,7 +97,8 @@ export default function AdminPage() {
                            type="date"
                            min={setMinimumDate()}
                            value={matchDate}
-                           onChange={(e) => setMatchDate(e.target.value)}
+                           onChange={(e) =>
+                               setMatchDate(e.target.value)}
                            required/>
                 </label>
                 <label className="adminPageLabel">
@@ -103,7 +106,8 @@ export default function AdminPage() {
                     <input className="adminPageInput"
                            type="time"
                            value={matchTime}
-                           onChange={(e) => setMatchTime(e.target.value)}
+                           onChange={(e) =>
+                               setMatchTime(e.target.value)}
                            required/>
                 </label>
                 <label className="adminPageLabel">
@@ -118,7 +122,8 @@ export default function AdminPage() {
                 <select
                     className="adminPageInput"
                     value={footballPitchId}
-                    onChange={(e) => setFootballPitchId(e.target.value)}
+                    onChange={(e) =>
+                        setFootballPitchId(e.target.value)}
                     required>
                     {footballPitches && footballPitches.map((footballPitch) => (
                         <option key={footballPitch.id} value={footballPitch.id}>

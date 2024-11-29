@@ -23,7 +23,7 @@ public class UserController {
      * @return list of transformed user object that includes user's name, username, email and
      * matches.
      */
-    @GetMapping
+    @GetMapping("/all")
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
@@ -35,7 +35,7 @@ public class UserController {
      * @return ID of the newly created user.
      */
     @PostMapping
-    public Long createUser(@RequestBody NewUserDTO newUser) {
+    public long createUser(@RequestBody NewUserDTO newUser) {
         return userService.createUser(newUser);
     }
 
@@ -48,7 +48,7 @@ public class UserController {
      * @return ID of the updated user.
      */
     @PutMapping("/{userId}")
-    public Long updateUser(@PathVariable long userId,
+    public long updateUser(@PathVariable long userId,
                            @RequestBody UpdateUserDTO updateUserDetails) {
         return userService.updateUser(updateUserDetails, userId);
     }
@@ -61,7 +61,7 @@ public class UserController {
      * @return ID of the deleted user
      */
     @DeleteMapping("/{userId}")
-    public Long deleteUser(@PathVariable long userId) {
+    public long deleteUser(@PathVariable long userId) {
         return userService.deleteUser(userId);
     }
 
