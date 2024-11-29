@@ -76,7 +76,18 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/users").permitAll()
                                 .requestMatchers("/api/matches/**").permitAll()
                                 .anyRequest().authenticated()
-
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/users/login")
+                        .defaultSuccessUrl("http://localhost:5173", true))
+                .logout(logout -> logout
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            String redirectUrl = "https://accounts.google.com/logout";
+                            response.sendRedirect(redirectUrl);
+                        })
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
                 );
 
         http.authenticationProvider(authenticationProvider());
