@@ -1,18 +1,17 @@
 import "./homePage.css"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faMagnifyingGlass, faBug} from '@fortawesome/free-solid-svg-icons';
+import {faBug, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 export default function HomePage() {
     // localStorage.clear();
-    // console.log(localStorage);
+    console.log(localStorage.user);
     const [area, setArea] = useState('');
     const [isBugButtonClick, setIsBugButtonClick] = useState(false);
     const [bugEmailSubject, setBugEmailSubject] = useState('');
     const [bugEmailDescription, setBugEmailDescription] = useState('');
     const navigate = useNavigate();
-
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -53,6 +52,10 @@ export default function HomePage() {
         }
     }
 
+    function handleLogout() {
+        window.location.href = "http://localhost:8080/logout";
+    }
+
     return (
         <section className="homePageSection">
             <div className="homeContainer">
@@ -88,6 +91,7 @@ export default function HomePage() {
                     <FontAwesomeIcon className="bugIcon" icon={faBug} onClick={handleBugButtonClick}/>
                 </div>
             </div>
+            <button onClick={handleLogout}>log out</button>
         </section>
     )
 }
