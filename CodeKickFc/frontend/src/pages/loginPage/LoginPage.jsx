@@ -52,7 +52,10 @@ export default function LoginPage() {
                     <button className="loginPageLoginButton">Login</button>
                 </form>
                 <h3 className="loginPageRegisterLink" onClick={handleRedirection}>First Time Here? Register!</h3>
-                <button className="googleLoginButton"><img src={LoginWithGoogleSvg} alt="test"/></button>
+                <button className="googleLoginButton"
+                        onClick={() => window.location.href = "http://localhost:8080/oauth2/authorization/google"}>
+                    <img src={LoginWithGoogleSvg} alt="test"/>
+                </button>
                 {isUserNotFound && <h3>Username Or Password Is Incorrect</h3>}
             </div>
         </div>
