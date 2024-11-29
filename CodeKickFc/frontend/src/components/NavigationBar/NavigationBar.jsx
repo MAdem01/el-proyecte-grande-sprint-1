@@ -73,14 +73,16 @@ export default function NavigationBar() {
             </div>
             <div className="navbar-right">
                 {
-                    userInfo && userInfo.authorities && userInfo.authorities[0]?.authority === "ROLE_USER" ? (
+                    userInfo && userInfo.authorities && userInfo.authorities[0]?.authority === "ROLE_USER" ||
+                    userInfo && userInfo.authorities && userInfo.authorities[0]?.authority === "ROLE_ADMIN"
+                        ? (
 
                         <ul className="navbar-right-links">
                             <li>
                                 <FontAwesomeIcon
                                     icon={faUser}
                                     style={{color: "black", transform: "scale(2)"}}
-                                    onClick={() => navigate(`/user/${userInfo.username}`)}  // Use `userInfo.username` instead of `userId`
+                                    onClick={() => navigate(`/user/${userInfo.userId}`)}  // Use `userInfo.username` instead of `userId`
                                 />
                             </li>
                             <li>

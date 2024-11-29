@@ -61,8 +61,12 @@ public class AuthService {
         if (authentication != null && authentication.isAuthenticated()) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             Map<String, Object> userInfo = new HashMap<>();
+            User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow(
+                    UserNotFoundException::new
+            );
             userInfo.put("username", userDetails.getUsername());
             userInfo.put("authorities", userDetails.getAuthorities());
+            userInfo.put("userId", user.getId());
             return userInfo;
         }
         return null;
