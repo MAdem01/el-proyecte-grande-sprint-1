@@ -74,6 +74,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/matches/**").permitAll()
                                 .requestMatchers("/api/users").permitAll()
                                 .requestMatchers("/api/matches/**").permitAll()
+                                .requestMatchers("/api/footballpitches/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
