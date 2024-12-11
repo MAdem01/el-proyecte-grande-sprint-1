@@ -102,8 +102,8 @@ public class FootballPitchService {
         updatedFootballPitch.setStreetName(updateFootballPitchDetails.streetName());
         updatedFootballPitch.setStreetNumber(updateFootballPitchDetails.streetNumber());
         updatedFootballPitch.setImgUrl(updateFootballPitchDetails.imgUrl());
-        updatedFootballPitch.setLongitude(updatedFootballPitch.getLongitude());
-        updatedFootballPitch.setLatitude(updatedFootballPitch.getLatitude());
+        updatedFootballPitch.setLongitude(updateFootballPitchDetails.longitude());
+        updatedFootballPitch.setLatitude(updateFootballPitchDetails.latitude());
 
         try {
             return new FootballPitchIdDTO(footballPitchRepository.save(updatedFootballPitch).getId());
