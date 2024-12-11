@@ -15,8 +15,11 @@ import com.codecool.codekickfc.repository.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -226,10 +229,7 @@ public class UserService {
     public long addAdminRoleFor(UsernameDTO user) {
         Role adminRole = roleRepository.getById(ROLE_ADMIN_ID);
         User userEntity = userRepository.findByUsername(user.username()).
-                orElseThrow(() ->
-                        new IllegalArgumentException(
-                                format("User %s not found", user.username())
-                        ));
+                orElseThrow(UserNotFoundException::new);
         userEntity.addRole(adminRole);
         return userRepository.save(userEntity).getId();
     }
