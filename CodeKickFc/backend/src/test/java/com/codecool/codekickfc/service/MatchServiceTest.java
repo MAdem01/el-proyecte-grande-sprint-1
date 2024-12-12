@@ -1,6 +1,7 @@
 package com.codecool.codekickfc.service;
 
 import com.codecool.codekickfc.dto.matches.MatchDTO;
+import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.repository.FootballPitchRepository;
 import com.codecool.codekickfc.repository.MatchRepository;
 import com.codecool.codekickfc.repository.model.FootballPitch;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -23,20 +25,20 @@ import static org.mockito.Mockito.when;
 class MatchServiceTest {
 
     @Test
-    void getAllMatches_whenRepositoryReturnsAllMatches() {
+    void getAllMatches_whenRepositoryReturnsAllMatchesAsMatchDTO() {
         LocalDateTime startTime = LocalDateTime.now().plusDays(1);
         FootballPitch pitch = new FootballPitch(
-                "pitchName",
-                "pitchDesc",
-                "type",
-                "city",
-                "district",
-                "postcode",
-                "streetName",
-                "streetNumbers",
-                "imgURL",
-                10,
-                10
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                0,
+                0
         );
 
 
@@ -57,8 +59,133 @@ class MatchServiceTest {
         List<MatchDTO> matchDTOs = matchService.getAllMatches("", 0);
 
         assertEquals(1, matchDTOs.size(), "The result should contain exactly one match");
-        assertEquals(match.getMatchDate(), startTime, "The match date should match the expected start time");
     }
+
+    @Test
+    void getAllMatches_whenRepositoryIsEmpty_AndThrowMatchNotFoundException() {
+        MatchRepository matchRepository = mock(MatchRepository.class);
+
+        when(matchRepository.findAllByMatchDateAfterOrderByMatchDate(any(), any()))
+                .thenReturn(new PageImpl<>(List.of()));
+
+        FootballPitchRepository footballPitchRepository = mock(FootballPitchRepository.class);
+
+        MatchService matchService = new MatchService(matchRepository, footballPitchRepository);
+
+        MatchNotFoundException assertThrows = assertThrows(MatchNotFoundException.class, () -> matchService.getAllMatches("", 0));
+
+        assertEquals("Match not found", assertThrows.getMessage());
+    }
+
+    @Test
+    void getAllMatches_whenAreaIsProvidedAsNumber_AndReturnsMatchesWithFittingArea() {
+        LocalDateTime startTime = LocalDateTime.now().plusDays(1);
+        FootballPitch pitch = new FootballPitch(
+                "",
+                "",
+                "",
+                "",
+                "12",
+                "",
+                "",
+                "",
+                "",
+                0,
+                0
+        );
+
+        Match match = new Match(10, 10.1, startTime, "rules", pitch);
+
+        MatchRepository matchRepository = mock(MatchRepository.class);
+
+        Page<Match> mockPage = new PageImpl<>(List.of(match));
+
+        when(matchRepository
+                .findAllByFootballFieldDistrictEqualsIgnoreCaseAndMatchDateAfterOrderByMatchDate(
+                        any(), any(), any()))
+                .thenReturn(mockPage);
+
+        FootballPitchRepository footballPitchRepository = mock(FootballPitchRepository.class);
+        MatchService matchService = new MatchService(matchRepository, footballPitchRepository);
+
+        List<MatchDTO> matchDTOs = matchService.getAllMatches("12", 0);
+
+
+        assertEquals(1, matchDTOs.size(), "The result should contain exactly one match");
+    }
+
+    @Test
+    void getAllMatches_whenAreaIsProvidedAsRomanNumber_AndReturnsMatchesWithFittingArea () {
+        LocalDateTime startTime = LocalDateTime.now().plusDays(1);
+        FootballPitch pitch = new FootballPitch(
+                "",
+                "",
+                "",
+                "",
+                "XII",
+                "",
+                "",
+                "",
+                "",
+                0,
+                0
+        );
+
+        Match match = new Match(10, 10.1, startTime, "rules", pitch);
+
+        MatchRepository matchRepository = mock(MatchRepository.class);
+
+        Page<Match> mockPage = new PageImpl<>(List.of(match));
+
+        when(matchRepository
+                .findAllByFootballFieldDistrictEqualsIgnoreCaseAndMatchDateAfterOrderByMatchDate(
+                        any(), any(), any()))
+                .thenReturn(mockPage);
+
+        FootballPitchRepository footballPitchRepository = mock(FootballPitchRepository.class);
+        MatchService matchService = new MatchService(matchRepository, footballPitchRepository);
+
+        List<MatchDTO> matchDTOs = matchService.getAllMatches("XII", 0);
+
+
+        assertEquals(1, matchDTOs.size(), "The result should contain exactly one match");
+    }
+
+    @Test
+    void getAllMatches_whenCityNameIsProvided_AndReturnsMatchesWithFittingCity() {
+        LocalDateTime startTime = LocalDateTime.now().plusDays(1);
+        FootballPitch pitch = new FootballPitch(
+                "",
+                "",
+                "",
+                "City",
+                "XII",
+                "",
+                "",
+                "",
+                "",
+                0,
+                0
+        );
+
+        Match match = new Match(10, 10.1, startTime, "rules", pitch);
+        MatchRepository matchRepository = mock(MatchRepository.class);
+
+        Page<Match> mockPage = new PageImpl<>(List.of(match));
+
+        when(matchRepository
+                .findAllByFootballFieldCityEqualsIgnoreCaseAndMatchDateAfterOrderByMatchDate(
+                        any(), any(), any()))
+                .thenReturn(mockPage);
+
+        FootballPitchRepository footballPitchRepository = mock(FootballPitchRepository.class);
+        MatchService matchService = new MatchService(matchRepository, footballPitchRepository);
+
+        List<MatchDTO> matchDTOs = matchService.getAllMatches("City", 0);
+
+        assertEquals(1, matchDTOs.size(), "The result should contain exactly one match");
+    }
+
 
 
     @Test
