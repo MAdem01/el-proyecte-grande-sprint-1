@@ -1,7 +1,11 @@
 package com.codecool.codekickfc.repository.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 public class FootballPitch {
     @Id
@@ -53,95 +57,4 @@ public class FootballPitch {
     public FootballPitch() {
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getPitchName() {
-        return pitchName;
-    }
-
-    public void setPitchName(String pitchName) {
-        this.pitchName = pitchName;
-    }
-
-    public String getPitchDescription() {
-        return pitchDescription;
-    }
-
-    public void setPitchDescription(String pitchDescription) {
-        this.pitchDescription = pitchDescription;
-    }
-
-    public String getPitchType() {
-        return pitchType;
-    }
-
-    public void setPitchType(String pitchType) {
-        this.pitchType = pitchType;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
-    public String getStreetName() {
-        return streetName;
-    }
-
-    public void setStreetName(String streetName) {
-        this.streetName = streetName;
-    }
-
-    public String getStreetNumber() {
-        return streetNumber;
-    }
-
-    public void setStreetNumber(String streetNumber) {
-        this.streetNumber = streetNumber;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
 }

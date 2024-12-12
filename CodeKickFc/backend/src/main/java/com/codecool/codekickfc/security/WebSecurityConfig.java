@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -74,19 +75,9 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/matches/**").permitAll()
                                 .requestMatchers("/api/users").permitAll()
                                 .requestMatchers("/api/matches/**").permitAll()
+                                .requestMatchers("/api/footballpitches/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
-                )
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/users/login")
-                        .defaultSuccessUrl("http://localhost:5173", true))
-                .logout(logout -> logout
-                        .logoutSuccessHandler((request, response, authentication) -> {
-                            String redirectUrl = "https://accounts.google.com/logout";
-                            response.sendRedirect(redirectUrl);
-                        })
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .deleteCookies("JSESSIONID")
+
                 );
 
         http.authenticationProvider(authenticationProvider());
