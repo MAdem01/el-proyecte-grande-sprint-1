@@ -31,3 +31,12 @@ jobs:
     - name: Build with Maven
       working-directory: CodeKickFc/backend
       run: mvn -B package
+
+    - name: Build the Docker image
+      run: docker build ./backend/ -t akoshorvath97/solarwatch:latest
+
+    - name: Docker Login
+      run: docker login -u akoshorvath97 -p dckr_pat_Jptffx8PfmrsVH92kVJHuEIAe-M
+
+    - name: Push image to Docker Hub
+      run: docker push akoshorvath97/solarwatch:latest
