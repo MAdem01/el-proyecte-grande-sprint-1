@@ -367,8 +367,4 @@ class MatchServiceTest {
         assertThrows(DatabaseAccessException.class,
                 () -> matchService.getMatchById(match.getId()));
     }
-
-    @Test void isNumeric_whenItIsNumeric_andReturnsTrue() {
-
-    }
 }
