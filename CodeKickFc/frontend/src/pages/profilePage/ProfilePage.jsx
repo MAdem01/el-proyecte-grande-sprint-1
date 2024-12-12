@@ -2,7 +2,6 @@ import {useParams, useNavigate} from "react-router-dom";
 import "./profilePage.css";
 import {useState, useEffect} from "react";
 import MatchEntry from "../../components/MatchEntry/MatchEntry.jsx";
-import "./ProfilePage.css"
 import {formatDateDefault} from "../../utils/ReusableFunctions.js";
 
 export default function ProfilePage() {
