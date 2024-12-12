@@ -1,6 +1,6 @@
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import NavigationBar from './components/NavigationBar/NavigationBar.jsx';
-import HomePage from './pages/HomePage/HomePage.jsx';
+import HomePage from './pages/homePage/HomePage.jsx';
 import PlayFootballPage from "./pages/playFootballPage/PlayFootballPage.jsx";
 import RegisterPage from "./pages/registerPage/RegisterPage.jsx";
 import ProfilePage from "./pages/profilePage/ProfilePage.jsx";
