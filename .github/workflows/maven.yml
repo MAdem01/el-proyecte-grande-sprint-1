@@ -28,6 +28,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Run Tests with Maven
+      working-directory: CodeKickFc/backend
+      run: mvn test
+        
     - name: Build with Maven
       working-directory: CodeKickFc/backend
       run: mvn -B package
