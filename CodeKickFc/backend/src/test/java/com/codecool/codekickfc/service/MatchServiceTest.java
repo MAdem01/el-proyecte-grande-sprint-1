@@ -1,19 +1,25 @@
 package com.codecool.codekickfc.service;
 
 import com.codecool.codekickfc.dto.matches.MatchDTO;
+import com.codecool.codekickfc.dto.matches.MatchIdDTO;
+import com.codecool.codekickfc.dto.matches.NewMatchDTO;
+import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.repository.FootballPitchRepository;
 import com.codecool.codekickfc.repository.MatchRepository;
 import com.codecool.codekickfc.repository.model.FootballPitch;
 import com.codecool.codekickfc.repository.model.Match;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -24,10 +30,14 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(properties = "spring.profiles.active=test")
 class MatchServiceTest {
 
-    @Test
-    void getAllMatches_whenRepositoryReturnsAllMatchesAsMatchDTO() {
-        LocalDateTime startTime = LocalDateTime.now().plusDays(1);
-        FootballPitch pitch = new FootballPitch(
+    private LocalDateTime startTime;
+    private FootballPitch pitch;
+    private Match match;
+
+    @BeforeEach
+    void setUp() {
+        startTime = LocalDateTime.now().plusDays(1);
+        pitch = new FootballPitch(
                 "",
                 "",
                 "",
@@ -40,10 +50,13 @@ class MatchServiceTest {
                 0,
                 0
         );
+        match = new Match(10, 10.1, startTime, "rules", pitch);
+    }
 
+    /// GET_ALL_MATCHES TESTS ///
 
-        Match match = new Match(10, 10.1, startTime, "rules", pitch);
-
+    @Test
+    void getAllMatches_whenRepositoryReturnsAllMatchesAsMatchDTO() {
         MatchRepository matchRepository = mock(MatchRepository.class);
 
         Page<Match> mockPage = new PageImpl<>(List.of(match));
@@ -72,29 +85,16 @@ class MatchServiceTest {
 
         MatchService matchService = new MatchService(matchRepository, footballPitchRepository);
 
-        MatchNotFoundException assertThrows = assertThrows(MatchNotFoundException.class, () -> matchService.getAllMatches("", 0));
+        MatchNotFoundException assertThrows =
+                assertThrows(MatchNotFoundException.class, () ->
+                        matchService.getAllMatches("", 0));
 
         assertEquals("Match not found", assertThrows.getMessage());
     }
 
     @Test
     void getAllMatches_whenAreaIsProvidedAsNumber_AndReturnsMatchesWithFittingArea() {
-        LocalDateTime startTime = LocalDateTime.now().plusDays(1);
-        FootballPitch pitch = new FootballPitch(
-                "",
-                "",
-                "",
-                "",
-                "12",
-                "",
-                "",
-                "",
-                "",
-                0,
-                0
-        );
-
-        Match match = new Match(10, 10.1, startTime, "rules", pitch);
+        pitch.setDistrict("12");
 
         MatchRepository matchRepository = mock(MatchRepository.class);
 
@@ -116,22 +116,7 @@ class MatchServiceTest {
 
     @Test
     void getAllMatches_whenAreaIsProvidedAsRomanNumber_AndReturnsMatchesWithFittingArea () {
-        LocalDateTime startTime = LocalDateTime.now().plusDays(1);
-        FootballPitch pitch = new FootballPitch(
-                "",
-                "",
-                "",
-                "",
-                "XII",
-                "",
-                "",
-                "",
-                "",
-                0,
-                0
-        );
-
-        Match match = new Match(10, 10.1, startTime, "rules", pitch);
+        pitch.setDistrict("XII");
 
         MatchRepository matchRepository = mock(MatchRepository.class);
 
@@ -153,22 +138,8 @@ class MatchServiceTest {
 
     @Test
     void getAllMatches_whenCityNameIsProvided_AndReturnsMatchesWithFittingCity() {
-        LocalDateTime startTime = LocalDateTime.now().plusDays(1);
-        FootballPitch pitch = new FootballPitch(
-                "",
-                "",
-                "",
-                "City",
-                "XII",
-                "",
-                "",
-                "",
-                "",
-                0,
-                0
-        );
+        pitch.setDistrict("City");
 
-        Match match = new Match(10, 10.1, startTime, "rules", pitch);
         MatchRepository matchRepository = mock(MatchRepository.class);
 
         Page<Match> mockPage = new PageImpl<>(List.of(match));
@@ -186,10 +157,40 @@ class MatchServiceTest {
         assertEquals(1, matchDTOs.size(), "The result should contain exactly one match");
     }
 
-
+    ///  CREATE_MATCH TESTS ///
 
     @Test
-    void createMatch() {
+    void createMatch_whenRequestDetailsAreCorrect() {
+        NewMatchDTO newMatchDTO = new NewMatchDTO(10, 10, startTime, "rules", pitch);
+        match.setId(1);
+
+        MatchRepository matchRepository = mock(MatchRepository.class);
+        FootballPitchRepository footballPitchRepository = mock(FootballPitchRepository.class);
+
+        when(matchRepository.save(any(Match.class))).thenReturn(match);
+        when(footballPitchRepository.findById(any())).thenReturn(Optional.ofNullable(pitch));
+
+        MatchService matchService = new MatchService(matchRepository, footballPitchRepository);
+
+        MatchIdDTO mockIdReturn = matchService.createMatch(newMatchDTO);
+
+        assertEquals(match.getId(), mockIdReturn.id());
+    }
+
+    @Test
+    void createMatch_whenRequestDetailsAreCorrect_AndThrowsDatabaseAccessException() {
+        NewMatchDTO newMatchDTO = new NewMatchDTO(10, 10, startTime, "rules", pitch);
+
+        MatchRepository matchRepository = mock(MatchRepository.class);
+        FootballPitchRepository footballPitchRepository = mock(FootballPitchRepository.class);
+
+        when(footballPitchRepository.findById(any())).thenReturn(Optional.ofNullable(pitch));
+        when(matchRepository.save(any(Match.class))).thenThrow(new DataAccessException("Failed to access Data") {});
+
+        MatchService matchService = new MatchService(matchRepository, footballPitchRepository);
+
+        assertThrows(DatabaseAccessException.class, () -> matchService.createMatch(newMatchDTO));
+
     }
 
     @Test
