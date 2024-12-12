@@ -3,6 +3,7 @@ package com.codecool.codekickfc.service;
 import com.codecool.codekickfc.dto.matches.MatchDTO;
 import com.codecool.codekickfc.dto.matches.MatchIdDTO;
 import com.codecool.codekickfc.dto.matches.NewMatchDTO;
+import com.codecool.codekickfc.dto.matches.UpdateMatchDTO;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.repository.FootballPitchRepository;
@@ -193,8 +194,59 @@ class MatchServiceTest {
 
     }
 
+    ///  UPDATE_MATCH TESTS ///
+
     @Test
-    void updateMatch() {
+    void updateMatch_whenIdAndUpdateDetailsAreCorrect_AndReturnsMatchId() {
+        match.setId(1);
+
+        UpdateMatchDTO updateMatchDTO = new UpdateMatchDTO(10, 10, startTime, "rules", pitch);
+
+        MatchRepository matchRepository = mock(MatchRepository.class);
+        FootballPitchRepository footballPitchRepository = mock(FootballPitchRepository.class);
+
+        when(footballPitchRepository.findById(any())).thenReturn(Optional.ofNullable(pitch));
+        when(matchRepository.findById(any())).thenReturn(Optional.ofNullable(match));
+        when(matchRepository.save(any(Match.class))).thenReturn(match);
+
+        MatchService matchService = new MatchService(matchRepository, footballPitchRepository);
+
+        MatchIdDTO actualId = matchService.updateMatch(updateMatchDTO, match.getId());
+
+        assertEquals(match.getId(), actualId.id(), "Ids should be the same");
+    }
+
+    @Test
+    void updateMatch_whenIdIncorrectDetailsCorrect_andThrowsMatchNotFoundException() {
+        UpdateMatchDTO updateMatchDTO = new UpdateMatchDTO(10, 10, startTime, "rules", pitch);
+        MatchRepository matchRepository = mock(MatchRepository.class);
+        FootballPitchRepository footballPitchRepository = mock(FootballPitchRepository.class);
+
+        when(matchRepository.findById(any())).thenReturn(Optional.empty());
+
+        MatchService matchService = new MatchService(matchRepository, footballPitchRepository);
+
+        assertThrows(MatchNotFoundException.class, () ->
+                matchService.updateMatch(updateMatchDTO, match.getId()));
+    }
+
+    @Test
+    void updateMatch_whenIdAndUpdateDetailsAreCorrect_AndThrowsDatabaseAccessException() {
+        UpdateMatchDTO updateMatchDTO = new UpdateMatchDTO(10, 10, startTime, "rules", pitch);
+        MatchRepository matchRepository = mock(MatchRepository.class);
+        FootballPitchRepository footballPitchRepository = mock(FootballPitchRepository.class);
+
+        when(matchRepository.findById(any()))
+                .thenReturn(Optional.ofNullable(match));
+        when(footballPitchRepository.findById(any()))
+                .thenReturn(Optional.ofNullable(pitch));
+        when(matchRepository.save(any(Match.class)))
+                .thenThrow(new DataAccessException("Failed to access Data") {});
+
+        MatchService matchService = new MatchService(matchRepository, footballPitchRepository);
+
+        assertThrows(DatabaseAccessException.class,
+                () -> matchService.updateMatch(updateMatchDTO, match.getId()));
     }
 
     @Test
