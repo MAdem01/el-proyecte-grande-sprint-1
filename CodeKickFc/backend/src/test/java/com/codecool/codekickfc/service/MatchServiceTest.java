@@ -28,7 +28,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(properties = "spring.profiles.active=test")
 class MatchServiceTest {
 
     private LocalDateTime startTime;
