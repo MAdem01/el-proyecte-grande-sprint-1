@@ -67,7 +67,7 @@ Before you begin, ensure you have met the following requirements:
 
 * IDE with JDK version of 17.
 * SQL cabale Database (Postgre recommended)
-* Maps Platform API ![Google Url][google-url]
+* Maps Platform API [google-url]
 
 ### Installation
 
@@ -77,24 +77,24 @@ Before you begin, ensure you have met the following requirements:
    ```
 
 2. Open the pom.xml with your IDE application and set the environment variables!
-    ```sh
-    DATABASE_PASSWORD | Database password
-    DATABASE_URL | URL to connect by to your database
-    DATABASE_USERNAME | Username used to log into the database
+   
+    * DATABASE_PASSWORD | Database password
+    * DATABASE_URL | URL to connect by to your database
+    * DATABASE_USERNAME | Username used to log into the database
 
-    EMAIL_PASSWORD | Password to the email used for the Spring.mail service
-    EMAIL_USERNAME | Used for spring.mail, provide an email you'd like to recieve bug reports from customers
+    * EMAIL_PASSWORD | Password to the email used for the Spring.mail service
+    * EMAIL_USERNAME | Used for spring.mail, provide an email you'd like to recieve bug reports from customers
 
-    GOOGLE_CLIENT_ID | The client ID provuded by the Maps Platform API
-    GOOGLE_CLIENT_SERVICE | The client service (key) provided by the Maps Platform API
-    ```
+    * GOOGLE_CLIENT_ID | The client ID provuded by the Maps Platform API
+    * GOOGLE_CLIENT_SERVICE | The client service (key) provided by the Maps Platform API
+    
 
-3. (Optional but recommended) Set your jwt-secret in the application.properties.
+4. (Optional but recommended) Set your jwt-secret in the application.properties.
    ```sh
     codekick.app.jwtSecret= #64 character long#
    ```
 
-4. Navigate to the frontend folder and install the npm packages.
+5. Navigate to the frontend folder and install the npm packages.
 ```sh
     npm install
 ```
