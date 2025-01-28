@@ -65,7 +65,9 @@ To get a local copy up and running follow these simple steps.
 
 Before you begin, ensure you have met the following requirements:
 
-* placeholder
+* IDE with JDK version of 17.
+* SQL cabale Database (Postgre recommended)
+* Maps Platform API ![Google Url][google-url]
 
 ### Installation
 
@@ -74,21 +76,49 @@ Before you begin, ensure you have met the following requirements:
    git clone https://github.com/MAdem01/el-proyecte-grande-sprint-1.git
    ```
 
+2. Open the pom.xml with your IDE application and set the environment variables!
+    ```sh
+    DATABASE_PASSWORD | Database password
+    DATABASE_URL | URL to connect by to your database
+    DATABASE_USERNAME | Username used to log into the database
+
+    EMAIL_PASSWORD | Password to the email used for the Spring.mail service
+    EMAIL_USERNAME | Used for spring.mail, provide an email you'd like to recieve bug reports from customers
+
+    GOOGLE_CLIENT_ID | The client ID provuded by the Maps Platform API
+    GOOGLE_CLIENT_SERVICE | The client service (key) provided by the Maps Platform API
+    ```
+
+3. (Optional but recommended) Set your jwt-secret in the application.properties.
+   ```sh
+    codekick.app.jwtSecret= #64 character long#
+   ```
+
+4. Navigate to the frontend folder and install the npm packages.
+```sh
+    npm install
+```
+   
 <!-- RUNNING THE APP -->
 ## Running the app
-1. -
-   ```sh
-   placeholder
-   ```
+1. Start the backend by launching the CodeKickFcApplication
+
+2. Launch the backend
+```sh
+    npm run dev
+```
+   
 ### With Docker
-1. -
+1. placeholder - dockerization is in process, not fully implemented
    ```sh
    placeholder
    ```
 
 <!-- FEATURES -->
 ## Features
-- placeholder
+- Creating and logging into own account securely.
+- Searching and joining football matches in your area.
+- Responsible single-screen React frontend.
 
 <!-- CONTACT -->
 ## Contact
@@ -102,9 +132,6 @@ Adem Mustajbasic - [GitHub Profile](https://github.com/MAdem01)
 
 Project Link: [https://github.com/MAdem01/el-proyecte-grande-sprint-1/tree/main](https://github.com/MAdem01/el-proyecte-grande-sprint-1/tree/main)
 
-## License
-Distributed under the MIT License. See `LICENSE` for more information.
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [React-url]: https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black
@@ -115,3 +142,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [security-url]: https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white
 [CSS3-url]: https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white
 [Docker-url]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+[google-url]: https://developers.google.com/maps/apis-by-platform
