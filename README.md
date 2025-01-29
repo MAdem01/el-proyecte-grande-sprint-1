@@ -43,6 +43,8 @@
 
 Welcome to **CodeKick FC**, a Springboot based Java Web Application, hosting a site that allows users to post football games, search for them and join other's!
 
+![alt text](https://i.imgur.com/Yp6e8p8.png)
+
 ### Built With
 
 * ![JavaScript][JavaScript-url]
