@@ -1,12 +1,15 @@
 package com.codecool.codekickfc.repository.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Getter
 @Entity
 @Table(name = "player")
 public class User {
@@ -14,14 +17,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", initialValue = 100, allocationSize = 1)
     private long id;
+    @Setter
     @Column(unique = true, nullable = false)
     private String username;
+    @Setter
     @Column(nullable = false)
     private String firstName;
+    @Setter
     @Column(nullable = false)
     private String lastName;
     @Column(nullable = false)
     private String password;
+    @Setter
     @Column(unique = true, nullable = false)
     private String email;
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
@@ -42,61 +49,13 @@ public class User {
     public User() {
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public List<Match> getMatches() {
-        return matches;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public void addMatch(Match match) {
         this.matches.add(match);
         match.addUser(this);
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
     public void addRole(Role role) {
         this.roles.add(role);
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void removeMatch(Match match) {

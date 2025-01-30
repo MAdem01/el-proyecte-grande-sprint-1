@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public record MatchDTO(long match_id, double match_fee_per_players, int maxPlayers,
                        FootballPitchDTO footballPitch,
-                       @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+                       @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                        LocalDateTime match_date,
                        List<String> matchRules, List<SimpleUserDTO> subscribedPlayers) {
 

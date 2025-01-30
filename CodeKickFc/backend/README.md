@@ -1,1 +1,0 @@
-# el-proyecte-grande-sprint-1

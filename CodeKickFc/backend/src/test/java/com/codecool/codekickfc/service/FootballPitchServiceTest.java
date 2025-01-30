@@ -127,7 +127,8 @@ class FootballPitchServiceTest {
         );
 
         when(footballPitchRepository.save(any(FootballPitch.class)))
-                .thenThrow(new DataAccessException("Database error") {});
+                .thenThrow(new DataAccessException("Database error") {
+                });
 
         FootballPitchService footballPitchService =
                 new FootballPitchService(footballPitchRepository);
@@ -248,7 +249,8 @@ class FootballPitchServiceTest {
 
         when(footballPitchRepository.findById(1L)).thenReturn(Optional.of(pitch));
         when(footballPitchRepository.save(any(FootballPitch.class)))
-                .thenThrow(new DataAccessException("Database error") {});
+                .thenThrow(new DataAccessException("Database error") {
+                });
 
         assertThrows(DatabaseAccessException.class, () ->
                 footballPitchService.updateFootballPitch(update, 1));

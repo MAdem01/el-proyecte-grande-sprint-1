@@ -4,6 +4,7 @@ import com.codecool.codekickfc.dto.matches.MatchDTO;
 import com.codecool.codekickfc.dto.matches.MatchIdDTO;
 import com.codecool.codekickfc.dto.matches.NewMatchDTO;
 import com.codecool.codekickfc.dto.matches.UpdateMatchDTO;
+import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import com.codecool.codekickfc.exceptions.FootballPitchNotFoundException;
 import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.repository.FootballPitchRepository;
@@ -12,11 +13,8 @@ import com.codecool.codekickfc.repository.model.FootballPitch;
 import com.codecool.codekickfc.repository.model.Match;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -115,7 +113,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void getAllMatches_whenAreaIsProvidedAsRomanNumber_AndReturnsMatchesWithFittingArea () {
+    void getAllMatches_whenAreaIsProvidedAsRomanNumber_AndReturnsMatchesWithFittingArea() {
         pitch.setDistrict("XII");
 
         MatchRepository matchRepository = mock(MatchRepository.class);

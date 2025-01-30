@@ -6,8 +6,6 @@ import com.codecool.codekickfc.exceptions.UserNotFoundException;
 import com.codecool.codekickfc.repository.UserRepository;
 import com.codecool.codekickfc.repository.model.User;
 import com.codecool.codekickfc.security.jwt.JwtUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +52,7 @@ public class AuthService {
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
 
-        return new JwtResponse(jwt, userDetails.getUsername(), user.getId() , roles);
+        return new JwtResponse(jwt, userDetails.getUsername(), user.getId(), roles);
     }
 
     public Map<String, Object> getUserDetails() {

@@ -31,9 +31,9 @@ public class AuthController {
 
     @PostMapping("/user/me")
     public ResponseEntity<Map<String, Object>> getUserDetails() {
-        Map<String, Object> userInfo =  authService.getUserDetails();
+        Map<String, Object> userInfo = authService.getUserDetails();
 
-        if(userInfo != null){
+        if (userInfo != null) {
             return ResponseEntity.ok(userInfo);
         }
 

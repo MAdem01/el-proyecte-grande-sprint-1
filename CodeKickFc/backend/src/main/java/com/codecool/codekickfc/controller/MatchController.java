@@ -58,7 +58,7 @@ public class MatchController {
      */
     @PutMapping("/{matchId}")
     public MatchIdDTO updateMatch(@PathVariable long matchId,
-                                            @RequestBody UpdateMatchDTO updateMatchDetails) {
+                                  @RequestBody UpdateMatchDTO updateMatchDetails) {
         return matchService.updateMatch(updateMatchDetails, matchId);
     }
 

@@ -4,18 +4,16 @@ import com.codecool.codekickfc.dto.matches.MatchDTO;
 import com.codecool.codekickfc.dto.matches.MatchIdDTO;
 import com.codecool.codekickfc.dto.matches.NewMatchDTO;
 import com.codecool.codekickfc.dto.matches.UpdateMatchDTO;
-import com.codecool.codekickfc.repository.FootballPitchRepository;
-import com.codecool.codekickfc.repository.MatchRepository;
-import com.codecool.codekickfc.repository.model.Match;
-import com.codecool.codekickfc.repository.model.FootballPitch;
-import com.codecool.codekickfc.repository.model.User;
 import com.codecool.codekickfc.exceptions.DatabaseAccessException;
 import com.codecool.codekickfc.exceptions.FootballPitchNotFoundException;
 import com.codecool.codekickfc.exceptions.MatchNotFoundException;
 import com.codecool.codekickfc.exceptions.UserNotFoundException;
+import com.codecool.codekickfc.repository.FootballPitchRepository;
+import com.codecool.codekickfc.repository.MatchRepository;
+import com.codecool.codekickfc.repository.model.FootballPitch;
+import com.codecool.codekickfc.repository.model.Match;
+import com.codecool.codekickfc.repository.model.User;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -32,7 +30,6 @@ public class MatchService {
 
     private final MatchRepository matchRepository;
     private final FootballPitchRepository footballPitchRepository;
-    private static final Logger logger = LoggerFactory.getLogger(MatchService.class);
     private static final String[] ROMAN_SYMBOLS = {
             "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
             "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
