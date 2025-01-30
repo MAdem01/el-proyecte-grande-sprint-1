@@ -166,13 +166,20 @@ Before you begin, ensure you have met the following requirements:
 
 3. Set the environment variables in **_docker-compose.yml_**:
 
-* **SPRING_DATASOURCE_URL** — URL to connect by to your database
-* **SPRING_DATASOURCE_USERNAME** — Username used to log into the database
-* **SPRING_DATASOURCE_PASSWORD** — Database password
-* **EMAIL_USERNAME** — Used for _spring.mail_, provide an email you'd like to recieve bug reports from customers
-* **EMAIL_PASSWORD** — Password to the email used for the _Spring.mail_ service
-* **(OPTIONAL BUT RECOMMENDED)** — Set your jwt-secret in the application.properties
+* **App environments**:
 
+  * **SPRING_DATASOURCE_URL** — URL to connect by to your database
+  * **SPRING_DATASOURCE_USERNAME** — Username used to log into the database
+  * **SPRING_DATASOURCE_PASSWORD** — Database password
+  * **EMAIL_USERNAME** — Used for _spring.mail_, provide an email you'd like to recieve bug reports from customers
+  * **EMAIL_PASSWORD** — Password to the email used for the _Spring.mail_ service
+
+* **DB environments**:
+  * POSTGRES_DB — DB name
+  * POSTGRES_USER — DB username
+  * POSTGRES_PASSWORD — DB password
+ 
+* **(OPTIONAL BUT RECOMMENDED)** — Set your jwt-secret in the application.properties
 
 4. Build and start the containers:
 
