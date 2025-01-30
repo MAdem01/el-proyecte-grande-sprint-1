@@ -129,7 +129,7 @@ To get a local copy up and running follow these simple steps.
 Before you begin, ensure you have met the following requirements:
 
 * IDE with JDK version of 17.
-* SQL capable Database (Postgres recommended)
+* SQL capable Database (Postgres recommended, otherwise change the driver in _application.properties_)
 * <a href="#using-docker">Using Docker?</a>
 
 <h3 id="backend-installation">Installation</h3>
@@ -141,8 +141,9 @@ Before you begin, ensure you have met the following requirements:
 
 2. Open the pom.xml File in your IDE as a project
 
+3. Create a database
 
-3. Set the environment variables:
+4. Set the environment variables:
 
 * **DATABASE_URL** — URL to connect by to your database
 * **DATABASE_USERNAME** — Username used to log into the database
@@ -151,7 +152,7 @@ Before you begin, ensure you have met the following requirements:
 * **EMAIL_PASSWORD** — Password to the email used for the _Spring.mail_ service
 * **(OPTIONAL BUT RECOMMENDED)** — Set your jwt-secret in the application.properties
 
-4. Launch the application! (_CodeKickFcApplication.class_)
+5. Launch the application! (_CodeKickFcApplication.class_)
 
 ### Using Docker
 
