@@ -187,7 +187,8 @@ Before you begin, ensure you have met the following requirements:
 
 - Before you begin, ensure that you have Node.js and npm installed. If not, you can download and install them
   from <a href="https://nodejs.org/en/download">nodejs.org</a>.
-- You will need an API Key for Google Maps. You can get from [Maps Platform API][google-url]
+- You will need an API Key for Google Maps. <a href="https://www.youtube.com/watch?v=hsNlz7-abd0&t=3s">Watch this simple tutorial to get one!</a>
+- You will also need a MAP ID for the visual display. <a href="https://developers.google.com/maps/documentation/javascript/map-ids/get-map-id#create_map_ids">Follow this steps</a>.
 
 <h3 id="frontend-installation">Installation</h3>
 
@@ -202,9 +203,10 @@ Before you begin, ensure you have met the following requirements:
 
 3. Create a _.env_ file in _frontend_ folder and set the environment variable:
 
-``
-VITE_GOOGLE_API_KEY="YOUR API KEY"
-``
+```
+VITE_GOOGLE_API_KEY=YOUR_API_KEY
+VITE_GOOGLE_MAP_ID=YOUR_MAP_ID
+```
 
 4. Start the development server:
 
