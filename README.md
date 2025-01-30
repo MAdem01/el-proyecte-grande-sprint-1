@@ -177,7 +177,14 @@ Before you begin, ensure you have met the following requirements:
 4. Build and start the containers:
 
 ```sh
+   mvn clean install
    docker-compose up --build
+```
+
+5. To stop running the container:
+
+```sh
+   docker-compose down
 ```
 
 ## Frontend
