@@ -5,8 +5,6 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 export default function HomePage() {
-    // localStorage.clear();
-     console.log(localStorage.user);
     const [area, setArea] = useState('');
     const [isBugButtonClick, setIsBugButtonClick] = useState(false);
     const [bugEmailSubject, setBugEmailSubject] = useState('');
@@ -91,7 +89,6 @@ export default function HomePage() {
                     <FontAwesomeIcon className="bugIcon" icon={faBug} onClick={handleBugButtonClick}/>
                 </div>
             </div>
-            <button onClick={handleLogout}>log out</button>
         </section>
     )
 }
