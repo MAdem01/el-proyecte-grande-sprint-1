@@ -111,7 +111,7 @@ Before you begin, ensure you have met the following requirements:
 ```
    
 ### With Docker
-1. placeholder - dockerization is in process, not fully implemented
+1. Dockerization is in process, not fully implemented
    ```sh
    placeholder
    ```
