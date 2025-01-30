@@ -9,12 +9,12 @@ services:
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/code_kick_fc
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_URL=${DATABASE_URL}
+      - SPRING_DATASOURCE_USERNAME=${DATABASE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DATABASE_PASSWORD}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-      - EMAIL_USERNAME=codekickfc@gmail.com
-      - EMAIL_PASSWORD=esan qitf uexa aehq
+      - EMAIL_USERNAME=${EMAIL_USERNAME}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
 
   db:
     volumes:
@@ -27,16 +27,6 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
-
-#  frontend:
-#    build:
-#      context: ../frontend
-#    image: 'akoshorvath97/codekickfcfrontend:latest'
-#    container_name: frontend
-#    ports:
-#      - "5173:80"
-#    depends_on:
-#      - app
 
 volumes:
   backend_postgres_data:
